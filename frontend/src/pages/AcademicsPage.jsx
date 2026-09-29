@@ -111,18 +111,16 @@ export default function AcademicsPage() {
             })}
           </div>
 
-          <div style={{ marginTop: '48px', textAlign: 'center', padding: '24px', background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-            <p style={{ color: '#475569', fontSize: '14px', marginBottom: '12px' }}>
-              Want to add, remove, or modify academic programs & seats?
+          <div style={{ marginTop: '48px', textAlign: 'center', padding: '28px', background: '#ffffff', borderRadius: '8px', border: '1px solid var(--surface-200)' }}>
+            <h3 style={{ fontSize: '18px', color: 'var(--primary-900)', marginBottom: '8px' }}>
+              Academic Counseling & Program Inquiries
+            </h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '14px', maxWidth: '600px', margin: '0 auto 16px auto' }}>
+              Have questions regarding subject combinations, NEP choice-based credit system (CBCS), or seat reservations? Contact our academic counseling desk.
             </p>
-            <a 
-              href="http://localhost:8884/wp-admin/admin.php?page=gurukapeeth-manager&tab=programs" 
-              target="_blank" 
-              rel="noreferrer"
-              className="btn btn-gold"
-            >
-              📚 Manage Programs in Headless CMS Dashboard →
-            </a>
+            <Link to="/contact" className="btn btn-gold">
+              Inquire with Academic Coordinator →
+            </Link>
           </div>
         </div>
       </div>

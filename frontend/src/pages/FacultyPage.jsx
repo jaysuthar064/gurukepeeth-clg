@@ -135,17 +135,15 @@ export default function FacultyPage() {
             })}
           </div>
 
-          <div style={{ marginTop: '48px', textAlign: 'center', padding: '24px', background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-            <p style={{ color: '#475569', fontSize: '14px', marginBottom: '12px' }}>
-              Want to add or update faculty profiles? Use the WordPress Headless CMS:
+          <div style={{ marginTop: '48px', textAlign: 'center', padding: '28px', background: '#ffffff', borderRadius: '8px', border: '1px solid var(--surface-200)' }}>
+            <h3 style={{ fontSize: '18px', color: 'var(--primary-900)', marginBottom: '8px' }}>
+              Academic Careers & Faculty Research Directorate
+            </h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '14px', maxWidth: '600px', margin: '0 auto 16px auto' }}>
+              For academic appointments, guest lectures, and research collaborations under UGC/NCTE guidelines, please reach out to the Principal's Secretariat.
             </p>
-            <a 
-              href="http://localhost:8884/wp-admin/admin.php?page=gurukapeeth-manager&tab=faculty" 
-              target="_blank" 
-              rel="noreferrer"
-              className="btn btn-gold"
-            >
-              👨‍🏫 Manage Faculty in Headless CMS Dashboard →
+            <a href="mailto:principal@gurukripapeeth.in" className="btn btn-outline">
+              Contact Academic Secretariat →
             </a>
           </div>
         </div>

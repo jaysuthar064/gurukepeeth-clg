@@ -89,14 +89,7 @@ export default function IQACPage() {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '20px', color: '#0f172a', margin: 0 }}>Annual Quality Assurance Reports (AQAR)</h3>
-                <a 
-                  href="http://localhost:8884/wp-admin/admin.php?page=gurukapeeth-manager&tab=iqac" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  style={{ fontSize: '12px', color: '#b8860b', fontWeight: 700 }}
-                >
-                  ⚙️ Manage IQAC in CMS →
-                </a>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Public Disclosure Mandated by NAAC</span>
               </div>
               <table className="statutory-table">
                 <thead>
@@ -139,14 +132,7 @@ export default function IQACPage() {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '20px', color: '#0f172a', margin: 0 }}>IQAC Meeting Proceedings & Action Taken Reports (ATR)</h3>
-                <a 
-                  href="http://localhost:8884/wp-admin/admin.php?page=gurukapeeth-manager&tab=iqac" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  style={{ fontSize: '12px', color: '#b8860b', fontWeight: 700 }}
-                >
-                  ⚙️ Manage Minutes in CMS →
-                </a>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Verified Minutes of Proceedings</span>
               </div>
               <table className="statutory-table">
                 <thead>

@@ -117,14 +117,9 @@ export default function Footer() {
                   NAAC Bengaluru <ExternalLink size={12} />
                 </a>
               </li>
-              <li style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                <a 
-                  href="http://localhost:8884/?gurukapeeth_login=1&token=gurukapeeth-dev-token-001" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  style={{ color: '#fbbf24', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}
-                >
-                  🔐 WordPress Headless Admin
+              <li>
+                <a href="https://ugc.gov.in" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  UGC Official Portal <ExternalLink size={12} />
                 </a>
               </li>
             </ul>

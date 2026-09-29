@@ -60,31 +60,30 @@ export default function Header() {
             <a href={`mailto:${settings.email_info}`} className="topbar-contact-item">
               <Mail size={12} /> {settings.email_info}
             </a>
-            <a 
-              href="http://localhost:8884/?gurukapeeth_login=1&token=gurukapeeth-dev-token-001" 
-              target="_blank" 
-              rel="noreferrer"
-              className="topbar-contact-item"
-              style={{ color: '#fbbf24', fontWeight: 700 }}
-              title="Click for One-Click Auto Login"
-            >
-              🔐 WP CMS Admin
-            </a>
+            <Link to="/contact" className="topbar-contact-item" style={{ color: '#fbbf24', fontWeight: 600 }}>
+              <span>Student Helpdesk</span>
+            </Link>
           </div>
         </div>
       </div>
 
       {/* 2. Marquee Ticker Strip */}
       <div className="marquee-bar">
-        <div className="container" style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="container marquee-inner">
           <div className="marquee-badge">
             <Bell size={11} /> Notice
           </div>
-          <div className="marquee-content">
-            <span>{marquee.announcement}</span>
-            {marquee.notices && marquee.notices.map((n, i) => (
-              <span key={i}>◆ {n.title}</span>
-            ))}
+          <div className="marquee-track">
+            <div className="marquee-content">
+              <span>
+                {(marquee.announcement || 'Admissions Open 2026-27 for Undergraduate & Teacher Education Programs — Apply Online Now!')
+                  .replace(/\uFFFD/g, '—')
+                  .replace(/[^\x20-\x7E\u0900-\u097F\u2010-\u2015\u2022\u25C6]/g, ' ')}
+              </span>
+              {marquee.notices && marquee.notices.map((n, i) => (
+                <span key={i}>◆ {n.title}</span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -113,11 +112,7 @@ export default function Header() {
               <div className="brand-hindi">{settings.college_hindi || 'गुरुकृपा पीठ महाविद्यालय'}</div>
               <h1>{settings.college_name}</h1>
               <div className="brand-affil">
-                <span>{settings.college_subtitle}</span>
-                <span>•</span>
-                <span>Affiliated with {settings.affiliating_univ || 'GGTU Banswara'}</span>
-                <span>•</span>
-                <span>NCTE Approved</span>
+                {settings.college_subtitle} • Affiliated to {settings.affiliating_univ || 'Govind Guru Tribal University (GGTU), Banswara'} • Approved by NCTE
               </div>
             </div>
           </Link>

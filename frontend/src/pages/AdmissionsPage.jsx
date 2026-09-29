@@ -97,15 +97,8 @@ export default function AdmissionsPage() {
                 </tbody>
               </table>
 
-              <div style={{ marginTop: '16px', textAlign: 'right' }}>
-                <a 
-                  href="http://localhost:8884/wp-admin/admin.php?page=gurukapeeth-manager&tab=admissions" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  style={{ fontSize: '12px', color: '#b8860b', fontWeight: 700 }}
-                >
-                  📝 Manage Cutoffs & Merit PDFs in Headless CMS →
-                </a>
+              <div style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                * Merit lists are updated in accordance with Rajasthan State Higher Education Directorate & GGTU admission calendar.
               </div>
 
               <div style={{ marginTop: '24px', padding: '16px', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>

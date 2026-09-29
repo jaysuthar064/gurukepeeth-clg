@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { 
   GraduationCap, BookOpen, Users, Award, ChevronRight, FileText, 
   ExternalLink, Calendar, CheckCircle2, ShieldCheck, Building2,
-  FileCheck, Download, School, Compass, ArrowUpRight
+  FileCheck, Download, School, Compass, ArrowUpRight, BellRing
 } from 'lucide-react';
 import { getHomepageData } from '../api/wordpress';
 
@@ -78,7 +78,7 @@ export default function HomePage() {
   return (
     <div className="home-page-container">
       {/* ============================================================
-          ZONE 1: ACADEMIC GATEWAY HERO
+          ZONE 1: ACADEMIC GATEWAY HERO WITH CAMPUS ARCHITECTURE
           ============================================================ */}
       <section className="hero-section">
         <div className="container hero-grid">
@@ -104,7 +104,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div style={{ marginTop: '28px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.12)', display: 'flex', gap: '24px', flexWrap: 'wrap', fontSize: '12px', color: '#94a3b8' }}>
+            <div style={{ marginTop: '28px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.15)', display: 'flex', gap: '24px', flexWrap: 'wrap', fontSize: '12px', color: '#cbd5e1' }}>
               <div><strong>AISHE Code:</strong> C-48902</div>
               <div><strong>NCTE Approval:</strong> WRC/APW05814/323363</div>
               <div><strong>Affiliation:</strong> GGTU Banswara</div>
@@ -121,7 +121,7 @@ export default function HomePage() {
                 </h3>
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#10b981', fontWeight: 700 }}>
                   <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }}></span>
-                  LIVE CMS SYNC
+                  VERIFIED NOTIFICATIONS
                 </span>
               </div>
 
@@ -169,12 +169,37 @@ export default function HomePage() {
               </div>
 
               <div className="hero-card-footer">
-                <span style={{ color: '#64748b' }}>Updated in real-time from WordPress</span>
+                <span style={{ color: '#64748b' }}>Reference: GPC/ADMIN/2026-27 • Updated Daily</span>
                 <Link to="/admissions" style={{ color: '#b45309', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                   View All Archives <ChevronRight size={14} />
                 </Link>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          PROMOTIONAL BANNER: ADMISSIONS NOTIFICATION 2026-27
+          ============================================================ */}
+      <section className="admissions-promo-banner">
+        <div className="container admissions-promo-grid">
+          <div className="admissions-promo-info">
+            <div className="admissions-promo-badge">
+              <GraduationCap size={15} /> ADMISSIONS 2026-27
+            </div>
+            <div className="admissions-promo-text">
+              <h3>Online Admissions Open for Under Graduate & Teacher Education Programs</h3>
+              <p>Admissions Open for B.A., B.Sc., B.Ed., and Integrated 4-Year B.A.-B.Ed. — Counseling & Document Verification Active</p>
+            </div>
+          </div>
+          <div className="admissions-promo-actions">
+            <Link to="/admissions" className="btn btn-gold" style={{ background: '#ffffff', color: '#78350f', border: 'none', fontWeight: 700 }}>
+              Apply Online Now ↗
+            </Link>
+            <Link to="/admissions" className="btn btn-outline" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.6)' }}>
+              <Download size={14} /> Prospectus & Fee Details
+            </Link>
           </div>
         </div>
       </section>
@@ -347,15 +372,9 @@ export default function HomePage() {
               <Link to="/iqac" className="btn btn-outline" style={{ color: '#ffffff', borderColor: '#475569', background: 'rgba(255,255,255,0.06)' }}>
                 View IQAC Composition & AQAR Reports
               </Link>
-              <a 
-                href="http://localhost:8884/wp-admin/admin.php?page=gurukapeeth-manager&tab=naac" 
-                target="_blank" 
-                rel="noreferrer"
-                className="btn btn-outline" 
-                style={{ color: '#fde68a', borderColor: '#d97706', background: 'rgba(180,83,9,0.2)' }}
-              >
-                🔐 Upload Documents via Headless CMS →
-              </a>
+              <Link to="/about" className="btn btn-outline" style={{ color: '#fde68a', borderColor: '#d97706', background: 'rgba(180,83,9,0.2)' }}>
+                RTI Statutory Disclosures & Mandatory Committees →
+              </Link>
             </div>
           </div>
         </div>

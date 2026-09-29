@@ -198,15 +198,20 @@ img {
    LIVE NOTICES MARQUEE STRIP
    ============================================================ */
 .marquee-bar {
-  background: linear-gradient(90deg, #991b1b 0%, #b45309 60%, #991b1b 100%);
+  background: linear-gradient(90deg, #7f1d1d 0%, #991b1b 25%, #b45309 60%, #7f1d1d 100%);
   color: #ffffff;
   padding: 6px 0;
-  display: flex;
-  align-items: center;
   overflow: hidden;
   font-size: 12.5px;
   font-weight: 600;
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.marquee-inner {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
 }
 
 .marquee-badge {
@@ -224,10 +229,17 @@ img {
   align-items: center;
   gap: 5px;
   border: 1px solid rgba(245, 158, 11, 0.35);
+  z-index: 2;
+}
+
+.marquee-track {
+  overflow: hidden;
+  white-space: nowrap;
+  flex: 1;
 }
 
 .marquee-content {
-  display: flex;
+  display: inline-flex;
   white-space: nowrap;
   animation: marqueeScroll 45s linear infinite;
   gap: 36px;
@@ -543,11 +555,12 @@ img {
 }
 
 /* ============================================================
-   HERO GATEWAY BANNER (AUTHENTIC ACADEMIC MOTIF)
+   HERO GATEWAY BANNER (AUTHENTIC CAMPUS ARCHITECTURAL MOTIF)
    ============================================================ */
 .hero-section {
   position: relative;
-  background: linear-gradient(135deg, #061220 0%, #0a1f3d 60%, #102d57 100%);
+  background: linear-gradient(135deg, rgba(6, 18, 32, 0.94) 0%, rgba(10, 29, 54, 0.88) 55%, rgba(15, 39, 71, 0.82) 100%),
+              url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=85') center/cover no-repeat;
   color: #ffffff;
   padding: 64px 0 72px 0;
   border-bottom: 4px solid var(--gold-500);
@@ -557,9 +570,72 @@ img {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle at 10% 20%, rgba(217, 119, 6, 0.08) 0%, transparent 40%),
+  background-image: radial-gradient(circle at 10% 20%, rgba(217, 119, 6, 0.12) 0%, transparent 40%),
                     radial-gradient(circle at 90% 80%, rgba(21, 52, 93, 0.6) 0%, transparent 50%);
   pointer-events: none;
+}
+
+/* ============================================================
+   ADMISSIONS PROMOTIONAL BANNER
+   ============================================================ */
+.admissions-promo-banner {
+  background: linear-gradient(90deg, #78350f 0%, #92400e 25%, #b45309 60%, #78350f 100%);
+  border-bottom: 3px solid var(--gold-400);
+  color: #ffffff;
+  padding: 14px 0;
+  box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
+}
+
+.admissions-promo-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.admissions-promo-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admissions-promo-badge {
+  background: #ffffff;
+  color: #92400e;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.admissions-promo-text h3 {
+  font-family: var(--font-heading);
+  font-size: 17.5px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.admissions-promo-text p {
+  font-size: 12px;
+  color: #fef3c7;
+  margin-top: 2px;
+}
+
+.admissions-promo-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .hero-grid {

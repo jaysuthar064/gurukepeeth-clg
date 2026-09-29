@@ -161,16 +161,18 @@ export default function NAACPage() {
                 ))}
               </div>
 
-              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '13px', color: '#64748b' }}>Manage these documents in the WordPress Admin under <strong>🏛️ College Manager → NAAC Portal</strong></span>
+              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--surface-200)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+                  Institutional documentation is maintained in compliance with the National Assessment and Accreditation Council (NAAC) guidelines.
+                </span>
                 <a 
-                  href="http://localhost:8884/wp-admin/admin.php?page=gurukapeeth-manager&tab=naac" 
+                  href="https://naac.gov.in" 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="btn btn-gold" 
-                  style={{ fontSize: '12px', padding: '8px 14px' }}
+                  className="btn btn-outline" 
+                  style={{ fontSize: '12px', padding: '6px 14px' }}
                 >
-                  Open NAAC CMS Panel
+                  NAAC Official Portal ↗
                 </a>
               </div>
             </div>
