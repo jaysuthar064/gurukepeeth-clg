@@ -1,0 +1,1371 @@
+/* ============================================================
+   GURUKRIPA PEETH COLLEGE — INSTITUTIONAL DESIGN SYSTEM
+   Standard: Benchmark Higher Education Portal (UGC / NAAC / NCTE / GGTU)
+   Typography: Cinzel (Display/Crest) + EB Garamond (Academic Serif) + Inter (UI/Data)
+   Palette: Oxford Academic Navy, Ceremonial Rajput Gold, Ivory Parchment
+   ============================================================ */
+
+:root {
+  /* Typography Stacks */
+  --font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-heading: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Oxford Academic Navy */
+  --primary-950: #061220;
+  --primary-900: #0a1d36;
+  --primary-850: #0f2747;
+  --primary-800: #15345d;
+  --primary-700: #1d4679;
+  --primary-600: #2a5a96;
+
+  /* Ceremonial Academic Gold & Ochre */
+  --gold-700: #78350f;
+  --gold-600: #92400e;
+  --gold-500: #b45309;
+  --gold-400: #d97706;
+  --gold-300: #f59e0b;
+  --gold-200: #fde68a;
+  --gold-100: #fef3c7;
+  --gold-50: #fffdf5;
+
+  /* Statutory Indicators */
+  --crimson-800: #7f1d1d;
+  --crimson-700: #991b1b;
+  --crimson-600: #b91c1c;
+  --crimson-50: #fef2f2;
+
+  --emerald-800: #064e3b;
+  --emerald-700: #065f46;
+  --emerald-600: #059669;
+  --emerald-50: #ecfdf5;
+
+  /* Neutral Canvas & Ivory Surfaces */
+  --surface-0: #ffffff;
+  --surface-50: #fafaf8;
+  --surface-100: #f4f3ef;
+  --surface-200: #e7e5dc;
+  --surface-300: #d2cfc4;
+  --surface-400: #9e9a8d;
+
+  /* Typography Colors */
+  --text-main: #141b24;
+  --text-body: #334155;
+  --text-muted: #526071;
+  --text-light: #7c8ba1;
+  --text-inverse: #ffffff;
+
+  /* Formal Institutional Geometry */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* Elevation Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(10, 29, 54, 0.05);
+  --shadow-md: 0 4px 8px -1px rgba(10, 29, 54, 0.08), 0 2px 4px -2px rgba(10, 29, 54, 0.04);
+  --shadow-lg: 0 12px 20px -3px rgba(10, 29, 54, 0.09), 0 4px 6px -4px rgba(10, 29, 54, 0.03);
+  --shadow-xl: 0 20px 30px -5px rgba(10, 29, 54, 0.12), 0 8px 10px -6px rgba(10, 29, 54, 0.04);
+  --shadow-gold: 0 4px 14px 0 rgba(180, 83, 9, 0.25);
+
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   RESET & BASE TYPOGRAPHY
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--surface-50);
+  color: var(--text-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-900);
+  line-height: 1.25;
+}
+
+h1, h2 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ============================================================
+   TOP STATUTORY UTILITY BAR
+   ============================================================ */
+.topbar-wrapper {
+  background: var(--primary-950);
+  color: #94a3b8;
+  font-size: 12.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-body);
+}
+
+.topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  gap: 16px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.statutory-badge-pill {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 2px 10px;
+  border-radius: var(--radius-xs);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.statutory-badge-pill.highlight {
+  background: rgba(180, 83, 9, 0.2);
+  border-color: rgba(217, 119, 6, 0.4);
+  color: var(--gold-200);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+.topbar-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.topbar-contact-item:hover {
+  color: var(--gold-300);
+}
+
+/* ============================================================
+   LIVE NOTICES MARQUEE STRIP
+   ============================================================ */
+.marquee-bar {
+  background: linear-gradient(90deg, #991b1b 0%, #b45309 60%, #991b1b 100%);
+  color: #ffffff;
+  padding: 6px 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.marquee-badge {
+  background: var(--primary-950);
+  color: var(--gold-300);
+  padding: 3px 10px;
+  border-radius: var(--radius-xs);
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.marquee-content {
+  display: flex;
+  white-space: nowrap;
+  animation: marqueeScroll 45s linear infinite;
+  gap: 36px;
+  cursor: default;
+}
+
+.marquee-bar:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   MAIN INSTITUTIONAL BRAND HEADER (OFFICIAL COLLEGE IDENTITY)
+   ============================================================ */
+.main-header {
+  background: var(--surface-0);
+  border-bottom: 2px solid var(--surface-200);
+  padding: 16px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.header-brand-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.brand-identity {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  text-decoration: none;
+}
+
+/* Heraldic University Crest Emblem */
+.brand-emblem {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-950) 100%);
+  border: 2px double var(--gold-400);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-300);
+  box-shadow: 0 4px 10px rgba(10, 29, 54, 0.15);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.brand-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-titles .brand-hindi {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gold-600);
+  letter-spacing: 0.02em;
+  margin-bottom: 1px;
+}
+
+.brand-titles h1 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--primary-950);
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.brand-titles .brand-affil {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Accreditation Credentials Badges */
+.header-accreditation-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-seal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  background: var(--surface-50);
+  border: 1px solid var(--surface-200);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  min-width: 84px;
+  transition: border-color var(--transition-fast);
+}
+
+.stat-seal:hover {
+  border-color: var(--gold-400);
+}
+
+.stat-seal .seal-name {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--primary-900);
+  letter-spacing: 0.04em;
+}
+
+.stat-seal .seal-desc {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold-600);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.header-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ============================================================
+   STICKY INSTITUTIONAL NAVIGATION BAR
+   ============================================================ */
+.nav-wrapper {
+  background: var(--primary-900);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(6, 18, 32, 0.2);
+  border-bottom: 3px solid var(--gold-500);
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 13px 18px;
+  color: #e2e8f0;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-link.active {
+  color: var(--gold-200);
+  background: rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gold-400);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 280px;
+  background: var(--surface-0);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  box-shadow: 0 12px 28px rgba(6, 18, 32, 0.25);
+  padding: 8px 0;
+  list-style: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: all var(--transition-fast);
+  border: 1px solid var(--surface-200);
+  border-top: 2px solid var(--gold-500);
+  z-index: 200;
+}
+
+.nav-item:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-link {
+  display: block;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-main);
+  transition: background var(--transition-fast), color var(--transition-fast);
+  text-transform: none;
+}
+
+.dropdown-link:hover {
+  background: var(--surface-100);
+  color: var(--gold-600);
+  padding-left: 22px;
+}
+
+/* ============================================================
+   BUTTONS & BADGES
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.btn-large {
+  padding: 12px 24px;
+  font-size: 15px;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold-500) 0%, var(--gold-600) 100%);
+  color: #ffffff;
+  border-color: var(--gold-600);
+  box-shadow: 0 2px 6px rgba(180, 83, 9, 0.25);
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, var(--gold-400) 0%, var(--gold-500) 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.35);
+}
+
+.btn-primary {
+  background: var(--primary-900);
+  color: #ffffff;
+  border-color: var(--primary-800);
+}
+
+.btn-primary:hover {
+  background: var(--primary-800);
+  color: #ffffff;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--surface-300);
+  color: var(--text-main);
+}
+
+.btn-outline:hover {
+  border-color: var(--gold-500);
+  color: var(--gold-600);
+  background: var(--surface-50);
+}
+
+.btn-crimson {
+  background: var(--crimson-700);
+  color: #ffffff;
+}
+
+.btn-crimson:hover {
+  background: var(--crimson-600);
+}
+
+/* ============================================================
+   HERO GATEWAY BANNER (AUTHENTIC ACADEMIC MOTIF)
+   ============================================================ */
+.hero-section {
+  position: relative;
+  background: linear-gradient(135deg, #061220 0%, #0a1f3d 60%, #102d57 100%);
+  color: #ffffff;
+  padding: 64px 0 72px 0;
+  border-bottom: 4px solid var(--gold-500);
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 10% 20%, rgba(217, 119, 6, 0.08) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(21, 52, 93, 0.6) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 40px;
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(180, 83, 9, 0.25);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  padding: 4px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gold-200);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  width: fit-content;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.18;
+  color: #ffffff;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  color: #cbd5e1;
+  margin-bottom: 28px;
+  line-height: 1.6;
+  max-width: 620px;
+}
+
+.hero-btn-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Hero Notice Board Card */
+.hero-notice-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-card-panel {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--surface-200);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.hero-card-header {
+  background: var(--primary-900);
+  color: #ffffff;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--gold-500);
+}
+
+.hero-card-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.hero-notice-tabs {
+  display: flex;
+  background: var(--surface-100);
+  border-bottom: 1px solid var(--surface-200);
+}
+
+.notice-tab-btn {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border-bottom: 2px solid transparent;
+}
+
+.notice-tab-btn.active {
+  background: #ffffff;
+  color: var(--primary-900);
+  border-bottom-color: var(--gold-500);
+}
+
+.hero-notice-list {
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  max-height: 290px;
+}
+
+.hero-notice-item {
+  background: var(--surface-50);
+  border: 1px solid var(--surface-200);
+  border-left: 3px solid var(--primary-800);
+  border-radius: var(--radius-xs);
+  padding: 10px 12px;
+  transition: all var(--transition-fast);
+}
+
+.hero-notice-item:hover {
+  background: #ffffff;
+  border-left-color: var(--gold-500);
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-notice-item.urgent {
+  border-left-color: var(--crimson-600);
+}
+
+.hero-notice-item .date-tag {
+  font-size: 10.5px;
+  color: var(--gold-600);
+  font-weight: 700;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero-notice-item p {
+  font-size: 13px;
+  color: var(--text-main);
+  font-weight: 500;
+  margin-top: 4px;
+  line-height: 1.45;
+}
+
+.hero-notice-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hero-notice-item a:hover p {
+  color: var(--primary-800);
+}
+
+.hero-card-footer {
+  padding: 10px 18px;
+  background: var(--surface-50);
+  border-top: 1px solid var(--surface-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-top: auto;
+}
+
+/* ============================================================
+   STUDENT SERVICES GATEWAY (6-CARD ACCESS STRIP)
+   ============================================================ */
+.gateway-strip {
+  background: var(--surface-0);
+  border-bottom: 1px solid var(--surface-200);
+  padding: 32px 0;
+}
+
+.gateway-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+.gateway-card {
+  background: var(--surface-50);
+  border: 1px solid var(--surface-200);
+  border-radius: var(--radius-sm);
+  padding: 16px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: all var(--transition-fast);
+  color: var(--text-main);
+}
+
+.gateway-card:hover {
+  background: #ffffff;
+  border-color: var(--gold-500);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.gateway-icon {
+  width: 42px;
+  height: 42px;
+  background: var(--gold-50);
+  color: var(--gold-600);
+  border: 1px solid var(--gold-200);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gateway-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--primary-900);
+  line-height: 1.3;
+}
+
+/* ============================================================
+   STATS COUNTERS BAND
+   ============================================================ */
+.stats-band {
+  background: var(--surface-0);
+  border-bottom: 1px solid var(--surface-200);
+  padding: 36px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-box {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 20px;
+  border-right: 1px solid var(--surface-200);
+}
+
+.stat-box:last-child {
+  border-right: none;
+}
+
+.stat-box-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-sm);
+  background: var(--gold-50);
+  border: 1px solid var(--gold-200);
+  color: var(--gold-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-box-info .num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--primary-950);
+  line-height: 1;
+}
+
+.stat-box-info .label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ============================================================
+   SECTION CONTAINERS & HEADINGS
+   ============================================================ */
+.section {
+  padding: 64px 0;
+}
+
+.section-light {
+  background: var(--surface-50);
+}
+
+.section-white {
+  background: var(--surface-0);
+}
+
+.section-dark {
+  background: var(--primary-950);
+  color: #ffffff;
+  border-top: 3px solid var(--gold-500);
+  border-bottom: 3px solid var(--gold-500);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 44px auto;
+}
+
+.section-tag {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--gold-600);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--primary-950);
+  margin-bottom: 12px;
+}
+
+.section-dark .section-title {
+  color: #ffffff;
+}
+
+.section-desc {
+  font-size: 15.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.section-dark .section-desc {
+  color: #cbd5e1;
+}
+
+/* ============================================================
+   GRIDS & ACADEMIC CARDS
+   ============================================================ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+/* Program Card */
+.program-card {
+  background: var(--surface-0);
+  border: 1px solid var(--surface-200);
+  border-top: 4px solid var(--primary-800);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-fast);
+}
+
+.program-card:hover {
+  border-top-color: var(--gold-500);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.program-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold-600);
+  background: var(--gold-50);
+  border: 1px solid var(--gold-200);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  display: inline-block;
+  margin-bottom: 12px;
+  width: fit-content;
+  text-transform: uppercase;
+}
+
+.program-title {
+  font-family: var(--font-heading);
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--primary-900);
+  margin-bottom: 8px;
+}
+
+.program-desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.55;
+  flex-grow: 1;
+}
+
+.program-meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+  border-top: 1px solid var(--surface-100);
+  padding-top: 12px;
+  margin-bottom: 16px;
+  color: var(--text-main);
+}
+
+/* Leadership Message Card */
+.leader-card {
+  background: var(--surface-0);
+  border: 1px solid var(--surface-200);
+  border-radius: var(--radius-sm);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.leader-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--surface-100);
+  padding-bottom: 16px;
+}
+
+.leader-emblem-seal {
+  width: 58px;
+  height: 58px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-900);
+  color: var(--gold-300);
+  border: 2px solid var(--gold-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.leader-meta h3 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-900);
+}
+
+.leader-meta .leader-designation {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gold-600);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.leader-meta .leader-credentials {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.leader-quote-text {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-body);
+  flex-grow: 1;
+  position: relative;
+}
+
+/* ============================================================
+   STATUTORY ACCREDITATION & NAAC COMPLIANCE TABLE
+   ============================================================ */
+.statutory-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface-0);
+  border: 1px solid var(--surface-200);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  font-size: 13.5px;
+}
+
+.statutory-table th {
+  background: var(--primary-900);
+  color: #ffffff;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.statutory-table th:last-child {
+  border-right: none;
+}
+
+.statutory-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--surface-200);
+  border-right: 1px solid var(--surface-100);
+  vertical-align: middle;
+}
+
+.statutory-table tr:last-child td {
+  border-bottom: none;
+}
+
+.statutory-table tr:nth-child(even) td {
+  background: var(--surface-50);
+}
+
+.statutory-table tr:hover td {
+  background: #fdfae8;
+}
+
+.pdf-download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--crimson-700);
+  font-weight: 600;
+  font-size: 12.5px;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+  background: var(--crimson-50);
+  border: 1px solid rgba(185, 28, 28, 0.2);
+  transition: all var(--transition-fast);
+}
+
+.pdf-download-link:hover {
+  background: var(--crimson-700);
+  color: #ffffff;
+}
+
+/* Faculty Card */
+.faculty-card {
+  background: var(--surface-0);
+  border: 1px solid var(--surface-200);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.faculty-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--gold-400);
+}
+
+.faculty-avatar-box {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-sm);
+  margin: 0 auto 16px auto;
+  background: var(--primary-900);
+  color: var(--gold-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  border: 2px solid var(--gold-500);
+}
+
+.faculty-name {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--primary-900);
+  margin-bottom: 4px;
+}
+
+.faculty-role {
+  font-size: 12.5px;
+  color: var(--gold-600);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.faculty-qual {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   MAIN INSTITUTIONAL FOOTER
+   ============================================================ */
+.main-footer {
+  background: var(--primary-950);
+  color: #cbd5e1;
+  padding: 56px 0 24px 0;
+  border-top: 4px solid var(--gold-500);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 36px;
+  margin-bottom: 44px;
+}
+
+.footer-col h4 {
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  position: relative;
+  padding-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+
+.footer-col h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 28px;
+  height: 2px;
+  background: var(--gold-500);
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  font-size: 13px;
+}
+
+.footer-col ul a {
+  color: #94a3b8;
+  transition: all var(--transition-fast);
+}
+
+.footer-col ul a:hover {
+  color: var(--gold-300);
+  padding-left: 4px;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #64748b;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ============================================================
+   INNER PAGE HERO BANNER
+   ============================================================ */
+.page-hero-banner {
+  background: linear-gradient(135deg, var(--primary-950) 0%, var(--primary-900) 60%, #102d57 100%);
+  color: #ffffff;
+  padding: 48px 0;
+  border-bottom: 3px solid var(--gold-500);
+  position: relative;
+}
+
+.page-hero-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 90% 20%, rgba(217, 119, 6, 0.1) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.page-hero-tag {
+  color: var(--gold-300);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.page-hero-title {
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.page-hero-desc {
+  color: #cbd5e1;
+  font-size: 15.5px;
+  max-width: 720px;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   RESPONSIVENESS (BREAKPOINTS)
+   ============================================================ */
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .gateway-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .header-brand-row {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  .brand-identity {
+    flex-direction: column;
+  }
+  .header-accreditation-badges {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .nav-bar {
+    flex-direction: column;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .nav-link {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .hero-title {
+    font-size: 32px;
+  }
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+  .gateway-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .stat-box {
+    border-right: none;
+    border-bottom: 1px solid var(--surface-200);
+  }
+}
