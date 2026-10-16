@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Phone, Mail, Award, BookOpen, GraduationCap, ChevronDown, Bell, ShieldCheck } from 'lucide-react';
+import { Phone, Mail, Award, BookOpen, GraduationCap, ChevronDown, Bell, ShieldCheck, ExternalLink } from 'lucide-react';
 import { getSettings, getMarqueeData } from '../../api/wordpress';
 
 export default function Header() {
@@ -42,6 +42,22 @@ export default function Header() {
   }, []);
 
   const isActive = (path) => location.pathname === path || (path !== '/' && location.pathname.startsWith(path));
+
+  const handleOpenGGTUSyllabus = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://www.ggtu.ac.in/Syllabus.php';
+    form.target = '_blank';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'link';
+    input.value = 'Syllabus';
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  };
 
   return (
     <header className="site-header">
@@ -118,10 +134,6 @@ export default function Header() {
           </Link>
 
           <div className="header-accreditation-badges">
-            <div className="stat-seal">
-              <span className="seal-name">NAAC</span>
-              <span className="seal-desc">{settings.naac_grade ? settings.naac_grade.split('/')[0].trim() : 'Accredited B+'}</span>
-            </div>
             <div className="stat-seal">
               <span className="seal-name">NCTE</span>
               <span className="seal-desc">Approved</span>
@@ -225,6 +237,42 @@ export default function Header() {
               <Link to="/faculty" className={`nav-link ${isActive('/faculty') ? 'active' : ''}`}>
                 Faculty & Staff
               </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to="/student-corner" className={`nav-link ${isActive('/student-corner') || isActive('/exam-hub') ? 'active' : ''}`}>
+                Student Corner <ChevronDown size={12} />
+              </Link>
+              <ul className="dropdown-menu">
+                <li><Link to="/student-corner" className="dropdown-link">NEP Syllabi Repository</Link></li>
+                <li>
+                  <a href="https://erp.ggtuexam.com/" target="_blank" rel="noopener noreferrer" className="dropdown-link" style={{ color: 'var(--gold-600)', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span>GGTU NEP ERP Portal</span>
+                    <ExternalLink size={12} />
+                  </a>
+                </li>
+                <li>
+                  <a href="#syllabus" onClick={handleOpenGGTUSyllabus} className="dropdown-link" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span>GGTU Official Syllabi Portal</span>
+                    <ExternalLink size={12} />
+                  </a>
+                </li>
+                <li><Link to="/student-corner" className="dropdown-link">Examination Schedule &amp; Results</Link></li>
+                <li><Link to="/student-corner" className="dropdown-link">Government Scholarships Guide</Link></li>
+              </ul>
+            </li>
+
+            <li className="nav-item">
+              <Link to="/disclosures" className={`nav-link ${isActive('/disclosures') ? 'active' : ''}`}>
+                Compliance &amp; NOC <ChevronDown size={12} />
+              </Link>
+              <ul className="dropdown-menu">
+                <li><Link to="/disclosures" className="dropdown-link">Mandatory Disclosures Hub</Link></li>
+                <li><Link to="/disclosures" className="dropdown-link">GGTU Affiliation Orders (All Sessions)</Link></li>
+                <li><Link to="/disclosures" className="dropdown-link">Raj. Govt. Permanent NOC (B.A. &amp; B.Sc.)</Link></li>
+                <li><Link to="/disclosures" className="dropdown-link">Anti-Ragging Policy &amp; Committee</Link></li>
+                <li><Link to="/disclosures" className="dropdown-link">Grievance Redressal Form</Link></li>
+              </ul>
             </li>
 
             <li className="nav-item">

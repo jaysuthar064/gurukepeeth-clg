@@ -61,7 +61,7 @@ export default function NAACPage() {
       <div className="section section-white">
         <div className="container">
           {/* Statutory Highlights Banner */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '40px' }}>
+          <div className="naac-stats-grid">
             <div style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
               <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>NAAC Track ID</span>
               <div style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>RJCOGN104231</div>
@@ -84,7 +84,7 @@ export default function NAACPage() {
             Seven Assessment Criteria of Higher Education
           </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '32px' }}>
+          <div className="naac-split-grid">
             {/* Sidebar of Criteria */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {criteria.map((c) => (

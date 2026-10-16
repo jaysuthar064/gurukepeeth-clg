@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Award, FileText, Download, Users, CheckCircle, ArrowRight } from 'lucide-react';
+import { Award, FileText, Download, Users, CheckCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { getIqacReports } from '../api/wordpress';
 
 export default function IQACPage() {
@@ -66,21 +66,21 @@ export default function IQACPage() {
           <div style={{ display: 'flex', gap: '8px', borderBottom: '2px solid #e2e8f0', marginBottom: '32px' }}>
             <button 
               onClick={() => setActiveTab('aqar')} 
-              style={{ padding: '12px 20px', border: 'none', background: 'none', fontWeight: 700, fontSize: '14px', cursor: 'pointer', color: activeTab === 'aqar' ? '#b8860b' : '#64748b', borderBottom: activeTab === 'aqar' ? '3px solid #b8860b' : 'none', marginBottom: '-2px' }}
+              style={{ padding: '12px 20px', border: 'none', background: 'none', fontWeight: 700, fontSize: '14px', cursor: 'pointer', color: activeTab === 'aqar' ? '#b8860b' : '#64748b', borderBottom: activeTab === 'aqar' ? '3px solid #b8860b' : 'none', marginBottom: '-2px', display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
-              📊 Annual AQAR Reports ({aqarReports.length})
+              <FileText size={15} /> Annual AQAR Reports ({aqarReports.length})
             </button>
             <button 
               onClick={() => setActiveTab('minutes')} 
-              style={{ padding: '12px 20px', border: 'none', background: 'none', fontWeight: 700, fontSize: '14px', cursor: 'pointer', color: activeTab === 'minutes' ? '#b8860b' : '#64748b', borderBottom: activeTab === 'minutes' ? '3px solid #b8860b' : 'none', marginBottom: '-2px' }}
+              style={{ padding: '12px 20px', border: 'none', background: 'none', fontWeight: 700, fontSize: '14px', cursor: 'pointer', color: activeTab === 'minutes' ? '#b8860b' : '#64748b', borderBottom: activeTab === 'minutes' ? '3px solid #b8860b' : 'none', marginBottom: '-2px', display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
-              📝 Meeting Minutes & ATR ({displayMinutes.length})
+              <CheckCircle size={15} /> Meeting Minutes &amp; ATR ({displayMinutes.length})
             </button>
             <button 
               onClick={() => setActiveTab('committee')} 
-              style={{ padding: '12px 20px', border: 'none', background: 'none', fontWeight: 700, fontSize: '14px', cursor: 'pointer', color: activeTab === 'committee' ? '#b8860b' : '#64748b', borderBottom: activeTab === 'committee' ? '3px solid #b8860b' : 'none', marginBottom: '-2px' }}
+              style={{ padding: '12px 20px', border: 'none', background: 'none', fontWeight: 700, fontSize: '14px', cursor: 'pointer', color: activeTab === 'committee' ? '#b8860b' : '#64748b', borderBottom: activeTab === 'committee' ? '3px solid #b8860b' : 'none', marginBottom: '-2px', display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
-              👥 Cell Composition
+              <Users size={15} /> Cell Composition
             </button>
           </div>
 
@@ -156,7 +156,11 @@ export default function IQACPage() {
                           )}
                           {m.title || m.agenda}
                         </td>
-                        <td style={{ color: '#059669', fontSize: '13px' }}>✓ {m.status || m.atr || 'Implemented'}</td>
+                        <td style={{ color: '#059669', fontSize: '13px' }}>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                            <CheckCircle2 size={13} /> {m.status || m.atr || 'Implemented'}
+                          </span>
+                        </td>
                         <td>
                           <a 
                             href={m.pdf_url || '#'} 

@@ -3,5 +3,19 @@ dist/
 *.log
 .DS_Store
 *.tmp
-wordpress/wp-content/uploads/
 tools/
+auto-login.txt
+
+# Local Agent / IDE skills
+.agent/
+.agents/
+
+# Ignore WordPress core, keep our custom plugin
+wordpress/*
+!wordpress/wp-content/
+wordpress/wp-content/*
+!wordpress/wp-content/plugins/
+wordpress/wp-content/plugins/*
+!wordpress/wp-content/plugins/gurukapeeth-manager/
+
+

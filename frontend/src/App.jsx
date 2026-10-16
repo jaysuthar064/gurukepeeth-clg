@@ -10,6 +10,8 @@ import IQACPage from './pages/IQACPage';
 import NAACPage from './pages/NAACPage';
 import FacultyPage from './pages/FacultyPage';
 import ContactPage from './pages/ContactPage';
+import DisclosuresPage from './pages/DisclosuresPage';
+import ExamHubPage from './pages/ExamHubPage';
 
 function App() {
   return (
@@ -26,6 +28,9 @@ function App() {
             <Route path="/naac/*" element={<NAACPage />} />
             <Route path="/faculty" element={<FacultyPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/disclosures" element={<DisclosuresPage />} />
+            <Route path="/student-corner/*" element={<ExamHubPage />} />
+            <Route path="/exam-hub/*" element={<ExamHubPage />} />
             {/* Catch-all to Home */}
             <Route path="*" element={<HomePage />} />
           </Routes>

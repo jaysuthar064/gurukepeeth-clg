@@ -99,9 +99,6 @@ export default function HomePage() {
               <Link to="/academics" className="btn btn-outline" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.08)' }}>
                 Academic Programs & Syllabi
               </Link>
-              <Link to="/naac" className="btn btn-outline" style={{ color: '#fde68a', borderColor: 'rgba(253,230,138,0.4)', background: 'rgba(180,83,9,0.15)' }}>
-                🏛️ NAAC SSR Portal
-              </Link>
             </div>
 
             <div style={{ marginTop: '28px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.15)', display: 'flex', gap: '24px', flexWrap: 'wrap', fontSize: '12px', color: '#cbd5e1' }}>
@@ -215,25 +212,25 @@ export default function HomePage() {
               <div className="gateway-title">Online Admission 2026</div>
             </Link>
 
-            <Link to="/academics" className="gateway-card">
+            <Link to="/student-corner" className="gateway-card">
               <div className="gateway-icon"><BookOpen size={22} /></div>
-              <div className="gateway-title">Curriculum & Syllabi</div>
+              <div className="gateway-title">Student Corner &amp; Syllabi</div>
+            </Link>
+
+            <a href="https://erp.ggtuexam.com/" target="_blank" rel="noreferrer" className="gateway-card">
+              <div className="gateway-icon"><Award size={22} /></div>
+              <div className="gateway-title">GGTU NEP ERP Portal ↗</div>
+            </a>
+
+            <Link to="/disclosures" className="gateway-card">
+              <div className="gateway-icon"><ShieldCheck size={22} /></div>
+              <div className="gateway-title">Affiliations &amp; NOC Hub</div>
             </Link>
 
             <Link to="/naac" className="gateway-card">
-              <div className="gateway-icon"><ShieldCheck size={22} /></div>
+              <div className="gateway-icon"><FileCheck size={22} /></div>
               <div className="gateway-title">NAAC Accreditation Hub</div>
             </Link>
-
-            <Link to="/iqac" className="gateway-card">
-              <div className="gateway-icon"><FileCheck size={22} /></div>
-              <div className="gateway-title">IQAC Quality Reports</div>
-            </Link>
-
-            <a href="https://sso.rajasthan.gov.in" target="_blank" rel="noreferrer" className="gateway-card">
-              <div className="gateway-icon"><Award size={22} /></div>
-              <div className="gateway-title">Scholarships (SSO)</div>
-            </a>
 
             <Link to="/about" className="gateway-card">
               <div className="gateway-icon"><Compass size={22} /></div>

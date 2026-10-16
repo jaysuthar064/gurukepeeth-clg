@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from 'lucide-react';
-import { getSettings } from '../api/wordpress';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
+import { getSettings, submitInquiry } from '../api/wordpress';
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [submissionResult, setSubmissionResult] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+  });
+
   const [settings, setSettings] = useState({
     college_name: 'Gurukripa Peeth College',
     phone_primary: '+91 2964 234567',
@@ -32,6 +43,57 @@ export default function ContactPage() {
     };
   }, []);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name.trim() || !formData.message.trim()) {
+      setSubmitError('Please provide your name and message.');
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const res = await submitInquiry({
+        type: 'General',
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim() || 'N/A',
+        subject: formData.subject.trim() || 'General Institutional Communication',
+        message: formData.message.trim(),
+      });
+
+      if (res && res.success) {
+        setSubmissionResult(res);
+        setSent(true);
+      } else {
+        setSubmitError(res?.message || 'Could not send message. Please try again.');
+      }
+    } catch (err) {
+      setSubmitError('Unable to transmit inquiry. Please call the administrative helpline directly.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const resetForm = () => {
+    setSent(false);
+    setSubmissionResult(null);
+    setSubmitError(null);
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: '',
+    });
+  };
+
   return (
     <div className="contact-page">
       <div className="page-hero-banner">
@@ -46,7 +108,7 @@ export default function ContactPage() {
 
       <div className="section section-white">
         <div className="container">
-          <div className="grid-2" style={{ gap: '48px' }}>
+          <div className="grid-2" style={{ gap: '48px', alignItems: 'flex-start' }}>
             {/* Contact Details */}
             <div>
               <span className="section-tag">Campus Address</span>
@@ -101,42 +163,126 @@ export default function ContactPage() {
             </div>
 
             {/* Inquiry Form */}
-            <div style={{ background: '#f8fafc', padding: '32px', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+            <div style={{ background: '#f8fafc', padding: '32px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(15, 23, 42, 0.04)' }}>
               <span className="section-tag">Direct Inquiry</span>
-              <h3 style={{ fontSize: '22px', color: '#0f172a', marginBottom: '18px' }}>Send Us a Message</h3>
+              <h3 style={{ fontSize: '22px', color: '#0f172a', marginBottom: '8px' }}>Send Us a Message</h3>
+              <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px' }}>
+                Submit your query regarding admissions, institutional disclosures, or student support.
+              </p>
 
-              {sent ? (
+              {sent && submissionResult ? (
                 <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '24px', borderRadius: '12px', textAlign: 'center' }}>
-                  <CheckCircle2 size={40} style={{ color: '#059669', margin: '0 auto 12px auto' }} />
-                  <h4 style={{ color: '#065f46', fontSize: '18px' }}>Message Sent Successfully!</h4>
-                  <p style={{ color: '#047857', fontSize: '14px', marginTop: '6px' }}>
-                    Thank you for reaching out. The college administrative office will respond to your query shortly.
+                  <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#d1fae5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto' }}>
+                    <CheckCircle2 size={32} />
+                  </div>
+                  <h4 style={{ color: '#065f46', fontSize: '18px', fontWeight: 700, marginBottom: '6px' }}>Message Dispatched!</h4>
+                  <p style={{ color: '#047857', fontSize: '14px', lineHeight: '1.6', marginBottom: '16px' }}>
+                    Thank you for reaching out. The college administrative office has received your message.
                   </p>
+
+                  <div style={{ background: '#ffffff', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '14px', margin: '0 0 20px 0', textAlign: 'left' }}>
+                    <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', fontWeight: 600 }}>Inquiry Reference Number</div>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', letterSpacing: '0.05em', marginTop: '4px' }}>
+                      {submissionResult.reference_number || 'GPC-GEN-2026-REG'}
+                    </div>
+                  </div>
+
+                  <button 
+                    type="button" 
+                    onClick={resetForm} 
+                    className="btn btn-outline" 
+                    style={{ fontSize: '13px', padding: '10px 18px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                  >
+                    <RefreshCw size={14} /> Send Another Message
+                  </button>
                 </div>
               ) : (
-                <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+                <form onSubmit={handleFormSubmit}>
+                  {submitError && (
+                    <div style={{ background: '#fef2f2', border: '1px solid #fecaca', padding: '12px 16px', borderRadius: '8px', color: '#b91c1c', fontSize: '13px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <AlertCircle size={16} /> {submitError}
+                    </div>
+                  )}
+
                   <div style={{ marginBottom: '16px' }}>
                     <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>Your Name *</label>
-                    <input type="text" required placeholder="Enter full name" style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1' }} />
+                    <input 
+                      type="text" 
+                      name="name"
+                      required 
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Enter full name" 
+                      style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px' }} 
+                    />
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '16px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>Email Address</label>
+                      <input 
+                        type="email" 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="your.email@example.com" 
+                        style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px' }} 
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>Phone Number *</label>
+                      <input 
+                        type="tel" 
+                        name="phone"
+                        required
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="10-digit mobile number" 
+                        style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px' }} 
+                      />
+                    </div>
                   </div>
 
                   <div style={{ marginBottom: '16px' }}>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>Email Address *</label>
-                    <input type="email" required placeholder="your.name@example.com" style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1' }} />
-                  </div>
-
-                  <div style={{ marginBottom: '16px' }}>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>Phone Number</label>
-                    <input type="tel" placeholder="Mobile number" style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1' }} />
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>Subject / Department</label>
+                    <input 
+                      type="text" 
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      placeholder="e.g. Admission Query, TC/Character Certificate, Fee Receipt" 
+                      style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px' }} 
+                    />
                   </div>
 
                   <div style={{ marginBottom: '20px' }}>
                     <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>Your Message / Query *</label>
-                    <textarea required rows={4} placeholder="Type your query regarding admissions, syllabus, or statutory disclosures..." style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1' }} />
+                    <textarea 
+                      name="message"
+                      required 
+                      rows={4} 
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      placeholder="Type your query regarding admissions, syllabus, or statutory disclosures..." 
+                      style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px' }} 
+                    />
                   </div>
 
-                  <button type="submit" className="btn btn-gold" style={{ width: '100%', padding: '12px' }}>
-                    <Send size={15} /> Submit Inquiry
+                  <button 
+                    type="submit" 
+                    disabled={submitting}
+                    className="btn btn-gold" 
+                    style={{ width: '100%', padding: '12px', fontSize: '15px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                  >
+                    {submitting ? (
+                      <>
+                        <RefreshCw size={16} className="spin" /> Sending Message...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={15} /> Submit Inquiry
+                      </>
+                    )}
                   </button>
                 </form>
               )}

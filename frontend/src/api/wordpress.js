@@ -67,7 +67,200 @@ export async function getNavigation() {
 
 // 5. Faculty & Staff Directory
 export async function getFaculty() {
-  return await fetchJson('/wp-json/gurukapeeth/v1/faculty', []);
+  return await fetchJson('/wp-json/gurukapeeth/v1/faculty', [
+    {
+      id: 1,
+      seniority: 1,
+      name: 'Dr. Hari Shanker Maru',
+      designation: 'Principal',
+      post_category: 'PRINCIPAL',
+      subject: 'Hindi Literature',
+      department: 'Administration & Faculty of Arts',
+      stream: 'arts',
+      qualification: 'Retd. Govt. Principal, Ph.D., M.A. (Hindi)',
+      experience: '28+ Years',
+      email: 'principal@gurukripapeeth.in',
+      specialization: 'Hindi Literature & Institutional Governance',
+      photo_url: '',
+      initials: 'HM',
+    },
+    {
+      id: 2,
+      seniority: 2,
+      name: 'Mrs. Priyanka Pandya',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - BA',
+      subject: 'Political Science',
+      department: 'Faculty of Arts',
+      stream: 'arts',
+      qualification: 'M.A., B.Ed., M.Lib.',
+      experience: '8+ Years',
+      email: 'priyanka.pandya@gurukripapeeth.in',
+      specialization: 'Political Science & Library Information Systems',
+      photo_url: '',
+      initials: 'PP',
+    },
+    {
+      id: 3,
+      seniority: 3,
+      name: 'Mr. Rajesh Kumar Damor',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - BA',
+      subject: 'Sanskrit Literature',
+      department: 'Faculty of Arts',
+      stream: 'arts',
+      qualification: 'M.A., B.Ed.',
+      experience: '8+ Years',
+      email: 'rajesh.damor@gurukripapeeth.in',
+      specialization: 'Classical Sanskrit Literature & Vedic Grammar',
+      photo_url: '',
+      initials: 'RD',
+    },
+    {
+      id: 4,
+      seniority: 4,
+      name: 'Mr. Ashok Kumar Damor',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - BA',
+      subject: 'Geography',
+      department: 'Faculty of Arts',
+      stream: 'arts',
+      qualification: 'M.A., B.Ed.',
+      experience: '8+ Years',
+      email: 'ashok.damor@gurukripapeeth.in',
+      specialization: 'Physical Geography & Regional Cartography',
+      photo_url: '/images/faculty/ashok-kumar-damor.jpeg',
+      initials: 'AD',
+    },
+    {
+      id: 5,
+      seniority: 5,
+      name: 'Mr. Ramesh Chandra Pargi',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - BA',
+      subject: 'History',
+      department: 'Faculty of Arts',
+      stream: 'arts',
+      qualification: 'B.A., B.Ed.',
+      experience: '7+ Years',
+      email: 'ramesh.pargi@gurukripapeeth.in',
+      specialization: 'Indian History & Tribal Heritage Studies',
+      photo_url: '',
+      initials: 'RP',
+    },
+    {
+      id: 6,
+      seniority: 6,
+      name: 'Mrs. Priyanka Rathore',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - B.Sc',
+      subject: 'Zoology',
+      department: 'Faculty of Science',
+      stream: 'science',
+      qualification: 'M.Sc., B.Ed.',
+      experience: '7+ Years',
+      email: 'priyanka.rathore@gurukripapeeth.in',
+      specialization: 'Cell Biology, Entomology & Animal Physiology',
+      photo_url: '/images/faculty/priyanka-rathore.jpeg',
+      initials: 'PR',
+    },
+    {
+      id: 7,
+      seniority: 7,
+      name: 'Ms. Laxmi Labana',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - BA',
+      subject: 'English Literature',
+      department: 'Faculty of Arts',
+      stream: 'arts',
+      qualification: 'M.A., B.Ed.',
+      experience: '7+ Years',
+      email: 'laxmi.labana@gurukripapeeth.in',
+      specialization: 'English Literature & Applied Linguistics',
+      photo_url: '',
+      initials: 'LL',
+    },
+    {
+      id: 8,
+      seniority: 8,
+      name: 'Mr. Mithun Kumar Damor',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - BA',
+      subject: 'Economics',
+      department: 'Faculty of Arts',
+      stream: 'arts',
+      qualification: 'M.A., B.Ed.',
+      experience: '6+ Years',
+      email: 'mithun.damor@gurukripapeeth.in',
+      specialization: 'Development Economics & Tribal Financial Studies',
+      photo_url: '/images/faculty/mithun-kumar-damor.jpeg',
+      initials: 'MD',
+    },
+    {
+      id: 9,
+      seniority: 9,
+      name: 'Mr. Bhura Lal Damor',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - BA',
+      subject: 'Political Science',
+      department: 'Faculty of Arts',
+      stream: 'arts',
+      qualification: 'M.A., B.Ed.',
+      experience: '6+ Years',
+      email: 'bhuralal.damor@gurukripapeeth.in',
+      specialization: 'Indian Political Thought & Constitutional Governance',
+      photo_url: '/images/faculty/bhuralal-damor.jpeg',
+      initials: 'BD',
+    },
+    {
+      id: 10,
+      seniority: 10,
+      name: 'Ms. Shilpa Kumari Labana',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - B.Sc',
+      subject: 'Botany',
+      department: 'Faculty of Science',
+      stream: 'science',
+      qualification: 'M.Sc., B.Ed.',
+      experience: '5+ Years',
+      email: 'shilpa.labana@gurukripapeeth.in',
+      specialization: 'Plant Physiology, Cytology & Taxonomy',
+      photo_url: '/images/faculty/shilpa-labana.jpeg',
+      initials: 'SL',
+    },
+    {
+      id: 11,
+      seniority: 11,
+      name: 'Mr. Pratap Singh Damor',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - BA',
+      subject: 'Hindi Literature',
+      department: 'Faculty of Arts',
+      stream: 'arts',
+      qualification: 'M.A., B.Ed.',
+      experience: '5+ Years',
+      email: 'pratap.damor@gurukripapeeth.in',
+      specialization: 'Modern Hindi Literature & Folk Pedagogy',
+      photo_url: '/images/faculty/pratap-singh-damor.jpeg',
+      initials: 'PD',
+    },
+    {
+      id: 12,
+      seniority: 12,
+      name: 'Ms. Divya Kalal',
+      designation: 'Assistant Professor',
+      post_category: 'ASST. PROF. - B.Sc',
+      subject: 'Chemistry',
+      department: 'Faculty of Science',
+      stream: 'science',
+      qualification: 'M.Sc., B.Ed.',
+      experience: '5+ Years',
+      email: 'divya.kalal@gurukripapeeth.in',
+      specialization: 'Inorganic Chemistry & Analytical Chemical Methods',
+      photo_url: '/images/faculty/divya-kalal.jpeg',
+      initials: 'DK',
+    },
+  ]);
 }
 
 // 6. Academic Programs
@@ -98,4 +291,249 @@ export async function getAdmissions() {
 // 11. Leadership Messages
 export async function getLeadership() {
   return await fetchJson('/wp-json/gurukapeeth/v1/leadership', []);
+}
+
+// 12. Mandatory Statutory Disclosures
+export async function getDisclosures() {
+  return await fetchJson('/wp-json/gurukapeeth/v1/disclosures', {
+    documents: [
+      {
+        id: 1,
+        category: 'govt_noc',
+        title: 'Rajasthan Govt. Permanent NOC — Faculty of Arts (B.A.)',
+        description: 'Permanent No Objection Certificate (स्थायी अनापत्ति प्रमाण पत्र) granted by Commissionerate of College Education, Govt. of Rajasthan, Jaipur (Order: एफ4 (54)आकाशि/नि.सं./2014/1128) for B.A. Arts subjects.',
+        issued_date: '05 Mar 2021',
+        pdf_url: '/documents/noc/rajasthan-govt-permanent-noc-ba-arts.pdf',
+      },
+      {
+        id: 2,
+        category: 'govt_noc',
+        title: 'Rajasthan Govt. Permanent NOC — Faculty of Science (B.Sc. Biology)',
+        description: 'Permanent No Objection Certificate (स्थायी अनापत्ति प्रमाण पत्र) granted by Commissionerate of College Education, Govt. of Rajasthan, Jaipur (Order: एफ4 (54)आकाशि/नि.सं./2014/20) for B.Sc. Biology Group (Chemistry, Zoology, Botany).',
+        issued_date: '06 Aug 2021',
+        pdf_url: '/documents/noc/rajasthan-govt-permanent-noc-bsc-biology.pdf',
+      },
+      {
+        id: 3,
+        category: 'affiliation',
+        title: 'GGTU Affiliation Order — Session 2025-26',
+        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2025/1992) for B.A. (80 seats) and B.Sc. (70 seats).',
+        issued_date: '11 Jul 2025',
+        pdf_url: '/documents/affiliation/ggtu-affiliation-2025-26.pdf',
+      },
+      {
+        id: 4,
+        category: 'affiliation',
+        title: 'GGTU Affiliation Order — Session 2024-25',
+        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2024/731-39) for B.A. (80 seats) and B.Sc. (70 seats).',
+        issued_date: '07 Dec 2024',
+        pdf_url: '/documents/affiliation/ggtu-affiliation-2024-25.pdf',
+      },
+      {
+        id: 5,
+        category: 'affiliation',
+        title: 'GGTU Affiliation Order — Session 2022-23',
+        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F.1/GGTU/Affiliation/BSW/2022/626) for B.A. and B.Sc. courses.',
+        issued_date: '13 Sep 2022',
+        pdf_url: '/documents/affiliation/ggtu-affiliation-2022-23.pdf',
+      },
+      {
+        id: 6,
+        category: 'affiliation',
+        title: 'GGTU Affiliation Order — Session 2021-22',
+        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affi./2021/230-236) for B.A. and B.Sc. courses.',
+        issued_date: '27 Nov 2021',
+        pdf_url: '/documents/affiliation/ggtu-affiliation-2021-22.pdf',
+      },
+      {
+        id: 7,
+        category: 'ncte_order',
+        title: 'NCTE Recognition Order — B.Ed. Program (WRC/APW05814/323363)',
+        description: 'Western Regional Committee recognition order for the 2-Year B.Ed. program with 100 seats intake.',
+        issued_date: '22 Jun 2014',
+        pdf_url: '#',
+      },
+      {
+        id: 8,
+        category: 'registration',
+        title: 'College Registration Certificate — Rajasthan Society Registration Act',
+        description: 'Registration under the Rajasthan Societies Registration Act, 1958 for Gurukripa Peeth Shiksha Samiti.',
+        issued_date: '15 Mar 2012',
+        pdf_url: '#',
+      },
+      {
+        id: 9,
+        category: 'fire_safety',
+        title: 'Fire Safety & Prevention Certificate — Dungarpur Fire Department',
+        description: 'Valid fire safety NOC issued by the Chief Fire Officer, Dungarpur District.',
+        issued_date: '10 Jan 2026',
+        pdf_url: '#',
+      },
+      {
+        id: 10,
+        category: 'building_noc',
+        title: 'Building Safety Certificate & Structural Stability Report',
+        description: 'Structural safety certificate issued by a Government-approved civil engineer for all campus buildings.',
+        issued_date: '05 Feb 2026',
+        pdf_url: '#',
+      },
+      {
+        id: 11,
+        category: 'fee_structure',
+        title: 'Approved Fee Structure & Refund Policy — Session 2026-27',
+        description: 'University-approved fee schedule for B.A., B.Sc., B.Ed., and Integrated B.A.-B.Ed. with government scholarship adjustments.',
+        issued_date: '15 Jun 2026',
+        pdf_url: '#',
+      },
+      {
+        id: 12,
+        category: 'anti_ragging',
+        title: 'Anti-Ragging Committee Constitution & Policy — Session 2026-27',
+        description: 'Annual committee constitution as per UGC Regulation 2009 with member details and helpline numbers.',
+        issued_date: '01 Aug 2026',
+        pdf_url: '#',
+      },
+      {
+        id: 13,
+        category: 'icc',
+        title: 'Internal Complaints Committee (ICC) — As per Vishakha Guidelines',
+        description: 'Constituted ICC for prevention of sexual harassment at workplace as mandated by UGC.',
+        issued_date: '01 Aug 2026',
+        pdf_url: '#',
+      },
+      {
+        id: 14,
+        category: 'ugc_approval',
+        title: 'UGC 2(f) & 12(B) Application Status',
+        description: 'Current status of application under Section 2(f) and 12(B) of the UGC Act, 1956.',
+        issued_date: '2025-26',
+        pdf_url: '#',
+      },
+    ]
+  });
+}
+
+// 13. Syllabus Hub & Exam Portal
+export async function getExamHub() {
+  return await fetchJson('/wp-json/gurukapeeth/v1/examhub', {
+    syllabi: [
+      { id: 1, session: '2026-27', program: 'B.A.', semester: 'Semester I', title: 'Hindi Literature — Gadya Sahitya', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 2, session: '2026-27', program: 'B.A.', semester: 'Semester I', title: 'Political Science — Bharatiya Rajvyavastha', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 3, session: '2026-27', program: 'B.Sc.', semester: 'Semester I', title: 'Physics — Mechanics & Wave Motion', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 4, session: '2026-27', program: 'B.Sc.', semester: 'Semester I', title: 'Chemistry — Inorganic Chemistry', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 5, session: '2026-27', program: 'B.Ed.', semester: 'Year 1', title: 'Education Psychology & Learner Development', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 6, session: '2026-27', program: 'B.Ed.', semester: 'Year 1', title: 'Pedagogy of School Subjects — Part A', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 7, session: '2025-26', program: 'B.A.', semester: 'Semester III', title: 'History — Medieval India', nep_compliant: false, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 8, session: '2025-26', program: 'Integrated B.A.-B.Ed.', semester: 'Semester I', title: 'Foundation of Education', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+    ],
+    schedules: [
+      {
+        id: 1, session: '2026-27', type: 'NEP Portal',
+        title: 'GGTU Student ERP Portal (Login, Exam Form, Results & Reval)',
+        program: 'All UG & B.Ed. Programs', date: 'Active Portal',
+        description: 'Official GGTU NEP ERP Portal for student login, examination form submission, admit cards, semester results, and revaluation.',
+        url: 'https://erp.ggtuexam.com/',
+      },
+      {
+        id: 2, session: '2026-27', type: 'Timetable',
+        title: 'B.A. Semester I & III Exam Timetable',
+        program: 'B.A.', date: '15 Nov 2026',
+        description: 'Theory examination schedule for all B.A. semesters.',
+        url: 'https://erp.ggtuexam.com/',
+      },
+      {
+        id: 3, session: '2026-27', type: 'Timetable',
+        title: 'B.Sc. Semester I & III Exam Timetable',
+        program: 'B.Sc.', date: '18 Nov 2026',
+        description: 'Theory + practical examination schedule.',
+        url: 'https://erp.ggtuexam.com/',
+      },
+      {
+        id: 4, session: '2025-26', type: 'Admit Card',
+        title: 'B.Ed. Annual Examination Admit Cards',
+        program: 'B.Ed.', date: '20 Mar 2026',
+        description: 'Download admit cards directly via GGTU Student ERP portal.',
+        url: 'https://erp.ggtuexam.com/',
+      },
+      {
+        id: 5, session: '2025-26', type: 'Result',
+        title: 'B.A. Semester IV Results Declared',
+        program: 'B.A.', date: '10 Aug 2026',
+        description: 'Results and marksheets available on GGTU ERP examination portal.',
+        url: 'https://erp.ggtuexam.com/',
+      },
+    ],
+    scholarships: [
+      {
+        id: 1, title: 'Post-Matric Scholarship for SC/ST/OBC Students',
+        sponsor: 'Govt. of Rajasthan', eligibility: 'SC/ST/OBC category, Income ≤ ₹2.5 Lakh',
+        description: 'Covers tuition fees, maintenance allowance, and book grants for students belonging to SC/ST/OBC categories pursuing higher education.',
+        last_date: '31 Dec 2026', apply_url: 'https://sso.rajasthan.gov.in',
+      },
+      {
+        id: 2, title: 'Mukhyamantri Uchha Shiksha Chhatravrtti Yojana',
+        sponsor: 'Govt. of Rajasthan', eligibility: '12th ≥ 60%, Income ≤ ₹2.5 Lakh',
+        description: 'Chief Minister Higher Education Scholarship providing ₹5,000 per annum to meritorious students from economically weaker families.',
+        last_date: '15 Nov 2026', apply_url: 'https://hte.rajasthan.gov.in',
+      },
+      {
+        id: 3, title: 'Minority Scholarship (Pre & Post Matric)',
+        sponsor: 'Ministry of Minority Affairs', eligibility: 'Minority community, Income ≤ ₹2 Lakh',
+        description: 'Central government scholarship for students of minority communities pursuing undergraduate and professional courses.',
+        last_date: '31 Oct 2026', apply_url: 'https://scholarships.gov.in',
+      },
+      {
+        id: 4, title: 'Devnarayan Chhatravrtti Yojana',
+        sponsor: 'Govt. of Rajasthan', eligibility: 'Most Backward Classes, Income ≤ ₹2 Lakh',
+        description: 'Special scholarship for girl students of most backward classes pursuing regular higher education in Rajasthan.',
+        last_date: '30 Nov 2026', apply_url: 'https://sso.rajasthan.gov.in',
+      },
+    ],
+  });
+}
+
+// 14. Confidential Grievance Submission
+export async function submitGrievance(payload) {
+  try {
+    const res = await fetch(`${API_BASE}/wp-json/gurukapeeth/v1/grievance`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || `Server error: ${res.status}`);
+    }
+    return data;
+  } catch (err) {
+    console.error('Grievance submission error:', err);
+    throw err;
+  }
+}
+
+// 15. Submit Student Admission / Contact Inquiry
+export async function submitInquiry(payload) {
+  try {
+    const res = await fetch(`${API_BASE}/wp-json/gurukapeeth/v1/inquiry`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || `Server error: ${res.status}`);
+    }
+    return data;
+  } catch (err) {
+    console.error('Inquiry submission error:', err);
+    throw err;
+  }
 }
