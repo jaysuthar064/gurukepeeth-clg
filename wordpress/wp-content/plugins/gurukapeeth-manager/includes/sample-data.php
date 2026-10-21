@@ -5,6 +5,24 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Helper to fetch a post by title and post type using get_posts (WP_Query).
+ * Replaces deprecated get_page_by_title() in WordPress 6.2+.
+ */
+function gurukapeeth_find_post_by_title( $title, $post_type ) {
+	$posts = get_posts( array(
+		'title'                  => $title,
+		'post_type'              => $post_type,
+		'post_status'            => 'any',
+		'posts_per_page'         => 1,
+		'no_found_rows'          => true,
+		'update_post_term_cache' => false,
+		'update_post_meta_cache' => false,
+	) );
+
+	return ! empty( $posts ) ? $posts[0] : null;
+}
+
 function gurukapeeth_seed_initial_data() {
 	// 1. Seed Programs
 	$programs = array(
@@ -17,41 +35,17 @@ function gurukapeeth_seed_initial_data() {
 			'ncte'        => 'N/A',
 		),
 		array(
-			'title'       => 'Bachelor of Science (B.Sc. - Bio & Maths)',
-			'content'     => 'Three-year undergraduate program providing comprehensive theoretical and laboratory training in Physics, Chemistry, Mathematics, Botany, and Zoology with modern digital laboratories.',
+			'title'       => 'Bachelor of Science (B.Sc. - Biology)',
+			'content'     => 'Three-year undergraduate program providing comprehensive theoretical and laboratory training in Chemistry, Botany, and Zoology with modern digital laboratories.',
 			'duration'    => '3 Years (6 Semesters)',
-			'intake'      => '120 Seats',
-			'eligibility' => '10+2 with Science (PCM/PCB) with minimum 50% marks',
+			'intake'      => '70 Seats',
+			'eligibility' => '10+2 with Science (PCB) with minimum 50% marks',
 			'ncte'        => 'N/A',
-		),
-		array(
-			'title'       => 'Bachelor of Education (B.Ed.)',
-			'content'     => 'Two-year professional teacher education degree approved by National Council for Teacher Education (NCTE) and affiliated with Govind Guru Tribal University (GGTU), Banswara.',
-			'duration'    => '2 Years (Annual Scheme)',
-			'intake'      => '100 Seats',
-			'eligibility' => 'Graduation with minimum 50% marks (45% for SC/ST/OBC) through PTET exam',
-			'ncte'        => 'NCTE Order No. WRC/APW05814/323363',
-		),
-		array(
-			'title'       => 'Integrated B.A.-B.Ed. (4-Year)',
-			'content'     => 'Four-year composite dual-degree teacher preparation program saving one academic year for students aspiring to secondary school teaching professions.',
-			'duration'    => '4 Years (8 Semesters)',
-			'intake'      => '50 Seats',
-			'eligibility' => '10+2 Senior Secondary with minimum 50% through PTET',
-			'ncte'        => 'NCTE Approved Composite Program',
-		),
-		array(
-			'title'       => 'Diploma in Elementary Education (D.El.Ed. / BSTC)',
-			'content'     => 'Two-year professional diploma training primary and upper primary school teachers in pedagogy, child development, and practical school internship.',
-			'duration'    => '2 Years',
-			'intake'      => '50 Seats',
-			'eligibility' => '10+2 through Pre D.El.Ed. (BSTC) entrance exam',
-			'ncte'        => 'NCTE Approved',
 		),
 	);
 
 	foreach ( $programs as $p ) {
-		$existing = get_page_by_title( $p['title'], OBJECT, 'program' );
+		$existing = gurukapeeth_find_post_by_title( $p['title'], 'program' );
 		if ( ! $existing ) {
 			$post_id = wp_insert_post( array(
 				'post_title'   => $p['title'],
@@ -169,7 +163,7 @@ function gurukapeeth_seed_initial_data() {
 	);
 
 	foreach ( $faculty as $f ) {
-		$existing = get_page_by_title( $f['name'], OBJECT, 'faculty' );
+		$existing = gurukapeeth_find_post_by_title( $f['name'], 'faculty' );
 		if ( ! $existing ) {
 			$post_id = wp_insert_post( array(
 				'post_title'   => $f['name'],
@@ -216,7 +210,7 @@ function gurukapeeth_seed_initial_data() {
 	);
 
 	foreach ( $notices as $n ) {
-		$existing = get_page_by_title( $n['title'], OBJECT, 'notice' );
+		$existing = gurukapeeth_find_post_by_title( $n['title'], 'notice' );
 		if ( ! $existing ) {
 			$post_id = wp_insert_post( array(
 				'post_title'   => $n['title'],
@@ -235,21 +229,27 @@ function gurukapeeth_seed_initial_data() {
 	// 4. Seed Leadership Messages
 	$leadership = array(
 		array(
-			'name'       => "Director's Vision",
-			'role_title' => 'Managing Director',
-			'quals'      => 'M.B.A., B.Tech.',
-			'content'    => 'At Gurukripa Peeth, our vision has always been to bring quality, values-driven higher education to the youth of Southern Rajasthan. By integrating modern pedagogy with disciplined character formation, we strive to build institutions that empower rural and tribal students to achieve national distinction.',
+			'name'       => "Chairman & Director's Desk",
+			'role_title' => 'Director / Chairman',
+			'quals'      => 'Mr. Kalu Ram Labana',
+			'content'    => 'Gurukripa Peeth College is committed to delivering quality higher education and teacher training to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.',
+		),
+		array(
+			'name'       => "Secretary's Desk",
+			'role_title' => 'Secretary',
+			'quals'      => 'Mr. Vipin Kumar Labana',
+			'content'    => 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and pedagogical careers.',
 		),
 		array(
 			'name'       => "Principal's Desk",
-			'role_title' => 'Principal',
-			'quals'      => 'Dr. Rajesh Sharma, Ph.D., M.Ed.',
-			'content'    => 'Welcome to Gurukripa Peeth College. As an affiliated institution of Govind Guru Tribal University, Banswara, and NCTE recognized teacher academy, our focus is learner-centric education. We emphasize experiential learning, digital literacy, and community participation through NSS and cultural cells.',
+			'role_title' => 'Principal & Head of Institution',
+			'quals'      => 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)',
+			'content'    => 'Welcome to Gurukripa Peeth College. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.',
 		),
 	);
 
 	foreach ( $leadership as $l ) {
-		$existing = get_page_by_title( $l['name'], OBJECT, 'leadership' );
+		$existing = gurukapeeth_find_post_by_title( $l['name'], 'leadership' );
 		if ( ! $existing ) {
 			$post_id = wp_insert_post( array(
 				'post_title'   => $l['name'],

@@ -6,15 +6,15 @@ import { getSettings } from '../../api/wordpress';
 export default function Footer() {
   const [settings, setSettings] = useState({
     college_name: 'Gurukripa Peeth College',
-    college_subtitle: 'Post Graduate & Teacher Training College',
+    college_subtitle: 'Undergraduate Degree College (Arts & Science)',
     tagline: 'Nurturing Intellect, Cultivating Character, Empowering Society',
     affiliating_univ: 'Govind Guru Tribal University (GGTU), Banswara',
-    ncte_code: 'WRC/APW05814/323363',
     aishe_code: 'C-48902',
     naac_grade: 'Accredited B+ (Cycle-1) / SSR in Progress',
-    phone_primary: '+91 2964 234567',
-    email_info: 'info@gurukripapeeth.in',
-    address: 'Gurukripa Peeth College, Pratapgarh Road, Dungarpur, Rajasthan - 314001, India',
+    phone_primary: '+91 95874 33001',
+    phone_secondary: '+91 96105 87077',
+    email_info: 'gurukripa.peeth@gmail.com',
+    address: 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
   });
 
   useEffect(() => {
@@ -40,9 +40,17 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Col 1: Institutional Overview */}
           <div className="footer-col">
-            <h4>{settings.college_name}</h4>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
+              <div style={{ width: '48px', height: '48px', background: '#ffffff', borderRadius: '10px', padding: '3px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
+                <img src="/images/college-logo.png" alt="Gurukripa Peeth College Emblem" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+              </div>
+              <div>
+                <h4 style={{ margin: 0, color: '#f8fafc', fontSize: '16px', letterSpacing: '0.03em' }}>{settings.college_name}</h4>
+                <div style={{ fontSize: '11px', color: '#fbbf24', fontWeight: 600 }}>गुरुकृपा पीठ महाविद्यालय</div>
+              </div>
+            </div>
             <p style={{ fontSize: '13px', lineHeight: '1.7', color: '#94a3b8', marginBottom: '16px' }}>
-              {settings.tagline}. A premier higher education institution in Southern Rajasthan dedicated to intellectual empowerment, scientific inquiry, and ethical teacher preparation.
+              {settings.tagline}. A premier higher education institution in Southern Rajasthan dedicated to intellectual empowerment, scientific inquiry, and community development.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px' }}>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
@@ -51,11 +59,15 @@ export default function Footer() {
               </div>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <Phone size={15} style={{ color: '#f59e0b', flexShrink: 0 }} />
-                <span>{settings.phone_primary}</span>
+                <span>Secretary: <a href="tel:+919587433001" style={{ color: '#cbd5e1' }}>+91 95874 33001</a> (Mr. Vipin Kumar Labana)</span>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Phone size={15} style={{ color: '#f59e0b', flexShrink: 0 }} />
+                <span>Chairman: <a href="tel:+919610587077" style={{ color: '#cbd5e1' }}>+91 96105 87077</a> (Mr. Kalu Ram Labana)</span>
               </div>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <Mail size={15} style={{ color: '#f59e0b', flexShrink: 0 }} />
-                <span>{settings.email_info}</span>
+                <a href={`mailto:${settings.email_info}`} style={{ color: '#cbd5e1' }}>{settings.email_info}</a>
               </div>
             </div>
           </div>
@@ -66,11 +78,10 @@ export default function Footer() {
             <ul>
               <li><Link to="/academics">Bachelor of Arts (B.A.)</Link></li>
               <li><Link to="/academics">Bachelor of Science (B.Sc.)</Link></li>
-              <li><Link to="/academics">Bachelor of Education (B.Ed.)</Link></li>
-              <li><Link to="/academics">Integrated B.A.-B.Ed. (4-Year)</Link></li>
-              <li><Link to="/academics">Diploma in Elementary Ed (D.El.Ed.)</Link></li>
               <li><Link to="/admissions">Admissions Guidelines 2026-27</Link></li>
               <li><Link to="/faculty">Faculty & Department Chairs</Link></li>
+              <li><Link to="/student-corner">Student Corner & Syllabi</Link></li>
+              <li><Link to="/disclosures">Affiliations & NOC Hub</Link></li>
             </ul>
           </div>
 
@@ -107,11 +118,7 @@ export default function Footer() {
                   GGTU University Official <ExternalLink size={12} />
                 </a>
               </li>
-              <li>
-                <a href="https://ncte.gov.in" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  NCTE Official Portal <ExternalLink size={12} />
-                </a>
-              </li>
+
               <li>
                 <a href="https://sso.rajasthan.gov.in" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   Rajasthan SSO Portal <ExternalLink size={12} />
@@ -133,10 +140,9 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <div>
-            © {new Date().getFullYear()} {settings.college_name}, Dungarpur. Affiliated to {settings.affiliating_univ || 'Govind Guru Tribal University (GGTU), Banswara'} & Approved by NCTE (WRC Bhopal).
+            © {new Date().getFullYear()} {settings.college_name}, Dungarpur. Affiliated to {settings.affiliating_univ || 'Govind Guru Tribal University (GGTU), Banswara'}.
           </div>
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <span>NCTE: {settings.ncte_code}</span>
             <span>AISHE: {settings.aishe_code}</span>
             <span>Accreditation: {settings.naac_grade ? settings.naac_grade.split('/')[0].trim() : 'NAAC B+'}</span>
           </div>

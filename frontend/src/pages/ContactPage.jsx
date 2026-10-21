@@ -17,11 +17,11 @@ export default function ContactPage() {
 
   const [settings, setSettings] = useState({
     college_name: 'Gurukripa Peeth College',
-    phone_primary: '+91 2964 234567',
-    phone_secondary: '+91 94140 12345',
-    email_info: 'info@gurukripapeeth.in',
-    email_principal: 'principal@gurukripapeeth.in',
-    address: 'Gurukripa Peeth College, Pratapgarh Road, Dungarpur, Rajasthan - 314001, India',
+    phone_primary: '+91 95874 33001',
+    phone_secondary: '+91 96105 87077',
+    email_info: 'gurukripa.peeth@gmail.com',
+    email_principal: 'gurukripa.peeth@gmail.com',
+    address: 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
   });
 
   useEffect(() => {
@@ -132,9 +132,9 @@ export default function ContactPage() {
                     <Phone size={22} />
                   </div>
                   <div>
-                    <h4 style={{ fontSize: '16px', color: '#0f172a', marginBottom: '4px' }}>Phone & Helpline</h4>
-                    <p style={{ fontSize: '14px', color: '#64748b' }}>Primary: <a href={`tel:${settings.phone_primary}`} style={{ color: '#2563eb' }}>{settings.phone_primary}</a></p>
-                    <p style={{ fontSize: '14px', color: '#64748b' }}>Admission Cell: <a href={`tel:${settings.phone_secondary}`} style={{ color: '#2563eb' }}>{settings.phone_secondary}</a></p>
+                    <h4 style={{ fontSize: '16px', color: '#0f172a', marginBottom: '4px' }}>Phone & Administrative Helpline</h4>
+                    <p style={{ fontSize: '14px', color: '#64748b' }}>Secretary: <a href="tel:+919587433001" style={{ color: '#2563eb', fontWeight: 600 }}>+91 95874 33001</a> (Mr. Vipin Kumar Labana)</p>
+                    <p style={{ fontSize: '14px', color: '#64748b' }}>Director / Chairman: <a href="tel:+919610587077" style={{ color: '#2563eb', fontWeight: 600 }}>+91 96105 87077</a> (Mr. Kalu Ram Labana)</p>
                   </div>
                 </div>
 
@@ -143,9 +143,8 @@ export default function ContactPage() {
                     <Mail size={22} />
                   </div>
                   <div>
-                    <h4 style={{ fontSize: '16px', color: '#0f172a', marginBottom: '4px' }}>Official Email</h4>
-                    <p style={{ fontSize: '14px', color: '#64748b' }}><a href={`mailto:${settings.email_info}`} style={{ color: '#2563eb' }}>{settings.email_info}</a></p>
-                    <p style={{ fontSize: '14px', color: '#64748b' }}><a href={`mailto:${settings.email_principal}`} style={{ color: '#2563eb' }}>{settings.email_principal}</a></p>
+                    <h4 style={{ fontSize: '16px', color: '#0f172a', marginBottom: '4px' }}>Official Administrative Email</h4>
+                    <p style={{ fontSize: '14px', color: '#64748b' }}><a href={`mailto:${settings.email_info}`} style={{ color: '#2563eb', fontWeight: 600 }}>{settings.email_info}</a></p>
                   </div>
                 </div>
 

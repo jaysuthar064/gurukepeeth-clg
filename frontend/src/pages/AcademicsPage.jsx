@@ -37,36 +37,15 @@ export default function AcademicsPage() {
       id: 1,
       stream: 'Faculty of Arts',
       title: { rendered: 'Bachelor of Arts (B.A.)' },
-      content: { rendered: 'Three-year undergraduate degree in Humanities & Social Sciences offering diverse subject combinations in Hindi Literature, Sanskrit, Political Science, History, and Geography under the NEP credit system.' },
-      meta: { duration: '3 Years (6 Semesters)', intake: '160 Seats', eligibility: '10+2 Pass in any stream with minimum 45% marks' },
+      content: { rendered: 'Three-year undergraduate degree in Humanities & Social Sciences offering diverse subject combinations in Hindi Literature, English Literature, Sanskrit, Political Science, History, Geography, Economics, and Sociology under the NEP credit system.' },
+      meta: { duration: '3 Years (6 Semesters)', intake: '80 Seats', eligibility: '10+2 Pass in any stream with minimum 45% marks' },
     },
     {
       id: 2,
       stream: 'Faculty of Science',
-      title: { rendered: 'Bachelor of Science (B.Sc. - Bio & Maths)' },
-      content: { rendered: 'Rigorous 3-year foundational science degree with specialized laboratory training in Physics, Chemistry, Mathematics, Botany, and Zoology with digital scientific apparatus.' },
-      meta: { duration: '3 Years (6 Semesters)', intake: '120 Seats', eligibility: '10+2 with Science (PCM/PCB) with minimum 50% marks' },
-    },
-    {
-      id: 3,
-      stream: 'Department of Education',
-      title: { rendered: 'Bachelor of Education (B.Ed.)' },
-      content: { rendered: 'Two-year professional teacher education degree approved by National Council for Teacher Education (NCTE) and affiliated with Govind Guru Tribal University (GGTU), Banswara.' },
-      meta: { duration: '2 Years (Annual Scheme)', intake: '100 Seats', eligibility: 'Graduation with minimum 50% marks (45% for SC/ST/OBC) through State PTET' },
-    },
-    {
-      id: 4,
-      stream: 'Department of Education',
-      title: { rendered: 'Integrated B.A.-B.Ed. (4-Year)' },
-      content: { rendered: 'Four-year composite dual-degree teacher preparation program saving one academic year for students aspiring to secondary and senior secondary school teaching careers.' },
-      meta: { duration: '4 Years (8 Semesters)', intake: '50 Seats', eligibility: '10+2 Senior Secondary with minimum 50% through State PTET' },
-    },
-    {
-      id: 5,
-      stream: 'Department of Education',
-      title: { rendered: 'Diploma in Elementary Education (D.El.Ed. / BSTC)' },
-      content: { rendered: 'Two-year professional diploma training primary and upper primary school teachers in child psychology, classroom management, and practical school internship.' },
-      meta: { duration: '2 Years', intake: '50 Seats', eligibility: '10+2 through Rajasthan Pre D.El.Ed. (BSTC) entrance examination' },
+      title: { rendered: 'Bachelor of Science (B.Sc. - Biology)' },
+      content: { rendered: 'Rigorous 3-year foundational science degree with specialized laboratory training in Chemistry, Botany, and Zoology (CBZ) with digital scientific apparatus and practical research orientation.' },
+      meta: { duration: '3 Years (6 Semesters)', intake: '70 Seats', eligibility: '10+2 with Science (PCB) with minimum 50% marks' },
     },
   ];
 
@@ -81,9 +60,6 @@ export default function AcademicsPage() {
     }
     if (selectedStream === 'science') {
       return stream.includes('science') || title.includes('b.sc.');
-    }
-    if (selectedStream === 'education') {
-      return stream.includes('education') || title.includes('b.ed') || title.includes('d.el.ed') || title.includes('bstc');
     }
     return true;
   });
@@ -102,8 +78,8 @@ export default function AcademicsPage() {
       desc: 'Transparent internal continuous assessment combining midterm tests, seminar presentations, and project work.',
     },
     {
-      title: 'School Internship & Field Work',
-      desc: 'Mandatory 16-week mentored school internship for teacher trainees in government secondary schools.',
+      title: 'Field Projects & Practical Work',
+      desc: 'Hands-on laboratory experiments, field study surveys, and research orientation in Humanities and Natural Sciences.',
     },
   ];
 
@@ -114,7 +90,7 @@ export default function AcademicsPage() {
           <span className="page-hero-tag">Curriculum & Degrees</span>
           <h1 className="page-hero-title">Academic Programs & Departments</h1>
           <p className="page-hero-desc">
-            Approved by Govind Guru Tribal University (GGTU), Banswara & NCTE New Delhi in accordance with the National Education Policy (NEP).
+            Approved by Govind Guru Tribal University (GGTU), Banswara in accordance with the National Education Policy (NEP).
           </p>
         </div>
       </div>
@@ -142,14 +118,7 @@ export default function AcademicsPage() {
               onClick={() => setSelectedStream('science')}
               className={`filter-chip ${selectedStream === 'science' ? 'filter-chip--active' : ''}`}
             >
-              Faculty of Science (Bio &amp; Maths)
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedStream('education')}
-              className={`filter-chip ${selectedStream === 'education' ? 'filter-chip--active' : ''}`}
-            >
-              Department of Teacher Education (B.Ed. / BSTC)
+              Faculty of Science (Biology)
             </button>
           </div>
 
@@ -217,6 +186,78 @@ export default function AcademicsPage() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Official Course & Subject Distribution from University Framework */}
+          <div style={{ marginTop: '48px', background: '#ffffff', borderRadius: '16px', padding: '36px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(15, 23, 42, 0.04)' }}>
+            <div style={{ marginBottom: '24px' }}>
+              <span className="section-tag">Approved Course Matrix</span>
+              <h2 className="section-title">Official Subjects &amp; Degree Specializations</h2>
+              <p style={{ color: '#64748b', fontSize: '14px', margin: '4px 0 0 0' }}>
+                Conforming to the Govind Guru Tribal University (GGTU) curriculum framework for Undergraduate Part I, II &amp; III.
+              </p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', marginBottom: '24px' }}>
+              {/* B.A. Subjects */}
+              <div style={{ background: '#f8fafc', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                  <h3 style={{ fontSize: '18px', color: '#0f172a', fontWeight: 700, margin: 0 }}>Bachelor of Arts (B.A.)</h3>
+                  <span style={{ fontSize: '12px', fontWeight: 700, background: '#e0f2fe', color: '#0369a1', padding: '3px 10px', borderRadius: '12px' }}>3 Years</span>
+                </div>
+                <div style={{ fontSize: '13px', color: '#475569', marginBottom: '12px', fontWeight: 600 }}>Elective Subjects Offered (Choose Any 3):</div>
+                <ol style={{ margin: 0, paddingLeft: '20px', color: '#334155', fontSize: '13.5px', lineHeight: '1.9' }}>
+                  <li><strong>Hindi Literature</strong> (हिन्दी साहित्य)</li>
+                  <li><strong>English Literature</strong> (अंग्रेजी साहित्य)</li>
+                  <li><strong>Political Science</strong> (राजनीति विज्ञान)</li>
+                  <li><strong>Geography</strong> (भूगोल)</li>
+                  <li><strong>History</strong> (इतिहास)</li>
+                  <li><strong>Economics</strong> (अर्थशास्त्र)</li>
+                  <li><strong>Sociology</strong> (समाजशास्त्र)</li>
+                  <li><strong>Sanskrit Literature</strong> (संस्कृत साहित्य)</li>
+                </ol>
+              </div>
+
+              {/* B.Sc. Subjects */}
+              <div style={{ background: '#f8fafc', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                  <h3 style={{ fontSize: '18px', color: '#0f172a', fontWeight: 700, margin: 0 }}>Bachelor of Science (B.Sc.)</h3>
+                  <span style={{ fontSize: '12px', fontWeight: 700, background: '#dcfce7', color: '#15803d', padding: '3px 10px', borderRadius: '12px' }}>3 Years</span>
+                </div>
+                <div style={{ fontSize: '13px', color: '#475569', marginBottom: '12px', fontWeight: 600 }}>Biology (CBZ) Group Subjects:</div>
+                <ol style={{ margin: 0, paddingLeft: '20px', color: '#334155', fontSize: '13.5px', lineHeight: '1.9' }}>
+                  <li><strong>Zoology</strong> (प्राणी विज्ञान)</li>
+                  <li><strong>Botany</strong> (वनस्पति विज्ञान)</li>
+                  <li><strong>Chemistry</strong> (रसायन विज्ञान)</li>
+                </ol>
+                <div style={{ marginTop: '20px', padding: '12px 16px', background: '#ecfdf5', borderRadius: '8px', border: '1px solid #a7f3d0' }}>
+                  <span style={{ fontSize: '12px', color: '#065f46', fontWeight: 600 }}>
+                    ✓ Practical laboratory batches with modern scientific equipment &amp; museum specimens.
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Compulsory Subjects for UG Part-I */}
+            <div style={{ background: '#f1f5f9', padding: '20px 24px', borderRadius: '12px', border: '1px solid #cbd5e1' }}>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '10px' }}>
+                Compulsory Foundation Subjects (For All UG Part-I Students)
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+                <div style={{ background: '#fff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                  1. General Hindi (सामान्य हिन्दी)
+                </div>
+                <div style={{ background: '#fff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                  2. General English (सामान्य अंग्रेजी)
+                </div>
+                <div style={{ background: '#fff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                  3. Environmental Studies (पर्यावरण अध्ययन)
+                </div>
+                <div style={{ background: '#fff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                  4. Elementary Computer Application
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Statutory University Affiliation & Govt NOC Download Strip */}
@@ -314,7 +355,7 @@ export default function AcademicsPage() {
               Academic Counseling & Program Inquiries
             </h3>
             <p style={{ color: '#64748b', fontSize: '14px', maxWidth: '600px', margin: '0 auto 20px auto', lineHeight: '1.6' }}>
-              Have questions regarding subject combinations, CBCS elective choice, or PTET seat allocation? Our academic coordinators are here to assist.
+              Have questions regarding subject combinations, CBCS elective choice, or 10+2 merit score eligibility? Our academic coordinators are here to assist.
             </p>
             <Link to="/contact" className="btn btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
               Inquire with Academic Coordinator <ArrowRight size={14} />

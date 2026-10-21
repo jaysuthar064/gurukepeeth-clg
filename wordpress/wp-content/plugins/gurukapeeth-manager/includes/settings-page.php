@@ -12,7 +12,6 @@ function gurukapeeth_render_settings_page() {
 			'college_subtitle'    => sanitize_text_field( $_POST['college_subtitle'] ?? '' ),
 			'tagline'             => sanitize_text_field( $_POST['tagline'] ?? '' ),
 			'affiliating_univ'    => sanitize_text_field( $_POST['affiliating_univ'] ?? '' ),
-			'ncte_code'           => sanitize_text_field( $_POST['ncte_code'] ?? '' ),
 			'aishe_code'          => sanitize_text_field( $_POST['aishe_code'] ?? '' ),
 			'naac_grade'          => sanitize_text_field( $_POST['naac_grade'] ?? '' ),
 			'phone_primary'       => sanitize_text_field( $_POST['phone_primary'] ?? '' ),
@@ -47,7 +46,7 @@ function gurukapeeth_render_settings_page() {
 					</div>
 					<div class="form-row">
 						<label>Subtitle / Category:</label>
-						<input type="text" name="college_subtitle" value="<?php echo esc_attr( $s['college_subtitle'] ?? 'Post Graduate & Teacher Training College' ); ?>" class="regular-text" />
+						<input type="text" name="college_subtitle" value="<?php echo esc_attr( $s['college_subtitle'] ?? 'Undergraduate Degree College (Arts & Science)' ); ?>" class="regular-text" />
 					</div>
 					<div class="form-row">
 						<label>Institutional Motto / Tagline:</label>
@@ -56,10 +55,6 @@ function gurukapeeth_render_settings_page() {
 					<div class="form-row">
 						<label>Affiliating University:</label>
 						<input type="text" name="affiliating_univ" value="<?php echo esc_attr( $s['affiliating_univ'] ?? 'Govind Guru Tribal University (GGTU), Banswara' ); ?>" class="regular-text" />
-					</div>
-					<div class="form-row">
-						<label>NCTE Approval Code:</label>
-						<input type="text" name="ncte_code" value="<?php echo esc_attr( $s['ncte_code'] ?? 'WRC/APW05814/323363' ); ?>" class="regular-text" />
 					</div>
 					<div class="form-row">
 						<label>AISHE Code:</label>
@@ -75,27 +70,27 @@ function gurukapeeth_render_settings_page() {
 					<h3>Official Contacts & Communications</h3>
 					<div class="form-row">
 						<label>Primary Phone / Helpline:</label>
-						<input type="text" name="phone_primary" value="<?php echo esc_attr( $s['phone_primary'] ?? '+91 2964 234567' ); ?>" class="regular-text" />
+						<input type="text" name="phone_primary" value="<?php echo esc_attr( $s['phone_primary'] ?? '+91 95874 33001' ); ?>" class="regular-text" />
 					</div>
 					<div class="form-row">
 						<label>Admission Helpline:</label>
-						<input type="text" name="phone_secondary" value="<?php echo esc_attr( $s['phone_secondary'] ?? '+91 94140 12345' ); ?>" class="regular-text" />
+						<input type="text" name="phone_secondary" value="<?php echo esc_attr( $s['phone_secondary'] ?? '+91 96105 87077' ); ?>" class="regular-text" />
 					</div>
 					<div class="form-row">
 						<label>General Inquiry Email:</label>
-						<input type="email" name="email_info" value="<?php echo esc_attr( $s['email_info'] ?? 'info@gurukripapeeth.in' ); ?>" class="regular-text" />
+						<input type="email" name="email_info" value="<?php echo esc_attr( $s['email_info'] ?? 'gurukripa.peeth@gmail.com' ); ?>" class="regular-text" />
 					</div>
 					<div class="form-row">
 						<label>Principal Office Email:</label>
-						<input type="email" name="email_principal" value="<?php echo esc_attr( $s['email_principal'] ?? 'principal@gurukripapeeth.in' ); ?>" class="regular-text" />
+						<input type="email" name="email_principal" value="<?php echo esc_attr( $s['email_principal'] ?? 'gurukripa.peeth@gmail.com' ); ?>" class="regular-text" />
 					</div>
 					<div class="form-row">
 						<label>Campus Postal Address:</label>
-						<textarea name="address" rows="3" class="large-text"><?php echo esc_textarea( $s['address'] ?? 'Gurukripa Peeth College, Pratapgarh Road, Dungarpur, Rajasthan - 314001, India' ); ?></textarea>
+						<textarea name="address" rows="3" class="large-text"><?php echo esc_textarea( $s['address'] ?? 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India' ); ?></textarea>
 					</div>
 					<div class="form-row">
 						<label>Marquee Top Alert Ticker Text:</label>
-						<input type="text" name="marquee_announcement" value="<?php echo esc_attr( $s['marquee_announcement'] ?? 'Admissions Open 2026-27 for B.A., B.Sc., B.Ed., and Integrated B.A.-B.Ed. Programs — Apply Online Now!' ); ?>" class="large-text" />
+						<input type="text" name="marquee_announcement" value="<?php echo esc_attr( $s['marquee_announcement'] ?? 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!' ); ?>" class="large-text" />
 					</div>
 				</div>
 			</div>
@@ -142,7 +137,7 @@ function gurukapeeth_render_homepage_page() {
 					</div>
 					<div class="form-row">
 						<label>Hero Subheading:</label>
-						<input type="text" name="hero_subheading" value="<?php echo esc_attr( $hp['hero_subheading'] ?? 'Affiliated with Govind Guru Tribal University (GGTU), Banswara & Recognized by NCTE' ); ?>" class="large-text" />
+						<input type="text" name="hero_subheading" value="<?php echo esc_attr( $hp['hero_subheading'] ?? 'Affiliated with Govind Guru Tribal University (GGTU), Banswara & Approved by Govt. of Rajasthan' ); ?>" class="large-text" />
 					</div>
 				</div>
 

@@ -125,10 +125,6 @@ function gurukapeeth_render_unified_cms() {
 							<input type="text" id="set_affiliating_univ" value="<?php echo esc_attr( $settings['affiliating_univ'] ); ?>" class="input-text" />
 						</div>
 						<div class="form-group">
-							<label>NCTE Order Code:</label>
-							<input type="text" id="set_ncte_code" value="<?php echo esc_attr( $settings['ncte_code'] ); ?>" class="input-text" />
-						</div>
-						<div class="form-group">
 							<label>AISHE Code:</label>
 							<input type="text" id="set_aishe_code" value="<?php echo esc_attr( $settings['aishe_code'] ); ?>" class="input-text" />
 						</div>
@@ -241,7 +237,7 @@ function gurukapeeth_render_unified_cms() {
 					<div class="panel-header">
 						<div>
 							<h2>Academic Programs & Degrees</h2>
-							<p class="panel-sub">Undergraduate, Teacher Education (B.Ed.), and Integrated courses affiliated with GGTU & NCTE.</p>
+							<p class="panel-sub">Undergraduate degree courses in Arts &amp; Science (B.A. &amp; B.Sc.) affiliated with GGTU Banswara.</p>
 						</div>
 						<button type="button" class="button button-primary btn-add-item" id="btn-add-program">
 							+ Add New Program
@@ -396,7 +392,7 @@ function gurukapeeth_render_unified_cms() {
 			<div class="tab-pane <?php echo ( $current_tab === 'leadership' ) ? 'active' : ''; ?>" id="tab-leadership">
 				<div class="panel-card">
 					<div class="panel-header">
-						<h2>Leadership Messages (Principal & Managing Director)</h2>
+						<h2>Leadership Messages (Chairman, Secretary & Principal)</h2>
 						<span class="api-tag">Syncs with: <code>/wp-json/gurukapeeth/v1/leadership</code></span>
 					</div>
 
@@ -497,7 +493,7 @@ function gurukapeeth_render_unified_cms() {
 			<div class="tab-pane <?php echo ( $current_tab === 'disclosures' ) ? 'active' : ''; ?>" id="tab-disclosures">
 				<div class="panel-card">
 					<div class="panel-header">
-						<h2>Mandatory Statutory Disclosures (UGC / NCTE)</h2>
+						<h2>Mandatory Statutory Disclosures (UGC / GGTU / Raj. Govt)</h2>
 						<span class="api-tag">Syncs with: <code>/wp-json/gurukapeeth/v1/disclosures</code></span>
 					</div>
 					<p style="color: #64748b; margin-bottom: 16px;">Manage public disclosure documents. All documents are served on the <strong>/disclosures</strong> frontend page.</p>

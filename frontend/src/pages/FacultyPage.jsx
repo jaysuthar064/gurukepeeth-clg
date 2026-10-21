@@ -374,7 +374,7 @@ export default function FacultyPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <ShieldCheck size={18} style={{ color: '#fde047' }} />
               <span style={{ fontSize: '13px', color: '#e2e8f0' }}>
-                <strong style={{ color: '#ffffff', fontSize: '16px' }}>100%</strong> B.Ed. & Degree Approved
+                <strong style={{ color: '#ffffff', fontSize: '16px' }}>100%</strong> UGC &amp; GGTU Qualified
               </span>
             </div>
           </div>
@@ -688,10 +688,10 @@ export default function FacultyPage() {
                   Statutory Compliance & Seniority Approval
                 </h3>
                 <p style={{ color: '#64748b', fontSize: '13.5px', lineHeight: '1.6', margin: '0 0 16px 0' }}>
-                  This seniority roster of the teaching staff at Gurukripa Peeth College (Peeth, Simalwara, Dungarpur) is maintained in strict conformity with Govind Guru Tribal University (GGTU), Banswara statutes, the National Council for Teacher Education (NCTE), and the Directorate of College Education, Govt. of Rajasthan. All faculty members are duly approved for Degree and Teacher Education instructional roles.
+                  This seniority roster of the teaching staff at Gurukripa Peeth College (Peeth, Simalwara, Dungarpur) is maintained in strict conformity with Govind Guru Tribal University (GGTU), Banswara statutes and the Directorate of College Education, Govt. of Rajasthan. All faculty members are duly approved for Undergraduate Degree instructional roles.
                 </p>
                 <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
-                  <a href="mailto:principal@gurukripapeeth.in" className="btn btn-primary" style={{ fontSize: '13px', padding: '8px 18px' }}>
+                  <a href="mailto:gurukripa.peeth@gmail.com" className="btn btn-primary" style={{ fontSize: '13px', padding: '8px 18px' }}>
                     Contact Principal's Secretariat
                   </a>
                   <a href="/disclosures" className="btn btn-outline" style={{ fontSize: '13px', padding: '8px 18px' }}>

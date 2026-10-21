@@ -29,35 +29,69 @@ export async function fetchJson(endpoint, fallback = null) {
 
 // 1. Global Institutional Settings
 export async function getSettings() {
-  return await fetchJson('/wp-json/gurukapeeth/v1/settings', {
+  const fallback = {
     college_name: 'Gurukripa Peeth College',
     college_hindi: 'गुरुकृपा पीठ महाविद्यालय',
-    college_subtitle: 'Post Graduate & Teacher Training College',
+    college_subtitle: 'Undergraduate Degree College (Arts & Science)',
     tagline: 'Nurturing Intellect, Cultivating Character, Empowering Society',
     affiliating_univ: 'Govind Guru Tribal University (GGTU), Banswara',
-    ncte_code: 'WRC/APW05814/323363',
     aishe_code: 'C-48902',
     naac_grade: 'Accredited B+ (Cycle-1) / SSR in Progress',
-    phone_primary: '+91 2964 234567',
-    phone_secondary: '+91 94140 12345',
-    email_info: 'info@gurukripapeeth.in',
-    email_principal: 'principal@gurukripapeeth.in',
-    address: 'Gurukripa Peeth College, Pratapgarh Road, Dungarpur, Rajasthan - 314001, India',
-    marquee_announcement: 'Admissions Open 2026-27 for B.A., B.Sc., B.Ed., and Integrated B.A.-B.Ed. Programs — Apply Online Now!',
-  });
+    phone_primary: '+91 95874 33001',
+    phone_secondary: '+91 96105 87077',
+    email_info: 'gurukripa.peeth@gmail.com',
+    email_principal: 'gurukripa.peeth@gmail.com',
+    address: 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+    marquee_announcement: 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!',
+    logo_url: '/images/college-logo.png',
+  };
+
+  const res = await fetchJson('/wp-json/gurukapeeth/v1/settings', fallback);
+  if (res) {
+    if (res.college_subtitle && (res.college_subtitle.toLowerCase().includes('teacher') || res.college_subtitle.toLowerCase().includes('ncte'))) {
+      res.college_subtitle = 'Undergraduate Degree College (Arts & Science)';
+    }
+    if (res.marquee_announcement && (res.marquee_announcement.toLowerCase().includes('b.ed') || res.marquee_announcement.toLowerCase().includes('integrated') || res.marquee_announcement.toLowerCase().includes('ncte'))) {
+      res.marquee_announcement = 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!';
+    }
+  }
+  return res || fallback;
 }
 
 // 2. Complete Homepage Assembled Data
 export async function getHomepageData() {
-  return await fetchJson('/wp-json/gurukapeeth/v1/homepage', null);
+  const data = await fetchJson('/wp-json/gurukapeeth/v1/homepage', null);
+  if (data) {
+    if (data.hero && data.hero.subheading && (data.hero.subheading.toLowerCase().includes('ncte') || data.hero.subheading.toLowerCase().includes('teacher'))) {
+      data.hero.subheading = 'Affiliated with Govind Guru Tribal University (GGTU), Banswara & Approved by Govt. of Rajasthan';
+    }
+    if (data.settings && data.settings.college_subtitle && (data.settings.college_subtitle.toLowerCase().includes('teacher') || data.settings.college_subtitle.toLowerCase().includes('ncte'))) {
+      data.settings.college_subtitle = 'Undergraduate Degree College (Arts & Science)';
+    }
+    if (Array.isArray(data.programs)) {
+      data.programs = data.programs.filter(p => {
+        const t = (p.title?.rendered || p.title || '').toLowerCase();
+        const s = (p.stream || '').toLowerCase();
+        return !t.includes('b.ed') && !t.includes('d.el.ed') && !t.includes('bstc') && !t.includes('integrated') && !s.includes('teacher');
+      });
+    }
+  }
+  return data;
 }
 
 // 3. Marquee Ticker & Recent Announcements
 export async function getMarqueeData() {
-  return await fetchJson('/wp-json/gurukapeeth/v1/marquee', {
-    announcement: 'Admissions Open 2026-27 for B.A., B.Sc., B.Ed., and Integrated B.A.-B.Ed. Programs — Apply Online Now!',
+  const fallback = {
+    announcement: 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!',
     notices: [],
-  });
+  };
+  const res = await fetchJson('/wp-json/gurukapeeth/v1/marquee', fallback);
+  if (res && res.announcement) {
+    if (res.announcement.toLowerCase().includes('b.ed') || res.announcement.toLowerCase().includes('integrated') || res.announcement.toLowerCase().includes('ncte')) {
+      res.announcement = 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!';
+    }
+  }
+  return res || fallback;
 }
 
 // 4. Navigation Menu Structure
@@ -265,7 +299,15 @@ export async function getFaculty() {
 
 // 6. Academic Programs
 export async function getPrograms() {
-  return await fetchJson('/wp-json/gurukapeeth/v1/programs', []);
+  const list = await fetchJson('/wp-json/gurukapeeth/v1/programs', []);
+  if (Array.isArray(list)) {
+    return list.filter(p => {
+      const t = (p.title?.rendered || p.title || '').toLowerCase();
+      const s = (p.stream || '').toLowerCase();
+      return !t.includes('b.ed') && !t.includes('d.el.ed') && !t.includes('bstc') && !t.includes('integrated') && !s.includes('teacher');
+    });
+  }
+  return list;
 }
 
 // 7. Notices & Circulars
@@ -290,7 +332,35 @@ export async function getAdmissions() {
 
 // 11. Leadership Messages
 export async function getLeadership() {
-  return await fetchJson('/wp-json/gurukapeeth/v1/leadership', []);
+  return await fetchJson('/wp-json/gurukapeeth/v1/leadership', [
+    {
+      id: 1,
+      role_key: 'director',
+      name: "Chairman & Director's Desk",
+      role_title: 'Director / Chairman',
+      qualifications: 'Mr. Kalu Ram Labana',
+      message: 'Gurukripa Peeth College is committed to delivering quality higher education and teacher training to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.',
+      photo_url: '',
+    },
+    {
+      id: 2,
+      role_key: 'secretary',
+      name: "Secretary's Desk",
+      role_title: 'Secretary',
+      qualifications: 'Mr. Vipin Kumar Labana',
+      message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and pedagogical careers.',
+      photo_url: '',
+    },
+    {
+      id: 3,
+      role_key: 'principal',
+      name: "Principal's Desk",
+      role_title: 'Principal & Head of Institution',
+      qualifications: 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)',
+      message: 'Welcome to Gurukripa Peeth College. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.',
+      photo_url: '',
+    },
+  ]);
 }
 
 // 12. Mandatory Statutory Disclosures
@@ -346,14 +416,6 @@ export async function getDisclosures() {
         pdf_url: '/documents/affiliation/ggtu-affiliation-2021-22.pdf',
       },
       {
-        id: 7,
-        category: 'ncte_order',
-        title: 'NCTE Recognition Order — B.Ed. Program (WRC/APW05814/323363)',
-        description: 'Western Regional Committee recognition order for the 2-Year B.Ed. program with 100 seats intake.',
-        issued_date: '22 Jun 2014',
-        pdf_url: '#',
-      },
-      {
         id: 8,
         category: 'registration',
         title: 'College Registration Certificate — Rajasthan Society Registration Act',
@@ -381,7 +443,7 @@ export async function getDisclosures() {
         id: 11,
         category: 'fee_structure',
         title: 'Approved Fee Structure & Refund Policy — Session 2026-27',
-        description: 'University-approved fee schedule for B.A., B.Sc., B.Ed., and Integrated B.A.-B.Ed. with government scholarship adjustments.',
+        description: 'University-approved fee schedule for B.A. and B.Sc. with government scholarship adjustments.',
         issued_date: '15 Jun 2026',
         pdf_url: '#',
       },
@@ -419,18 +481,18 @@ export async function getExamHub() {
     syllabi: [
       { id: 1, session: '2026-27', program: 'B.A.', semester: 'Semester I', title: 'Hindi Literature — Gadya Sahitya', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
       { id: 2, session: '2026-27', program: 'B.A.', semester: 'Semester I', title: 'Political Science — Bharatiya Rajvyavastha', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
-      { id: 3, session: '2026-27', program: 'B.Sc.', semester: 'Semester I', title: 'Physics — Mechanics & Wave Motion', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
-      { id: 4, session: '2026-27', program: 'B.Sc.', semester: 'Semester I', title: 'Chemistry — Inorganic Chemistry', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
-      { id: 5, session: '2026-27', program: 'B.Ed.', semester: 'Year 1', title: 'Education Psychology & Learner Development', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
-      { id: 6, session: '2026-27', program: 'B.Ed.', semester: 'Year 1', title: 'Pedagogy of School Subjects — Part A', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 3, session: '2026-27', program: 'B.Sc.', semester: 'Semester I', title: 'Botany — Diversity of Microbes & Cryptogams', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 4, session: '2026-27', program: 'B.Sc.', semester: 'Semester I', title: 'Chemistry — Inorganic & Organic Foundations', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 5, session: '2026-27', program: 'B.Sc.', semester: 'Semester I', title: 'Zoology — Animal Diversity & Cell Biology', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 6, session: '2026-27', program: 'B.A.', semester: 'Semester I', title: 'Geography — Physical Geography', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
       { id: 7, session: '2025-26', program: 'B.A.', semester: 'Semester III', title: 'History — Medieval India', nep_compliant: false, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
-      { id: 8, session: '2025-26', program: 'Integrated B.A.-B.Ed.', semester: 'Semester I', title: 'Foundation of Education', nep_compliant: true, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
+      { id: 8, session: '2025-26', program: 'B.A.', semester: 'Semester III', title: 'Sanskrit Literature — Natak & Vyakaran', nep_compliant: false, pdf_url: 'https://www.ggtu.ac.in/Syllabus.php' },
     ],
     schedules: [
       {
         id: 1, session: '2026-27', type: 'NEP Portal',
         title: 'GGTU Student ERP Portal (Login, Exam Form, Results & Reval)',
-        program: 'All UG & B.Ed. Programs', date: 'Active Portal',
+        program: 'All UG Programs (B.A. & B.Sc.)', date: 'Active Portal',
         description: 'Official GGTU NEP ERP Portal for student login, examination form submission, admit cards, semester results, and revaluation.',
         url: 'https://erp.ggtuexam.com/',
       },
@@ -450,8 +512,8 @@ export async function getExamHub() {
       },
       {
         id: 4, session: '2025-26', type: 'Admit Card',
-        title: 'B.Ed. Annual Examination Admit Cards',
-        program: 'B.Ed.', date: '20 Mar 2026',
+        title: 'B.Sc. Semester Examination Admit Cards',
+        program: 'B.Sc.', date: '20 Mar 2026',
         description: 'Download admit cards directly via GGTU Student ERP portal.',
         url: 'https://erp.ggtuexam.com/',
       },
@@ -537,3 +599,4 @@ export async function submitInquiry(payload) {
     throw err;
   }
 }
+

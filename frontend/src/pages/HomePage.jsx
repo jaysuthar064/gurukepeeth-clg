@@ -34,37 +34,103 @@ export default function HomePage() {
     };
   }, []);
 
-  const hero = data?.hero || {
+  const rawHero = data?.hero || {
     heading: 'Empowering Minds, Cultivating Excellence in Southern Rajasthan',
-    subheading: 'Affiliated with Govind Guru Tribal University (GGTU), Banswara & Recognized by NCTE (WRC Bhopal). Dedicated to academic distinction and holistic teacher education.',
+    subheading: 'Affiliated with Govind Guru Tribal University (GGTU), Banswara. Dedicated to academic distinction and holistic development in Arts & Science education.',
     badge: 'Admissions Open 2026-27',
+  };
+
+  const hero = {
+    ...rawHero,
+    subheading: (rawHero.subheading || '')
+      .replace(/&\s*Recognized by NCTE/gi, '')
+      .replace(/Recognized by NCTE/gi, '')
+      .replace(/NCTE/gi, '')
+      .trim() || 'Affiliated with Govind Guru Tribal University (GGTU), Banswara & Approved by Govt. of Rajasthan.',
   };
 
   const stats = data?.statistics || {
     students: '2,400+',
     faculty: '48+',
-    programs: '12+',
+    programs: '2',
     pass_rate: '94%',
   };
 
   const notices = data?.notices || [
     { id: 1, title: 'Online Admission Form Submission Schedule 2026-27 for Undergraduate Programs', date: '23 Sep 2026', category: 'Admissions', pdf_url: '#' },
-    { id: 2, title: 'Submission of B.Ed. & Integrated B.A.-B.Ed. Examination Forms for Session 2025-26', date: '22 Sep 2026', category: 'Examinations', pdf_url: '#' },
+    { id: 2, title: 'Submission of B.A. & B.Sc. Examination Forms for Session 2025-26', date: '22 Sep 2026', category: 'Examinations', pdf_url: '#' },
     { id: 3, title: 'IQAC Workshop on NEP 2020 Implementation & Outcome Based Education', date: '20 Sep 2026', category: 'IQAC', pdf_url: '#' },
     { id: 4, title: 'Chief Minister Higher Education Scholarship Applications Open on SSO Portal', date: '18 Sep 2026', category: 'Scholarship', pdf_url: '#' },
-    { id: 5, title: 'NCTE Revised Norms Compliance & AISHE Data Submission Confirmation', date: '15 Sep 2026', category: 'Statutory', pdf_url: '#' },
+    { id: 5, title: 'AISHE Data Submission Confirmation for Session 2025-26', date: '15 Sep 2026', category: 'Statutory', pdf_url: '#' },
   ];
 
-  const programs = data?.programs || [
-    { id: 1, title: 'Bachelor of Arts (B.A.)', stream: 'Faculty of Arts', duration: '3 Years', intake: '160 Seats', description: 'Comprehensive degree in Humanities and Social Sciences with specializations in Hindi Literature, Sanskrit, Political Science, History, and Geography.' },
-    { id: 2, title: 'Bachelor of Science (B.Sc.)', stream: 'Faculty of Science', duration: '3 Years', intake: '120 Seats', description: 'Rigorous scientific training in Physics, Chemistry, Mathematics (PCM) and Chemistry, Botany, Zoology (CBZ) with advanced digital laboratory facilities.' },
-    { id: 3, title: 'Bachelor of Education (B.Ed.)', stream: 'Teacher Education', duration: '2 Years', intake: '100 Seats', description: 'NCTE recognized professional secondary teacher preparation program focusing on pedagogical mastery, educational psychology, and school internships.' },
-    { id: 4, title: 'Integrated B.A.-B.Ed. (4-Year)', stream: 'Dual Degree Academy', duration: '4 Years', intake: '50 Seats', description: 'Innovative dual-degree curriculum structured under NEP guidelines, combining an undergraduate degree in Humanities with professional teacher preparation.' },
+  const fallbackPrograms = [
+    {
+      id: 1,
+      title: 'Bachelor of Arts (B.A.)',
+      stream: 'Faculty of Arts',
+      duration: '3 Years (6 Semesters)',
+      intake: '80 Seats',
+      subjects: ['Hindi Literature', 'English Literature', 'Political Science', 'Geography', 'History', 'Economics', 'Sociology', 'Sanskrit'],
+      description: 'Comprehensive degree in Humanities and Social Sciences offering diverse elective combinations under Govind Guru Tribal University (GGTU) NEP curriculum framework.',
+      eligibility: '10+2 Pass in any stream (Min 45%)',
+    },
+    {
+      id: 2,
+      title: 'Bachelor of Science (B.Sc. - Biology)',
+      stream: 'Faculty of Science',
+      duration: '3 Years (6 Semesters)',
+      intake: '70 Seats',
+      subjects: ['Zoology', 'Botany', 'Chemistry'],
+      description: 'Foundational natural sciences degree with practical laboratory experiments in Chemistry, Botany, and Zoology (CBZ) equipped with modern digital scientific apparatus.',
+      eligibility: '10+2 with Science (PCB) (Min 50%)',
+    },
   ];
 
-  const leaders = data?.leadership || [
-    { id: 1, name: "Principal's Desk", role_title: 'Principal', qualifications: 'Dr. Rajesh Sharma, Ph.D., M.Ed.', message: 'Welcome to Gurukripa Peeth College. Our pedagogical approach blends traditional Indian scholarship with modern digital competencies, ensuring our graduates emerge as intellectually enlightened and socially responsible educators and citizens.' },
-    { id: 2, name: "Managing Director's Vision", role_title: 'Managing Director', qualifications: 'Er. Virendra Singh, M.B.A., B.Tech.', message: 'At Gurukripa Peeth, our foundational mission is to bridge educational disparities in Southern Rajasthan. We offer rural and tribal youth access to world-class learning infrastructure, value-based mentorship, and university distinction.' },
+  const rawPrograms = data?.programs && data.programs.length > 0 ? data.programs : fallbackPrograms;
+
+  // Guarantee that ONLY legitimate B.A. and B.Sc. degree programs are displayed
+  const programs = rawPrograms
+    .filter(prog => {
+      const title = (typeof prog.title === 'string' ? prog.title : (prog.title?.rendered || '')).toLowerCase();
+      const stream = (prog.stream || '').toLowerCase();
+      return !title.includes('b.ed') && !title.includes('d.el.ed') && !title.includes('bstc') && !title.includes('integrated') && !stream.includes('teacher');
+    })
+    .map(prog => {
+      const titleStr = typeof prog.title === 'string' ? prog.title : (prog.title?.rendered || '');
+      const isBA = titleStr.toLowerCase().includes('b.a.') || (prog.stream || '').toLowerCase().includes('arts');
+      return {
+        ...prog,
+        title: titleStr,
+        subjects: prog.subjects || (isBA 
+          ? ['Hindi Literature', 'English Literature', 'Political Science', 'Geography', 'History', 'Economics', 'Sociology', 'Sanskrit']
+          : ['Zoology (प्राणी विज्ञान)', 'Botany (वनस्पति विज्ञान)', 'Chemistry (रसायन विज्ञान)']),
+        eligibility: prog.eligibility || (isBA ? '10+2 in any stream (Min 45%)' : '10+2 Science PCB (Min 50%)'),
+      };
+    });
+
+  const leaders = data?.leadership && data.leadership.length >= 3 ? data.leadership : [
+    { 
+      id: 1, 
+      name: "Chairman & Director's Desk", 
+      role_title: 'Director / Chairman', 
+      qualifications: 'Mr. Kalu Ram Labana', 
+      message: 'Gurukripa Peeth College is committed to delivering quality higher education and teacher training to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.' 
+    },
+    { 
+      id: 2, 
+      name: "Secretary's Desk", 
+      role_title: 'Secretary', 
+      qualifications: 'Mr. Vipin Kumar Labana', 
+      message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and pedagogical careers.' 
+    },
+    { 
+      id: 3, 
+      name: "Principal's Desk", 
+      role_title: 'Principal & Head of Institution', 
+      qualifications: 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)', 
+      message: 'Welcome to Gurukripa Peeth College. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU standards.' 
+    },
   ];
 
   const filteredNotices = notices.filter(n => {
@@ -103,7 +169,6 @@ export default function HomePage() {
 
             <div style={{ marginTop: '28px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.15)', display: 'flex', gap: '24px', flexWrap: 'wrap', fontSize: '12px', color: '#cbd5e1' }}>
               <div><strong>AISHE Code:</strong> C-48902</div>
-              <div><strong>NCTE Approval:</strong> WRC/APW05814/323363</div>
               <div><strong>Affiliation:</strong> GGTU Banswara</div>
               <div><strong>District:</strong> Dungarpur, Rajasthan</div>
             </div>
@@ -186,8 +251,8 @@ export default function HomePage() {
               <GraduationCap size={15} /> ADMISSIONS 2026-27
             </div>
             <div className="admissions-promo-text">
-              <h3>Online Admissions Open for Under Graduate & Teacher Education Programs</h3>
-              <p>Admissions Open for B.A., B.Sc., B.Ed., and Integrated 4-Year B.A.-B.Ed. — Counseling & Document Verification Active</p>
+              <h3>Online Admissions Open for Undergraduate Programs</h3>
+              <p>Admissions Open for B.A. and B.Sc. Programs — Counseling & Document Verification Active</p>
             </div>
           </div>
           <div className="admissions-promo-actions">
@@ -257,7 +322,7 @@ export default function HomePage() {
             <div className="stat-box-icon"><School size={26} /></div>
             <div className="stat-box-info">
               <div className="num">{stats.faculty}</div>
-              <div className="label">UGC & NCTE Qualified Faculty</div>
+              <div className="label">UGC Qualified Faculty</div>
             </div>
           </div>
 
@@ -286,26 +351,69 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header">
             <span className="section-tag">Disciplines & Faculties</span>
-            <h2 className="section-title">Undergraduate & Teacher Education Programs</h2>
+            <h2 className="section-title">Undergraduate Academic Programs</h2>
             <p className="section-desc">
-              All courses are recognized by the National Council for Teacher Education (NCTE) and affiliated with Govind Guru Tribal University (GGTU), Banswara.
+              All courses are affiliated with Govind Guru Tribal University (GGTU), Banswara and approved by the Commissionerate of College Education, Govt. of Rajasthan.
             </p>
           </div>
 
-          <div className="grid-4">
+          <div className="home-programs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
             {programs.map((prog) => (
-              <div key={prog.id} className="program-card">
-                <span className="program-badge">{prog.stream || 'Affiliated GGTU'}</span>
-                <h3 className="program-title">{prog.title}</h3>
-                <p className="program-desc">{prog.description}</p>
-                <div className="program-meta-list">
-                  <div><strong>Course Duration:</strong> {prog.duration}</div>
-                  <div><strong>Approved Intake:</strong> {prog.intake}</div>
-                  <div><strong>Governing Body:</strong> NCTE / GGTU</div>
+              <div key={prog.id} className="program-card" style={{ display: 'flex', flexDirection: 'column', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '28px', boxShadow: '0 4px 16px rgba(15, 23, 42, 0.04)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <span className="program-badge" style={{ background: '#fef3c7', color: '#92400e', fontWeight: 700, fontSize: '11.5px', padding: '4px 10px', borderRadius: '6px' }}>
+                    {prog.stream || 'Affiliated GGTU'}
+                  </span>
+                  <span style={{ fontSize: '12px', fontWeight: 600, color: '#047857', background: '#ecfdf5', padding: '3px 8px', borderRadius: '4px' }}>
+                    Raj. Govt. PNOC
+                  </span>
                 </div>
-                <Link to="/admissions" className="btn btn-outline" style={{ marginTop: 'auto', textAlign: 'center' }}>
-                  Admission Details & Criteria →
-                </Link>
+
+                <h3 className="program-title" style={{ fontSize: '22px', fontWeight: 700, color: '#0f172a', marginBottom: '10px' }}>
+                  {prog.title}
+                </h3>
+                <p className="program-desc" style={{ color: '#475569', fontSize: '14px', lineHeight: '1.6', marginBottom: '16px' }}>
+                  {prog.description}
+                </p>
+
+                {prog.subjects && (
+                  <div style={{ marginBottom: '18px' }}>
+                    <div style={{ fontSize: '11.5px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>
+                      Key Subjects / Course Group:
+                    </div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {prog.subjects.map((sub, sIdx) => (
+                        <span key={sIdx} style={{ fontSize: '12px', background: '#f1f5f9', color: '#1e293b', padding: '3px 9px', borderRadius: '4px', border: '1px solid #e2e8f0', fontWeight: 500 }}>
+                          {sub}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="program-meta-list" style={{ marginTop: 'auto', marginBottom: '20px', background: '#f8fafc', padding: '14px 16px', borderRadius: '8px', border: '1px solid #edf2f7', fontSize: '13px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                    <span style={{ color: '#64748b' }}>Duration:</span>
+                    <strong style={{ color: '#0f172a' }}>{prog.duration || '3 Years (6 Semesters)'}</strong>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                    <span style={{ color: '#64748b' }}>Intake:</span>
+                    <strong style={{ color: '#0f172a' }}>{prog.intake || '80 Seats'}</strong>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: '#64748b' }}>Eligibility:</span>
+                    <strong style={{ color: '#0f172a' }}>{prog.eligibility}</strong>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <Link to="/academics" className="btn btn-outline" style={{ textAlign: 'center', fontSize: '13px', padding: '9px 12px' }}>
+                    View Syllabus →
+                  </Link>
+                  <Link to="/admissions" className="btn btn-gold" style={{ textAlign: 'center', fontSize: '13px', padding: '9px 12px' }}>
+                    Apply Online
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
@@ -313,7 +421,7 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================
-          ZONE 5: LEADERSHIP DESK (PRINCIPAL & MANAGING DIRECTOR)
+          ZONE 5: LEADERSHIP DESK (DIRECTOR, SECRETARY & PRINCIPAL)
           ============================================================ */}
       <section className="section section-white">
         <div className="container">
@@ -323,30 +431,35 @@ export default function HomePage() {
             <p className="section-desc">Guiding the institutional journey with academic discipline, integrity, and student-centered commitment.</p>
           </div>
 
-          <div className="grid-2">
-            {leaders.map((lead) => (
-              <div key={lead.id} className="leader-card">
-                <div className="leader-header">
-                  <div className="leader-emblem-seal">
-                    {lead.name.includes('Principal') ? 'P' : 'MD'}
+          <div className="grid-3">
+            {leaders.map((lead) => {
+              const isPrin = (lead.role_title || lead.name).toLowerCase().includes('principal');
+              const isSec = (lead.role_title || lead.name).toLowerCase().includes('secretary');
+              const initials = isPrin ? 'P' : isSec ? 'S' : 'DIR';
+              return (
+                <div key={lead.id} className="leader-card">
+                  <div className="leader-header">
+                    <div className="leader-emblem-seal" style={{ fontSize: initials.length > 1 ? '15px' : '20px' }}>
+                      {initials}
+                    </div>
+                    <div className="leader-meta">
+                      <h3>{lead.name}</h3>
+                      <div className="leader-designation">{lead.role_title}</div>
+                      <div className="leader-credentials">{lead.qualifications}</div>
+                    </div>
                   </div>
-                  <div className="leader-meta">
-                    <h3>{lead.name}</h3>
-                    <div className="leader-designation">{lead.role_title}</div>
-                    <div className="leader-credentials">{lead.qualifications}</div>
+                  <p className="leader-quote-text" style={{ flex: 1, fontStyle: 'italic', color: '#475569', lineHeight: 1.7, fontSize: '14px' }}>
+                    "{lead.message}"
+                  </p>
+                  <div style={{ marginTop: 'auto', paddingTop: '14px', borderTop: '1px solid #f4f3ef', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '12px', color: '#64748b' }}>Gurukripa Peeth College</span>
+                    <Link to="/about" style={{ fontSize: '13px', color: '#b45309', fontWeight: 700 }}>
+                      Read Profile →
+                    </Link>
                   </div>
                 </div>
-                <p className="leader-quote-text">
-                  "{lead.message}"
-                </p>
-                <div style={{ marginTop: '20px', paddingTop: '14px', borderTop: '1px solid #f4f3ef', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '12px', color: '#64748b' }}>Gurukripa Peeth College, Dungarpur</span>
-                  <Link to="/about" style={{ fontSize: '13px', color: '#b45309', fontWeight: 700 }}>
-                    Read Full Profile →
-                  </Link>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

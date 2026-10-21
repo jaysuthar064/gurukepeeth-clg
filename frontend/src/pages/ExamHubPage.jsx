@@ -290,7 +290,7 @@ function ExamHubPage() {
                           Govind Guru Tribal University (GGTU) Central Syllabus Directory
                         </strong>
                         <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0, lineHeight: 1.5 }}>
-                          Official course frameworks for B.A., B.Sc., B.Ed., and NEP degree curricula.
+                          Official course frameworks for B.A., B.Sc., and NEP degree curricula.
                           <br />
                           <span style={{ color: 'var(--gold-600)', fontWeight: 600 }}>
                             Tip: On the GGTU website, navigate to: Examination → Syllabus.

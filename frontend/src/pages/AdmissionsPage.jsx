@@ -103,8 +103,8 @@ export default function AdmissionsPage() {
   const fallbackMeritLists = [
     { id: 1, session: '2026-27', stream: 'Faculty of Arts (B.A.)', list: '1st Provisional Merit List', date: '20 Sep 2026', cutoff: '72.4%', pdf_url: '#' },
     { id: 2, session: '2026-27', stream: 'Faculty of Science (B.Sc.)', list: '1st Provisional Merit List', date: '21 Sep 2026', cutoff: '78.2%', pdf_url: '#' },
-    { id: 3, session: '2025-26', stream: 'B.Ed. 2-Year Program', list: 'PTET Final Allotment List', date: '15 Aug 2025', cutoff: 'PTET Rank', pdf_url: '#' },
-    { id: 4, session: '2025-26', stream: 'Integrated B.A.-B.Ed.', list: 'PTET 2nd Round Allotment', date: '25 Aug 2025', cutoff: 'PTET Rank', pdf_url: '#' },
+    { id: 3, session: '2026-27', stream: 'Faculty of Arts (B.A.)', list: '2nd Waiting List', date: '28 Sep 2026', cutoff: '68.0%', pdf_url: '#' },
+    { id: 4, session: '2026-27', stream: 'Faculty of Science (B.Sc.)', list: '2nd Waiting List', date: '29 Sep 2026', cutoff: '74.5%', pdf_url: '#' },
   ];
 
   const displayLists = loaded ? admissions : fallbackMeritLists;
@@ -168,10 +168,10 @@ export default function AdmissionsPage() {
 
               <div style={{ marginTop: '24px', padding: '16px', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
                 <h4 style={{ fontSize: '15px', color: '#0f172a', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <AlertCircle size={16} style={{ color: '#d97706' }} /> Important Note for B.Ed. Aspirants
+                  <AlertCircle size={16} style={{ color: '#059669' }} /> Direct Admission Verification
                 </h4>
-                <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.6' }}>
-                  Admissions to B.Ed. (2-Year) and Integrated B.A.-B.Ed. (4-Year) programs are strictly conducted through the State-level PTET Entrance Test organized by the designated State University.
+                <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.6', margin: 0 }}>
+                  Admissions to 3-Year B.A. and B.Sc. degree programs are processed through 10+2 merit scores in accordance with Directorate of College Education, Rajasthan and GGTU norms.
                 </p>
               </div>
             </div>
@@ -287,9 +287,6 @@ export default function AdmissionsPage() {
                         <>
                           <option value="Bachelor of Arts (B.A.)">Bachelor of Arts (B.A.)</option>
                           <option value="Bachelor of Science (B.Sc.)">Bachelor of Science (B.Sc.)</option>
-                          <option value="Bachelor of Education (B.Ed.)">Bachelor of Education (B.Ed.)</option>
-                          <option value="Integrated B.A.-B.Ed. (4-Year)">Integrated B.A.-B.Ed. (4-Year)</option>
-                          <option value="Diploma in Elementary Ed (BSTC)">Diploma in Elementary Ed (BSTC)</option>
                         </>
                       )}
                     </select>

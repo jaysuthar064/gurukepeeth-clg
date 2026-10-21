@@ -984,7 +984,6 @@
 				college_subtitle: $('#set_college_subtitle').val() || '',
 				tagline: $('#set_tagline').val() || '',
 				affiliating_univ: $('#set_affiliating_univ').val() || '',
-				ncte_code: $('#set_ncte_code').val() || '',
 				aishe_code: $('#set_aishe_code').val() || '',
 				naac_grade: $('#set_naac_grade').val() || '',
 				phone_primary: $('#set_phone_primary').val() || '',

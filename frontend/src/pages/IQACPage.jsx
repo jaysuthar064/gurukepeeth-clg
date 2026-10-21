@@ -222,7 +222,7 @@ export default function IQACPage() {
                   <tr>
                     <td><strong>Student Nominee</strong></td>
                     <td>Ms. Priya Sharma</td>
-                    <td>B.Ed. Final Year Student</td>
+                    <td>B.A. Final Year Student</td>
                   </tr>
                 </tbody>
               </table>

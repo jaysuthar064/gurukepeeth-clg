@@ -22,7 +22,6 @@ import { getDisclosures, submitGrievance } from '../api/wordpress';
 const CATEGORY_ICONS = {
   affiliation: Award,
   govt_noc: Building2,
-  ncte_order: FileText,
   registration: ShieldCheck,
   fire_safety: Flame,
   building_noc: Building,
@@ -35,7 +34,6 @@ const CATEGORY_ICONS = {
 const DISCLOSURE_CATEGORIES = [
   { key: 'affiliation', label: 'GGTU Affiliation Orders', color: 'var(--primary-700)' },
   { key: 'govt_noc', label: 'Raj. Govt Permanent NOC (B.A. & B.Sc.)', color: 'var(--emerald-700)' },
-  { key: 'ncte_order', label: 'NCTE Recognition Order', color: 'var(--gold-600)' },
   { key: 'registration', label: 'Society & Trust Registration', color: 'var(--primary-800)' },
   { key: 'fire_safety', label: 'Fire Safety Certificate', color: 'var(--crimson-700)' },
   { key: 'building_noc', label: 'Building Safety & Stability NOC', color: 'var(--emerald-800)' },
@@ -93,12 +91,12 @@ function DisclosuresPage() {
       {/* 1. Institutional Hero Banner */}
       <div className="page-hero-banner">
         <div className="container">
-          <span className="page-hero-tag">UGC / NCTE / AISHE Regulatory Compliance</span>
+          <span className="page-hero-tag">UGC / AISHE / GGTU Regulatory Compliance</span>
           <h1 className="page-hero-title">Mandatory Statutory Disclosures</h1>
           <p className="page-hero-desc">
             Public disclosure of regulatory affiliation orders, Rajasthan Government permanent NOCs,
             safety certificates, and institutional compliance records as mandated by the University
-            Grants Commission (UGC) and National Council for Teacher Education (NCTE).
+            Grants Commission (UGC), Directorate of College Education (Govt. of Rajasthan), and GGTU Banswara.
           </p>
         </div>
       </div>
@@ -158,10 +156,10 @@ function DisclosuresPage() {
                   fontFamily: 'var(--font-heading)',
                 }}
               >
-                NCTE
+                GGTU
               </div>
               <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', marginTop: 4 }}>
-                Recognized Teacher Education
+                Affiliated University
               </div>
             </div>
 

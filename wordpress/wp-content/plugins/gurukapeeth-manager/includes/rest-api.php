@@ -188,7 +188,7 @@ class Gurukapeeth_REST_API {
 			'quick_links'=> array(
 				array( 'title' => 'GGTU Student ERP Portal', 'url' => 'https://erp.ggtuexam.com/', 'icon' => 'globe' ),
 				array( 'title' => 'GGTU Syllabi Portal', 'url' => 'https://www.ggtu.ac.in/Syllabus.php', 'icon' => 'book' ),
-				array( 'title' => 'NCTE Jaipur', 'url' => 'https://ncte.gov.in', 'icon' => 'shield' ),
+				array( 'title' => 'Raj. Scholarship Portal', 'url' => 'https://scholarship.rajasthan.gov.in/', 'icon' => 'award' ),
 				array( 'title' => 'Rajasthan SSO', 'url' => 'https://sso.rajasthan.gov.in', 'icon' => 'lock' ),
 				array( 'title' => 'National Digital Library', 'url' => 'https://ndl.gov.in', 'icon' => 'book' ),
 				array( 'title' => 'HTE Rajasthan', 'url' => 'https://hte.rajasthan.gov.in', 'icon' => 'award' ),

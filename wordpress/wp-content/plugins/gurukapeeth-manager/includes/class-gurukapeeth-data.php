@@ -11,39 +11,62 @@ class Gurukapeeth_Data {
 		$defaults = array(
 			'college_name'        => 'Gurukripa Peeth College',
 			'college_hindi'       => 'गुरुकृपा पीठ महाविद्यालय',
-			'college_subtitle'    => 'Post Graduate & Teacher Training College',
+			'college_subtitle'    => 'Undergraduate Degree College (Arts & Science)',
 			'tagline'             => 'Nurturing Intellect, Cultivating Character, Empowering Society',
 			'affiliating_univ'    => 'Govind Guru Tribal University (GGTU), Banswara',
-			'ncte_code'           => 'WRC/APW05814/323363',
 			'aishe_code'          => 'C-48902',
 			'naac_grade'          => 'Accredited B+ (Cycle-1) / SSR in Progress',
-			'phone_primary'       => '+91 2964 234567',
-			'phone_secondary'     => '+91 94140 12345',
-			'email_info'          => 'info@gurukripapeeth.in',
-			'email_principal'     => 'principal@gurukripapeeth.in',
-			'address'             => 'Gurukripa Peeth College, Pratapgarh Road, Dungarpur, Rajasthan - 314001, India',
-			'marquee_announcement'=> 'Admissions Open 2026-27 for B.A., B.Sc., B.Ed., and Integrated B.A.-B.Ed. Programs — Apply Online Now!',
-			'logo_url'            => '',
+			'phone_primary'       => '+91 95874 33001',
+			'phone_secondary'     => '+91 96105 87077',
+			'email_info'          => 'gurukripa.peeth@gmail.com',
+			'email_principal'     => 'gurukripa.peeth@gmail.com',
+			'address'             => 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+			'marquee_announcement'=> 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!',
+			'logo_url'            => '/images/college-logo.png',
 			'map_embed'           => '',
 		);
 
 		$saved = get_option( 'gurukapeeth_settings', array() );
-		return wp_parse_args( $saved, $defaults );
+		$merged = wp_parse_args( $saved, $defaults );
+
+		// Cleanse legacy teacher education and NCTE mentions
+		$dirty = false;
+		if ( ! empty( $merged['college_subtitle'] ) && ( stripos( $merged['college_subtitle'], 'teacher' ) !== false || stripos( $merged['college_subtitle'], 'ncte' ) !== false ) ) {
+			$merged['college_subtitle'] = 'Undergraduate Degree College (Arts & Science)';
+			$dirty = true;
+		}
+		if ( ! empty( $merged['marquee_announcement'] ) && ( stripos( $merged['marquee_announcement'], 'b.ed' ) !== false || stripos( $merged['marquee_announcement'], 'integrated' ) !== false || stripos( $merged['marquee_announcement'], 'ncte' ) !== false ) ) {
+			$merged['marquee_announcement'] = 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!';
+			$dirty = true;
+		}
+		if ( $dirty ) {
+			update_option( 'gurukapeeth_settings', $merged );
+		}
+
+		return $merged;
 	}
 
 	public static function get_homepage() {
 		$defaults = array(
 			'hero_heading'    => 'Empowering Minds, Transforming Futures in Southern Rajasthan',
-			'hero_subheading' => 'Affiliated with Govind Guru Tribal University (GGTU), Banswara & Recognized by NCTE',
+			'hero_subheading' => 'Affiliated with Govind Guru Tribal University (GGTU), Banswara & Approved by Govt. of Rajasthan',
 			'stat_students'   => '2,400+',
 			'stat_faculty'    => '48+',
-			'stat_programs'   => '12+',
+			'stat_programs'   => '2',
 			'stat_pass_rate'  => '94%',
 			'admission_badge' => 'Admissions Open 2026-27',
 		);
 
 		$saved = get_option( 'gurukapeeth_homepage', array() );
-		return wp_parse_args( $saved, $defaults );
+		$merged = wp_parse_args( $saved, $defaults );
+
+		// Cleanse legacy NCTE mentions from hero subheading
+		if ( ! empty( $merged['hero_subheading'] ) && stripos( $merged['hero_subheading'], 'ncte' ) !== false ) {
+			$merged['hero_subheading'] = 'Affiliated with Govind Guru Tribal University (GGTU), Banswara & Approved by Govt. of Rajasthan';
+			update_option( 'gurukapeeth_homepage', $merged );
+		}
+
+		return $merged;
 	}
 
 	public static function get_notices() {
@@ -64,7 +87,7 @@ class Gurukapeeth_Data {
 			),
 			array(
 				'id'         => 2,
-				'title'      => 'Submission of B.Ed. & Integrated B.A.-B.Ed. Examination Forms for Session 2025-26',
+				'title'      => 'Submission of B.A. & B.Sc. Semester Examination Forms for Session 2026-27',
 				'category'   => 'Examinations',
 				'date'       => '22 Sep 2026',
 				'pdf_url'    => '#',
@@ -94,8 +117,19 @@ class Gurukapeeth_Data {
 
 	public static function get_programs() {
 		$saved = get_option( 'gurukapeeth_programs', null );
-		if ( is_array( $saved ) ) {
-			return $saved;
+		if ( is_array( $saved ) && ! empty( $saved ) ) {
+			$filtered = array_values( array_filter( $saved, function( $p ) {
+				$t = strtolower( is_array( $p ) ? ( $p['title'] ?? '' ) : '' );
+				$s = strtolower( is_array( $p ) ? ( $p['stream'] ?? '' ) : '' );
+				return ! str_contains( $t, 'b.ed' ) && ! str_contains( $t, 'd.el.ed' ) && ! str_contains( $t, 'bstc' ) && ! str_contains( $t, 'integrated' ) && ! str_contains( $s, 'teacher' );
+			} ) );
+			if ( ! empty( $filtered ) ) {
+				// If legacy items were purged, save the clean version back to options
+				if ( count( $filtered ) !== count( $saved ) ) {
+					update_option( 'gurukapeeth_programs', $filtered );
+				}
+				return $filtered;
+			}
 		}
 
 		return array(
@@ -111,42 +145,12 @@ class Gurukapeeth_Data {
 			),
 			array(
 				'id'          => 2,
-				'title'       => 'Bachelor of Science (B.Sc. - Bio & Maths)',
-				'stream'      => 'Science & Technology',
+				'title'       => 'Bachelor of Science (B.Sc. - Biology)',
+				'stream'      => 'Faculty of Science',
 				'duration'    => '3 Years (6 Semesters)',
-				'intake'      => '120 Seats',
-				'eligibility' => '10+2 with Science (PCM/PCB) with minimum 50% marks',
-				'description' => 'Comprehensive theoretical and digital laboratory training in Physics, Chemistry, Mathematics, Botany, and Zoology.',
-				'syllabus_url'=> '#',
-			),
-			array(
-				'id'          => 3,
-				'title'       => 'Bachelor of Education (B.Ed.)',
-				'stream'      => 'Teacher Education (NCTE Recognized)',
-				'duration'    => '2 Years (Annual Scheme)',
-				'intake'      => '100 Seats',
-				'eligibility' => 'Graduation with min 50% (45% for SC/ST/OBC) through State PTET exam',
-				'description' => 'Premier teacher education degree focusing on pedagogical psychology, classroom communication, and extensive school internship.',
-				'syllabus_url'=> '#',
-			),
-			array(
-				'id'          => 4,
-				'title'       => 'Integrated B.A.-B.Ed. (4-Year)',
-				'stream'      => 'Composite Teacher Preparation',
-				'duration'    => '4 Years (8 Semesters)',
-				'intake'      => '50 Seats',
-				'eligibility' => '10+2 Senior Secondary with minimum 50% marks through PTET',
-				'description' => 'Four-year composite dual-degree program saving one academic year for students aspiring to secondary school teaching.',
-				'syllabus_url'=> '#',
-			),
-			array(
-				'id'          => 5,
-				'title'       => 'Diploma in Elementary Education (D.El.Ed. / BSTC)',
-				'stream'      => 'Primary Teacher Training',
-				'duration'    => '2 Years',
-				'intake'      => '50 Seats',
-				'eligibility' => '10+2 through Pre D.El.Ed. (BSTC) entrance exam',
-				'description' => 'Professional diploma training primary school educators in pedagogy, child development, and practical internship.',
+				'intake'      => '70 Seats',
+				'eligibility' => '10+2 with Science (PCB) with minimum 50% marks',
+				'description' => 'Comprehensive theoretical and practical laboratory training in Chemistry, Botany, and Zoology (CBZ).',
 				'syllabus_url'=> '#',
 			),
 		);
@@ -357,20 +361,20 @@ class Gurukapeeth_Data {
 			),
 			array(
 				'id'          => 3,
-				'session'     => '2025-26',
-				'stream'      => 'B.Ed. 2-Year Program',
-				'list_type'   => 'PTET Final Allotment List',
-				'date'        => '15 Aug 2025',
-				'cutoff'      => 'PTET Rank Basis',
+				'session'     => '2026-27',
+				'stream'      => 'Faculty of Arts (B.A.)',
+				'list_type'   => '2nd Waiting List',
+				'date'        => '28 Sep 2026',
+				'cutoff'      => '68.0%',
 				'pdf_url'     => '#',
 			),
 			array(
 				'id'          => 4,
-				'session'     => '2025-26',
-				'stream'      => 'Integrated B.A.-B.Ed.',
-				'list_type'   => 'PTET 2nd Round Allotment',
-				'date'        => '25 Aug 2025',
-				'cutoff'      => 'PTET Rank Basis',
+				'session'     => '2026-27',
+				'stream'      => 'Faculty of Science (B.Sc.)',
+				'list_type'   => '2nd Waiting List',
+				'date'        => '29 Sep 2026',
+				'cutoff'      => '74.5%',
 				'pdf_url'     => '#',
 			),
 		);
@@ -509,20 +513,29 @@ class Gurukapeeth_Data {
 		return array(
 			array(
 				'id'             => 1,
-				'role_key'       => 'principal',
-				'name'           => "Principal's Desk",
-				'role_title'     => 'Principal & Head of Institution',
-				'qualifications' => 'Dr. Rajesh Sharma, Ph.D., M.Ed.',
-				'message'        => 'Welcome to Gurukripa Peeth College. Our focus is learner-centric education emphasizing experiential learning, digital literacy, and holistic personality development. We are dedicated to preparing educators and scholars with ethical fortitude.',
+				'role_key'       => 'director',
+				'name'           => "Chairman & Director's Desk",
+				'role_title'     => 'Director / Chairman',
+				'qualifications' => 'Mr. Kalu Ram Labana',
+				'message'        => 'Gurukripa Peeth College is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.',
 				'photo_url'      => '',
 			),
 			array(
 				'id'             => 2,
-				'role_key'       => 'director',
-				'name'           => "Managing Director's Vision",
-				'role_title'     => 'Managing Director',
-				'qualifications' => 'M.B.A., B.Tech.',
-				'message'        => 'At Gurukripa Peeth, our vision has always been to bring quality, values-driven higher education to the youth of Southern Rajasthan, empowering them for national distinction.',
+				'role_key'       => 'secretary',
+				'name'           => "Secretary's Desk",
+				'role_title'     => 'Secretary',
+				'qualifications' => 'Mr. Vipin Kumar Labana',
+				'message'        => 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.',
+				'photo_url'      => '',
+			),
+			array(
+				'id'             => 3,
+				'role_key'       => 'principal',
+				'name'           => "Principal's Desk",
+				'role_title'     => 'Principal & Head of Institution',
+				'qualifications' => 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)',
+				'message'        => 'Welcome to Gurukripa Peeth College. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.',
 				'photo_url'      => '',
 			),
 		);
@@ -683,15 +696,7 @@ class Gurukapeeth_Data {
 				'pdf_url'     => '/documents/affiliation/ggtu-affiliation-2021-22.pdf',
 			),
 
-			// 3. NCTE & Registration
-			array(
-				'id'          => 7,
-				'category'    => 'ncte_order',
-				'title'       => 'NCTE Recognition Order — B.Ed. Program (WRC/APW05814/323363)',
-				'description' => 'Western Regional Committee recognition order for the 2-Year B.Ed. program with 100 seats intake.',
-				'issued_date' => '22 Jun 2014',
-				'pdf_url'     => '#',
-			),
+			// 3. Society Registration & Campus Safety
 			array(
 				'id'          => 8,
 				'category'    => 'registration',
@@ -720,7 +725,7 @@ class Gurukapeeth_Data {
 				'id'          => 11,
 				'category'    => 'fee_structure',
 				'title'       => 'Approved Fee Structure & Refund Policy — Session 2026-27',
-				'description' => 'University-approved fee schedule for B.A., B.Sc., B.Ed., and Integrated B.A.-B.Ed. with government scholarship adjustments.',
+				'description' => 'University-approved fee schedule for B.A. and B.Sc. with government scholarship adjustments.',
 				'issued_date' => '15 Jun 2026',
 				'pdf_url'     => '#',
 			),
@@ -774,22 +779,22 @@ class Gurukapeeth_Data {
 				),
 				array(
 					'id' => 3, 'session' => '2026-27', 'program' => 'B.Sc.',
-					'semester' => 'Semester I', 'title' => 'Physics — Mechanics & Wave Motion',
+					'semester' => 'Semester I', 'title' => 'Botany — Diversity of Microbes & Cryptogams',
 					'nep_compliant' => true, 'pdf_url' => 'https://www.ggtu.ac.in/Syllabus.php',
 				),
 				array(
 					'id' => 4, 'session' => '2026-27', 'program' => 'B.Sc.',
-					'semester' => 'Semester I', 'title' => 'Chemistry — Inorganic Chemistry',
+					'semester' => 'Semester I', 'title' => 'Chemistry — Inorganic & Organic Foundations',
 					'nep_compliant' => true, 'pdf_url' => 'https://www.ggtu.ac.in/Syllabus.php',
 				),
 				array(
-					'id' => 5, 'session' => '2026-27', 'program' => 'B.Ed.',
-					'semester' => 'Year 1', 'title' => 'Education Psychology & Learner Development',
+					'id' => 5, 'session' => '2026-27', 'program' => 'B.Sc.',
+					'semester' => 'Semester I', 'title' => 'Zoology — Animal Diversity & Cell Biology',
 					'nep_compliant' => true, 'pdf_url' => 'https://www.ggtu.ac.in/Syllabus.php',
 				),
 				array(
-					'id' => 6, 'session' => '2026-27', 'program' => 'B.Ed.',
-					'semester' => 'Year 1', 'title' => 'Pedagogy of School Subjects — Part A',
+					'id' => 6, 'session' => '2026-27', 'program' => 'B.A.',
+					'semester' => 'Semester I', 'title' => 'Geography — Physical Geography',
 					'nep_compliant' => true, 'pdf_url' => 'https://www.ggtu.ac.in/Syllabus.php',
 				),
 				array(
@@ -798,16 +803,16 @@ class Gurukapeeth_Data {
 					'nep_compliant' => false, 'pdf_url' => 'https://www.ggtu.ac.in/Syllabus.php',
 				),
 				array(
-					'id' => 8, 'session' => '2025-26', 'program' => 'Integrated B.A.-B.Ed.',
-					'semester' => 'Semester I', 'title' => 'Foundation of Education',
-					'nep_compliant' => true, 'pdf_url' => 'https://www.ggtu.ac.in/Syllabus.php',
+					'id' => 8, 'session' => '2025-26', 'program' => 'B.A.',
+					'semester' => 'Semester III', 'title' => 'Sanskrit Literature — Natak & Vyakaran',
+					'nep_compliant' => false, 'pdf_url' => 'https://www.ggtu.ac.in/Syllabus.php',
 				),
 			),
 			'schedules' => array(
 				array(
 					'id' => 1, 'session' => '2026-27', 'type' => 'NEP Portal',
 					'title' => 'GGTU Student ERP Portal (Login, Exam Form, Results & Reval)',
-					'program' => 'All UG & B.Ed. Programs', 'date' => 'Active Portal',
+					'program' => 'All UG Programs (B.A. & B.Sc.)', 'date' => 'Active Portal',
 					'description' => 'Official GGTU NEP ERP Portal for student login, examination form submission, admit cards, semester results, and revaluation.',
 					'url' => 'https://erp.ggtuexam.com/',
 				),
@@ -827,8 +832,8 @@ class Gurukapeeth_Data {
 				),
 				array(
 					'id' => 4, 'session' => '2025-26', 'type' => 'Admit Card',
-					'title' => 'B.Ed. Annual Examination Admit Cards',
-					'program' => 'B.Ed.', 'date' => '20 Mar 2026',
+					'title' => 'B.Sc. Semester Examination Admit Cards',
+					'program' => 'B.Sc.', 'date' => '20 Mar 2026',
 					'description' => 'Download admit cards directly via GGTU Student ERP portal.',
 					'url' => 'https://erp.ggtuexam.com/',
 				),
