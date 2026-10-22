@@ -32,8 +32,32 @@ class Gurukapeeth_Data {
 		$saved = get_option( 'gurukapeeth_settings', array() );
 		$merged = wp_parse_args( $saved, $defaults );
 
-		// Cleanse legacy teacher education and NCTE mentions
+		// Cleanse legacy college name, NCTE references, and ensure trust info
 		$dirty = false;
+		if ( empty( $merged['college_name'] ) || $merged['college_name'] === 'Gurukripa Peeth College' ) {
+			$merged['college_name'] = 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH';
+			$dirty = true;
+		}
+		if ( empty( $merged['college_hindi'] ) || $merged['college_hindi'] === 'गुरुकृपा पीठ महाविद्यालय' ) {
+			$merged['college_hindi'] = 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ';
+			$dirty = true;
+		}
+		if ( empty( $merged['trust_name'] ) ) {
+			$merged['trust_name'] = 'Shree Narayan Shiksha Seva Samiti Peeth';
+			$dirty = true;
+		}
+		if ( empty( $merged['trust_hindi'] ) ) {
+			$merged['trust_hindi'] = 'श्री नारायण शिक्षा सेवा समिति, पीठ';
+			$dirty = true;
+		}
+		if ( empty( $merged['trust_reg_no'] ) ) {
+			$merged['trust_reg_no'] = '55/DUNGARPUR/2013-14';
+			$dirty = true;
+		}
+		if ( isset( $merged['ncte_code'] ) ) {
+			unset( $merged['ncte_code'] );
+			$dirty = true;
+		}
 		if ( ! empty( $merged['college_subtitle'] ) && ( stripos( $merged['college_subtitle'], 'teacher' ) !== false || stripos( $merged['college_subtitle'], 'ncte' ) !== false ) ) {
 			$merged['college_subtitle'] = 'Undergraduate Degree College (Arts & Science)';
 			$dirty = true;
@@ -121,21 +145,40 @@ class Gurukapeeth_Data {
 	public static function get_programs() {
 		$saved = get_option( 'gurukapeeth_programs', null );
 		if ( is_array( $saved ) && ! empty( $saved ) ) {
+			$dirty = false;
 			$filtered = array_values( array_filter( $saved, function( $p ) {
 				$t = strtolower( is_array( $p ) ? ( $p['title'] ?? '' ) : '' );
 				$s = strtolower( is_array( $p ) ? ( $p['stream'] ?? '' ) : '' );
 				return ! str_contains( $t, 'b.ed' ) && ! str_contains( $t, 'd.el.ed' ) && ! str_contains( $t, 'bstc' ) && ! str_contains( $t, 'integrated' ) && ! str_contains( $s, 'teacher' );
 			} ) );
+			if ( count( $filtered ) !== count( $saved ) ) {
+				$dirty = true;
+			}
+			foreach ( $filtered as &$p ) {
+				if ( ( $p['id'] ?? 0 ) == 2 || stripos( $p['title'] ?? '', 'B.Sc' ) !== false ) {
+					if ( stripos( $p['title'] ?? '', 'Maths' ) !== false || ( $p['intake'] ?? '' ) !== '140 Seats' || stripos( $p['description'] ?? '', 'Physics' ) !== false ) {
+						$p['title'] = 'Bachelor of Science (B.Sc. - Biology / CBZ)';
+						$p['stream'] = 'Faculty of Science (Bio Group)';
+						$p['duration'] = '3 Years (6 Semesters)';
+						$p['intake'] = '140 Seats';
+						$p['eligibility'] = '10+2 with Science (PCB) with minimum 50% marks';
+						$p['description'] = 'Comprehensive theoretical and practical laboratory training in Chemistry, Botany, and Zoology (CBZ).';
+						$p['syllabus_url'] = '#';
+						$dirty = true;
+					}
+				}
+			}
+			unset( $p );
+
 			if ( ! empty( $filtered ) ) {
-				// If legacy items were purged, save the clean version back to options
-				if ( count( $filtered ) !== count( $saved ) ) {
+				if ( $dirty ) {
 					update_option( 'gurukapeeth_programs', $filtered );
 				}
 				return $filtered;
 			}
 		}
 
-		return array(
+		$defaults = array(
 			array(
 				'id'          => 1,
 				'title'       => 'Bachelor of Arts (B.A.)',
@@ -157,15 +200,28 @@ class Gurukapeeth_Data {
 				'syllabus_url'=> '#',
 			),
 		);
+		update_option( 'gurukapeeth_programs', $defaults );
+		return $defaults;
 	}
 
 	public static function get_faculty() {
 		$saved = get_option( 'gurukapeeth_faculty', null );
 		if ( is_array( $saved ) && count( $saved ) >= 12 ) {
+			$dirty = false;
+			foreach ( $saved as &$fac ) {
+				if ( isset( $fac['email'] ) ) {
+					unset( $fac['email'] );
+					$dirty = true;
+				}
+			}
+			unset( $fac );
+			if ( $dirty ) {
+				update_option( 'gurukapeeth_faculty', $saved );
+			}
 			return $saved;
 		}
 
-		return array(
+		$defaults = array(
 			array(
 				'id'             => 1,
 				'seniority'      => 1,
@@ -323,6 +379,8 @@ class Gurukapeeth_Data {
 				'photo_url'      => '/images/faculty/divya-kalal.jpeg',
 			),
 		);
+		update_option( 'gurukapeeth_faculty', $defaults );
+		return $defaults;
 	}
 
 	public static function get_admissions() {
@@ -497,11 +555,32 @@ class Gurukapeeth_Data {
 
 	public static function get_leadership() {
 		$saved = get_option( 'gurukapeeth_leadership', null );
-		if ( is_array( $saved ) ) {
+		if ( is_array( $saved ) && ! empty( $saved ) ) {
+			$dirty = false;
+			foreach ( $saved as &$item ) {
+				if ( ! empty( $item['message'] ) ) {
+					if ( stripos( $item['message'], 'teacher training' ) !== false ) {
+						$item['message'] = 'Gurukripa Peeth College is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.';
+						$dirty = true;
+					}
+					if ( stripos( $item['message'], 'pedagogical' ) !== false ) {
+						$item['message'] = 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.';
+						$dirty = true;
+					}
+					if ( stripos( $item['message'], 'NCTE' ) !== false ) {
+						$item['message'] = 'Welcome to Gurukripa Peeth College. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.';
+						$dirty = true;
+					}
+				}
+			}
+			unset( $item );
+			if ( $dirty ) {
+				update_option( 'gurukapeeth_leadership', $saved );
+			}
 			return $saved;
 		}
 
-		return array(
+		$defaults = array(
 			array(
 				'id'             => 1,
 				'role_key'       => 'director',
@@ -530,6 +609,8 @@ class Gurukapeeth_Data {
 				'photo_url'      => '',
 			),
 		);
+		update_option( 'gurukapeeth_leadership', $defaults );
+		return $defaults;
 	}
 
 	public static function get_inquiries() {
