@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Mail, 
   GraduationCap, 
   Award, 
   BookOpen, 
@@ -98,7 +97,6 @@ export default function FacultyPage() {
       stream: 'arts',
       qualification: 'Retd. Govt. Principal, Ph.D., M.A. (Hindi)',
       experience: '28+ Years',
-      email: 'principal@gurukripapeeth.in',
       specialization: 'Hindi Literature & Institutional Governance',
       photo_url: '',
       initials: 'HM',
@@ -114,7 +112,6 @@ export default function FacultyPage() {
       stream: 'arts',
       qualification: 'M.A., B.Ed., M.Lib.',
       experience: '8+ Years',
-      email: 'priyanka.pandya@gurukripapeeth.in',
       specialization: 'Political Science & Library Information Systems',
       photo_url: '',
       initials: 'PP',
@@ -130,7 +127,6 @@ export default function FacultyPage() {
       stream: 'arts',
       qualification: 'M.A., B.Ed.',
       experience: '8+ Years',
-      email: 'rajesh.damor@gurukripapeeth.in',
       specialization: 'Classical Sanskrit Literature & Vedic Grammar',
       photo_url: '',
       initials: 'RD',
@@ -146,7 +142,6 @@ export default function FacultyPage() {
       stream: 'arts',
       qualification: 'M.A., B.Ed.',
       experience: '8+ Years',
-      email: 'ashok.damor@gurukripapeeth.in',
       specialization: 'Physical Geography & Regional Cartography',
       photo_url: '/images/faculty/ashok-kumar-damor.jpeg',
       initials: 'AD',
@@ -162,7 +157,6 @@ export default function FacultyPage() {
       stream: 'arts',
       qualification: 'B.A., B.Ed.',
       experience: '7+ Years',
-      email: 'ramesh.pargi@gurukripapeeth.in',
       specialization: 'Indian History & Tribal Heritage Studies',
       photo_url: '',
       initials: 'RP',
@@ -178,7 +172,6 @@ export default function FacultyPage() {
       stream: 'science',
       qualification: 'M.Sc., B.Ed.',
       experience: '7+ Years',
-      email: 'priyanka.rathore@gurukripapeeth.in',
       specialization: 'Cell Biology, Entomology & Animal Physiology',
       photo_url: '/images/faculty/priyanka-rathore.jpeg',
       initials: 'PR',
@@ -194,7 +187,6 @@ export default function FacultyPage() {
       stream: 'arts',
       qualification: 'M.A., B.Ed.',
       experience: '7+ Years',
-      email: 'laxmi.labana@gurukripapeeth.in',
       specialization: 'English Literature & Applied Linguistics',
       photo_url: '',
       initials: 'LL',
@@ -210,7 +202,6 @@ export default function FacultyPage() {
       stream: 'arts',
       qualification: 'M.A., B.Ed.',
       experience: '6+ Years',
-      email: 'mithun.damor@gurukripapeeth.in',
       specialization: 'Development Economics & Tribal Financial Studies',
       photo_url: '/images/faculty/mithun-kumar-damor.jpeg',
       initials: 'MD',
@@ -226,7 +217,6 @@ export default function FacultyPage() {
       stream: 'arts',
       qualification: 'M.A., B.Ed.',
       experience: '6+ Years',
-      email: 'bhuralal.damor@gurukripapeeth.in',
       specialization: 'Indian Political Thought & Constitutional Governance',
       photo_url: '/images/faculty/bhuralal-damor.jpeg',
       initials: 'BD',
@@ -242,7 +232,6 @@ export default function FacultyPage() {
       stream: 'science',
       qualification: 'M.Sc., B.Ed.',
       experience: '5+ Years',
-      email: 'shilpa.labana@gurukripapeeth.in',
       specialization: 'Plant Physiology, Cytology & Taxonomy',
       photo_url: '/images/faculty/shilpa-labana.jpeg',
       initials: 'SL',
@@ -258,7 +247,6 @@ export default function FacultyPage() {
       stream: 'arts',
       qualification: 'M.A., B.Ed.',
       experience: '5+ Years',
-      email: 'pratap.damor@gurukripapeeth.in',
       specialization: 'Modern Hindi Literature & Folk Pedagogy',
       photo_url: '/images/faculty/pratap-singh-damor.jpeg',
       initials: 'PD',
@@ -274,7 +262,6 @@ export default function FacultyPage() {
       stream: 'science',
       qualification: 'M.Sc., B.Ed.',
       experience: '5+ Years',
-      email: 'divya.kalal@gurukripapeeth.in',
       specialization: 'Inorganic Chemistry & Analytical Chemical Methods',
       photo_url: '/images/faculty/divya-kalal.jpeg',
       initials: 'DK',
@@ -499,7 +486,6 @@ export default function FacultyPage() {
                 const qualification = f.qualification || f.meta?.qualification || 'M.A., B.Ed.';
                 const specialization = f.specialization || f.meta?.specialization || 'Academic Pedagogy';
                 const experience = f.experience || f.meta?.experience || '5+ Years';
-                const email = f.email || f.meta?.email || 'info@gurukripapeeth.in';
                 const seniority = Number(f.seniority || f.id);
                 const initials = f.initials || name.replace(/Dr\.|Mr\.|Mrs\.|Ms\./g, '').trim().split(' ').map(w => w[0]).slice(0, 2).join('');
                 const resolvedPhoto = resolveFacultyPhoto(f);
@@ -566,15 +552,8 @@ export default function FacultyPage() {
                       <strong style={{ color: '#0f172a' }}>Qualification:</strong> {qualification}
                     </div>
 
-                    <div style={{ fontSize: '12.5px', color: '#475569', marginBottom: '16px', lineHeight: '1.4' }}>
+                    <div style={{ fontSize: '12.5px', color: '#475569', margin: 0, lineHeight: '1.4' }}>
                       <strong style={{ color: '#0f172a' }}>Specialization:</strong> {specialization}
-                    </div>
-                    
-                    {/* Card Footer: Official Mail */}
-                    <div style={{ marginTop: 'auto', borderTop: '1px solid #f1f5f9', paddingTop: '12px' }}>
-                      <a href={`mailto:${email}`} style={{ color: '#2563eb', fontSize: '12.5px', display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: 500 }}>
-                        <Mail size={13} /> {email}
-                      </a>
                     </div>
                   </div>
                 );
@@ -593,7 +572,6 @@ export default function FacultyPage() {
                     <th>Subject</th>
                     <th>Academic Qualification</th>
                     <th>Department</th>
-                    <th>Official Contact</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -604,7 +582,6 @@ export default function FacultyPage() {
                     const department = f.department || '';
                     const subject = f.subject || f.meta?.subject || 'Academics';
                     const qualification = f.qualification || f.meta?.qualification || 'M.A., B.Ed.';
-                    const email = f.email || f.meta?.email || 'info@gurukripapeeth.in';
                     const seniority = Number(f.seniority || f.id);
                     const initials = f.initials || name.replace(/Dr\.|Mr\.|Mrs\.|Ms\./g, '').trim().split(' ').map(w => w[0]).slice(0, 2).join('');
                     const resolvedPhoto = resolveFacultyPhoto(f);
@@ -661,13 +638,6 @@ export default function FacultyPage() {
                         {/* Department */}
                         <td style={{ color: '#64748b', fontSize: '12.5px' }}>
                           {department}
-                        </td>
-
-                        {/* Contact */}
-                        <td>
-                          <a href={`mailto:${email}`} style={{ color: '#2563eb', fontSize: '12.5px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                            <Mail size={12} /> {email.split('@')[0]}
-                          </a>
                         </td>
                       </tr>
                     );

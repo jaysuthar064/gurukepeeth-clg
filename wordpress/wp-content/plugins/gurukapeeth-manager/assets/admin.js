@@ -516,8 +516,8 @@
 				</div>
 				<div class="form-grid-2">
 					<div class="form-group">
-						<label>Official Email</label>
-						<input type="email" id="m_fac_email" class="input-text" placeholder="faculty@gurukripapeeth.in" />
+						<label>Email (Optional)</label>
+						<input type="email" id="m_fac_email" class="input-text" placeholder="gurukripa.peeth@gmail.com" />
 					</div>
 					<div class="form-group">
 						<label>Specialization</label>

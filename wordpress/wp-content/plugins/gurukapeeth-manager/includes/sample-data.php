@@ -69,7 +69,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Principal',
 			'qualification'  => 'Retd. Govt. Principal, Ph.D., M.A. (Hindi)',
 			'experience'     => '28+ Years',
-			'email'          => 'principal@gurukripapeeth.in',
 			'specialization' => 'Hindi Literature & Institutional Governance',
 		),
 		array(
@@ -77,7 +76,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.A., B.Ed., M.Lib.',
 			'experience'     => '8+ Years',
-			'email'          => 'priyanka.pandya@gurukripapeeth.in',
 			'specialization' => 'Political Science & Library Information Systems',
 		),
 		array(
@@ -85,7 +83,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.A., B.Ed.',
 			'experience'     => '8+ Years',
-			'email'          => 'rajesh.damor@gurukripapeeth.in',
 			'specialization' => 'Classical Sanskrit Literature & Vedic Grammar',
 		),
 		array(
@@ -93,7 +90,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.A., B.Ed.',
 			'experience'     => '8+ Years',
-			'email'          => 'ashok.damor@gurukripapeeth.in',
 			'specialization' => 'Physical Geography & Regional Cartography',
 		),
 		array(
@@ -101,7 +97,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'B.A., B.Ed.',
 			'experience'     => '7+ Years',
-			'email'          => 'ramesh.pargi@gurukripapeeth.in',
 			'specialization' => 'Indian History & Tribal Heritage Studies',
 		),
 		array(
@@ -109,7 +104,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.Sc., B.Ed.',
 			'experience'     => '7+ Years',
-			'email'          => 'priyanka.rathore@gurukripapeeth.in',
 			'specialization' => 'Cell Biology, Entomology & Animal Physiology',
 		),
 		array(
@@ -117,7 +111,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.A., B.Ed.',
 			'experience'     => '7+ Years',
-			'email'          => 'laxmi.labana@gurukripapeeth.in',
 			'specialization' => 'English Literature & Applied Linguistics',
 		),
 		array(
@@ -125,7 +118,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.A., B.Ed.',
 			'experience'     => '6+ Years',
-			'email'          => 'mithun.damor@gurukripapeeth.in',
 			'specialization' => 'Development Economics & Tribal Financial Studies',
 		),
 		array(
@@ -133,7 +125,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.A., B.Ed.',
 			'experience'     => '6+ Years',
-			'email'          => 'bhuralal.damor@gurukripapeeth.in',
 			'specialization' => 'Indian Political Thought & Constitutional Governance',
 		),
 		array(
@@ -141,7 +132,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.Sc., B.Ed.',
 			'experience'     => '5+ Years',
-			'email'          => 'shilpa.labana@gurukripapeeth.in',
 			'specialization' => 'Plant Physiology, Cytology & Taxonomy',
 		),
 		array(
@@ -149,7 +139,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.A., B.Ed.',
 			'experience'     => '5+ Years',
-			'email'          => 'pratap.damor@gurukripapeeth.in',
 			'specialization' => 'Modern Hindi Literature & Folk Pedagogy',
 		),
 		array(
@@ -157,7 +146,6 @@ function gurukapeeth_seed_initial_data() {
 			'designation'    => 'Assistant Professor',
 			'qualification'  => 'M.Sc., B.Ed.',
 			'experience'     => '5+ Years',
-			'email'          => 'divya.kalal@gurukripapeeth.in',
 			'specialization' => 'Inorganic Chemistry & Analytical Chemical Methods',
 		),
 	);
