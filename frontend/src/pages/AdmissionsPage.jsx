@@ -101,10 +101,10 @@ export default function AdmissionsPage() {
   };
 
   const fallbackMeritLists = [
-    { id: 1, session: '2026-27', stream: 'Faculty of Arts (B.A.)', list: '1st Provisional Merit List', date: '20 Sep 2026', cutoff: '72.4%', pdf_url: '#' },
-    { id: 2, session: '2026-27', stream: 'Faculty of Science (B.Sc.)', list: '1st Provisional Merit List', date: '21 Sep 2026', cutoff: '78.2%', pdf_url: '#' },
-    { id: 3, session: '2026-27', stream: 'Faculty of Arts (B.A.)', list: '2nd Waiting List', date: '28 Sep 2026', cutoff: '68.0%', pdf_url: '#' },
-    { id: 4, session: '2026-27', stream: 'Faculty of Science (B.Sc.)', list: '2nd Waiting List', date: '29 Sep 2026', cutoff: '74.5%', pdf_url: '#' },
+    { id: 1, session: '2026-27', stream: 'Faculty of Arts (B.A. - 160 Seats)', list: '1st Provisional Merit List', date: '20 Sep 2026', cutoff: '72.4%', pdf_url: '#' },
+    { id: 2, session: '2026-27', stream: 'Faculty of Science (B.Sc. Bio - 140 Seats)', list: '1st Provisional Merit List', date: '21 Sep 2026', cutoff: '78.2%', pdf_url: '#' },
+    { id: 3, session: '2026-27', stream: 'Faculty of Arts (B.A. - 160 Seats)', list: '2nd Waiting List', date: '28 Sep 2026', cutoff: '68.0%', pdf_url: '#' },
+    { id: 4, session: '2026-27', stream: 'Faculty of Science (B.Sc. Bio - 140 Seats)', list: '2nd Waiting List', date: '29 Sep 2026', cutoff: '74.5%', pdf_url: '#' },
   ];
 
   const displayLists = loaded ? admissions : fallbackMeritLists;
@@ -276,7 +276,9 @@ export default function AdmissionsPage() {
                       <option value="">-- Choose Academic Program --</option>
                       {programs.length > 0 ? (
                         programs.map(p => {
-                          const title = typeof p.title === 'string' ? p.title : (p.title?.rendered || 'Program');
+                          const rawTitle = typeof p.title === 'string' ? p.title : (p.title?.rendered || 'Program');
+                          const isBA = rawTitle.toLowerCase().includes('b.a.') || (p.stream || '').toLowerCase().includes('arts');
+                          const title = isBA ? 'Bachelor of Arts (B.A. - 160 Seats)' : 'Bachelor of Science (B.Sc. Bio - 140 Seats)';
                           return (
                             <option key={p.id} value={title}>
                               {title}
@@ -285,8 +287,8 @@ export default function AdmissionsPage() {
                         })
                       ) : (
                         <>
-                          <option value="Bachelor of Arts (B.A.)">Bachelor of Arts (B.A.)</option>
-                          <option value="Bachelor of Science (B.Sc.)">Bachelor of Science (B.Sc.)</option>
+                          <option value="Bachelor of Arts (B.A. - 160 Seats)">Bachelor of Arts (B.A. - 160 Seats)</option>
+                          <option value="Bachelor of Science (B.Sc. Bio - 140 Seats)">Bachelor of Science (B.Sc. Bio - 140 Seats)</option>
                         </>
                       )}
                     </select>

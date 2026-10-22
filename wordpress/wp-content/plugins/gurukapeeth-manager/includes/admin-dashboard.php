@@ -106,11 +106,23 @@ function gurukapeeth_render_unified_cms() {
 					<div class="form-grid-2">
 						<div class="form-group">
 							<label>College Full Name (English):</label>
-							<input type="text" id="set_college_name" value="<?php echo esc_attr( $settings['college_name'] ); ?>" class="input-text" />
+							<input type="text" id="set_college_name" value="<?php echo esc_attr( $settings['college_name'] ?? 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH' ); ?>" class="input-text" />
 						</div>
 						<div class="form-group">
 							<label>College Name (Hindi):</label>
-							<input type="text" id="set_college_hindi" value="<?php echo esc_attr( $settings['college_hindi'] ); ?>" class="input-text" />
+							<input type="text" id="set_college_hindi" value="<?php echo esc_attr( $settings['college_hindi'] ?? 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ' ); ?>" class="input-text" />
+						</div>
+						<div class="form-group">
+							<label>Managing Society / Trust Name:</label>
+							<input type="text" id="set_trust_name" value="<?php echo esc_attr( $settings['trust_name'] ?? 'Shree Narayan Shiksha Seva Samiti Peeth' ); ?>" class="input-text" />
+						</div>
+						<div class="form-group">
+							<label>Trust / Society Hindi Name:</label>
+							<input type="text" id="set_trust_hindi" value="<?php echo esc_attr( $settings['trust_hindi'] ?? 'श्री नारायण शिक्षा सेवा समिति, पीठ' ); ?>" class="input-text" />
+						</div>
+						<div class="form-group">
+							<label>Society Registration Number:</label>
+							<input type="text" id="set_trust_reg_no" value="<?php echo esc_attr( $settings['trust_reg_no'] ?? '55/DUNGARPUR/2013-14' ); ?>" class="input-text" />
 						</div>
 						<div class="form-group">
 							<label>Category / Subtitle:</label>

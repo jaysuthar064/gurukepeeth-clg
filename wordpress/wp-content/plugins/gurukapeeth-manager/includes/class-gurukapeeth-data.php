@@ -9,8 +9,11 @@ class Gurukapeeth_Data {
 
 	public static function get_settings() {
 		$defaults = array(
-			'college_name'        => 'Gurukripa Peeth College',
-			'college_hindi'       => 'गुरुकृपा पीठ महाविद्यालय',
+			'college_name'        => 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH',
+			'college_hindi'       => 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ',
+			'trust_name'          => 'Shree Narayan Shiksha Seva Samiti Peeth',
+			'trust_hindi'         => 'श्री नारायण शिक्षा सेवा समिति, पीठ',
+			'trust_reg_no'        => '55/DUNGARPUR/2013-14',
 			'college_subtitle'    => 'Undergraduate Degree College (Arts & Science)',
 			'tagline'             => 'Nurturing Intellect, Cultivating Character, Empowering Society',
 			'affiliating_univ'    => 'Govind Guru Tribal University (GGTU), Banswara',
@@ -145,10 +148,10 @@ class Gurukapeeth_Data {
 			),
 			array(
 				'id'          => 2,
-				'title'       => 'Bachelor of Science (B.Sc. - Biology)',
-				'stream'      => 'Faculty of Science',
+				'title'       => 'Bachelor of Science (B.Sc. - Biology / CBZ)',
+				'stream'      => 'Faculty of Science (Bio Group)',
 				'duration'    => '3 Years (6 Semesters)',
-				'intake'      => '70 Seats',
+				'intake'      => '140 Seats',
 				'eligibility' => '10+2 with Science (PCB) with minimum 50% marks',
 				'description' => 'Comprehensive theoretical and practical laboratory training in Chemistry, Botany, and Zoology (CBZ).',
 				'syllabus_url'=> '#',
@@ -700,10 +703,18 @@ class Gurukapeeth_Data {
 			array(
 				'id'          => 8,
 				'category'    => 'registration',
-				'title'       => 'College Registration Certificate — Rajasthan Society Registration Act',
-				'description' => 'Registration under the Rajasthan Societies Registration Act, 1958 for Gurukripa Peeth Shiksha Samiti.',
-				'issued_date' => '15 Mar 2012',
-				'pdf_url'     => '#',
+				'title'       => 'Society Registration Certificate — Shree Narayan Shiksha Seva Samiti Peeth',
+				'description' => 'Official Registration Certificate granted under Rajasthan Societies Registration Act, 1958 (Registration No: 55/DUNGARPUR/2013-14) by the Registrar of Societies, Dungarpur.',
+				'issued_date' => '26 Jan 2024',
+				'pdf_url'     => '/documents/society-registration-certificate.jpeg',
+			),
+			array(
+				'id'          => 81,
+				'category'    => 'registration',
+				'title'       => 'Executive Committee Order (नवीन कार्यकारिणी 2023-24) — Office of Assistant Registrar, Dungarpur',
+				'description' => 'Official certified list of 16 Executive Committee members (अध्यक्ष: श्री कालूराम लबाना, सचिव: श्री विपिन कुमार लबाना, कोषाध्यक्ष: श्रीमती लक्ष्मी लबाना) approved by Office of Assistant Registrar, Cooperative Societies, Dungarpur.',
+				'issued_date' => '26 Jan 2024',
+				'pdf_url'     => '/documents/society-executive-committee-2023-24.pdf',
 			),
 			array(
 				'id'          => 9,

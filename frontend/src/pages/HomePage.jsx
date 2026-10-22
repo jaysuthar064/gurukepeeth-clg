@@ -70,26 +70,26 @@ export default function HomePage() {
       title: 'Bachelor of Arts (B.A.)',
       stream: 'Faculty of Arts',
       duration: '3 Years (6 Semesters)',
-      intake: '80 Seats',
+      intake: '160 Seats',
       subjects: ['Hindi Literature', 'English Literature', 'Political Science', 'Geography', 'History', 'Economics', 'Sociology', 'Sanskrit'],
       description: 'Comprehensive degree in Humanities and Social Sciences offering diverse elective combinations under Govind Guru Tribal University (GGTU) NEP curriculum framework.',
       eligibility: '10+2 Pass in any stream (Min 45%)',
     },
     {
       id: 2,
-      title: 'Bachelor of Science (B.Sc. - Biology)',
-      stream: 'Faculty of Science',
+      title: 'Bachelor of Science (B.Sc. - Biology / CBZ)',
+      stream: 'Faculty of Science (Bio Group)',
       duration: '3 Years (6 Semesters)',
-      intake: '70 Seats',
-      subjects: ['Zoology', 'Botany', 'Chemistry'],
-      description: 'Foundational natural sciences degree with practical laboratory experiments in Chemistry, Botany, and Zoology (CBZ) equipped with modern digital scientific apparatus.',
+      intake: '140 Seats',
+      subjects: ['Zoology (प्राणी विज्ञान)', 'Botany (वनस्पति विज्ञान)', 'Chemistry (रसायन विज्ञान)'],
+      description: 'Foundational natural sciences degree with intensive practical laboratory training in Chemistry, Botany, and Zoology (CBZ). Exclusively biological science group with modern laboratory apparatus.',
       eligibility: '10+2 with Science (PCB) (Min 50%)',
     },
   ];
 
   const rawPrograms = data?.programs && data.programs.length > 0 ? data.programs : fallbackPrograms;
 
-  // Guarantee that ONLY legitimate B.A. and B.Sc. degree programs are displayed
+  // Guarantee that ONLY legitimate B.A. and B.Sc. (Only Bio - 140 Seats) programs are displayed
   const programs = rawPrograms
     .filter(prog => {
       const title = (typeof prog.title === 'string' ? prog.title : (prog.title?.rendered || '')).toLowerCase();
@@ -101,11 +101,16 @@ export default function HomePage() {
       const isBA = titleStr.toLowerCase().includes('b.a.') || (prog.stream || '').toLowerCase().includes('arts');
       return {
         ...prog,
-        title: titleStr,
-        subjects: prog.subjects || (isBA 
+        title: isBA ? 'Bachelor of Arts (B.A.)' : 'Bachelor of Science (B.Sc. - Biology / CBZ)',
+        stream: isBA ? (prog.stream || 'Faculty of Arts') : 'Faculty of Science (Bio Group)',
+        intake: isBA ? (prog.intake || '160 Seats') : '140 Seats',
+        subjects: isBA 
           ? ['Hindi Literature', 'English Literature', 'Political Science', 'Geography', 'History', 'Economics', 'Sociology', 'Sanskrit']
-          : ['Zoology (प्राणी विज्ञान)', 'Botany (वनस्पति विज्ञान)', 'Chemistry (रसायन विज्ञान)']),
-        eligibility: prog.eligibility || (isBA ? '10+2 in any stream (Min 45%)' : '10+2 Science PCB (Min 50%)'),
+          : ['Zoology (प्राणी विज्ञान)', 'Botany (वनस्पति विज्ञान)', 'Chemistry (रसायन विज्ञान)'],
+        eligibility: isBA ? '10+2 Pass in any stream with minimum 45% marks' : '10+2 with Science (PCB) with minimum 50% marks',
+        description: isBA
+          ? (prog.description || 'Comprehensive undergraduate curriculum offering specializations in Hindi Literature, Sanskrit, Political Science, History, and Geography under NEP guidelines.')
+          : 'Comprehensive theoretical and practical laboratory training in Zoology, Botany, and Chemistry (CBZ group) under Govind Guru Tribal University NEP curriculum.',
       };
     });
 
@@ -168,6 +173,7 @@ export default function HomePage() {
             </div>
 
             <div style={{ marginTop: '28px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.15)', display: 'flex', gap: '24px', flexWrap: 'wrap', fontSize: '12px', color: '#cbd5e1' }}>
+              <div><strong>Managed By:</strong> Shree Narayan Shiksha Seva Samiti Peeth</div>
               <div><strong>AISHE Code:</strong> C-48902</div>
               <div><strong>Affiliation:</strong> GGTU Banswara</div>
               <div><strong>District:</strong> Dungarpur, Rajasthan</div>
@@ -297,9 +303,9 @@ export default function HomePage() {
               <div className="gateway-title">NAAC Accreditation Hub</div>
             </Link>
 
-            <Link to="/about" className="gateway-card">
-              <div className="gateway-icon"><Compass size={22} /></div>
-              <div className="gateway-title">Anti-Ragging & RTI Cell</div>
+            <Link to="/about#society" className="gateway-card">
+              <div className="gateway-icon"><Building2 size={22} /></div>
+              <div className="gateway-title">Managing Trust &amp; Society</div>
             </Link>
           </div>
         </div>

@@ -9,6 +9,9 @@ function gurukapeeth_render_settings_page() {
 	if ( isset( $_POST['gurukapeeth_save_settings'] ) && check_admin_referer( 'gurukapeeth_settings_nonce' ) ) {
 		$settings = array(
 			'college_name'        => sanitize_text_field( $_POST['college_name'] ?? '' ),
+			'trust_name'          => sanitize_text_field( $_POST['trust_name'] ?? '' ),
+			'trust_hindi'         => sanitize_text_field( $_POST['trust_hindi'] ?? '' ),
+			'trust_reg_no'        => sanitize_text_field( $_POST['trust_reg_no'] ?? '' ),
 			'college_subtitle'    => sanitize_text_field( $_POST['college_subtitle'] ?? '' ),
 			'tagline'             => sanitize_text_field( $_POST['tagline'] ?? '' ),
 			'affiliating_univ'    => sanitize_text_field( $_POST['affiliating_univ'] ?? '' ),
@@ -42,7 +45,19 @@ function gurukapeeth_render_settings_page() {
 					<h3>Institutional Identity</h3>
 					<div class="form-row">
 						<label>College Full Name:</label>
-						<input type="text" name="college_name" value="<?php echo esc_attr( $s['college_name'] ?? 'Gurukripa Peeth College' ); ?>" class="regular-text" />
+						<input type="text" name="college_name" value="<?php echo esc_attr( $s['college_name'] ?? 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH' ); ?>" class="regular-text" />
+					</div>
+					<div class="form-row">
+						<label>Managing Trust / Society Name:</label>
+						<input type="text" name="trust_name" value="<?php echo esc_attr( $s['trust_name'] ?? 'Shree Narayan Shiksha Seva Samiti Peeth' ); ?>" class="regular-text" />
+					</div>
+					<div class="form-row">
+						<label>Trust / Society Hindi Name:</label>
+						<input type="text" name="trust_hindi" value="<?php echo esc_attr( $s['trust_hindi'] ?? 'श्री नारायण शिक्षा सेवा समिति, पीठ' ); ?>" class="regular-text" />
+					</div>
+					<div class="form-row">
+						<label>Society Registration Number:</label>
+						<input type="text" name="trust_reg_no" value="<?php echo esc_attr( $s['trust_reg_no'] ?? '55/DUNGARPUR/2013-14' ); ?>" class="regular-text" />
 					</div>
 					<div class="form-row">
 						<label>Subtitle / Category:</label>

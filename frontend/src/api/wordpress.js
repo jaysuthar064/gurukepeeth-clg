@@ -30,10 +30,12 @@ export async function fetchJson(endpoint, fallback = null) {
 // 1. Global Institutional Settings
 export async function getSettings() {
   const fallback = {
-    college_name: 'Gurukripa Peeth College',
-    college_hindi: 'गुरुकृपा पीठ महाविद्यालय',
-    college_subtitle: 'Undergraduate Degree College (Arts & Science)',
+    college_name: 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH',
+    college_hindi: 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ',
+    college_subtitle: 'Run by Shree Narayan Shiksha Seva Samiti Peeth • Affiliated to GGTU Banswara',
     tagline: 'Nurturing Intellect, Cultivating Character, Empowering Society',
+    trust_name: 'Shree Narayan Shiksha Seva Samiti Peeth',
+    trust_reg_no: '55/DUNGARPUR/2013-14',
     affiliating_univ: 'Govind Guru Tribal University (GGTU), Banswara',
     aishe_code: 'C-48902',
     naac_grade: 'Accredited B+ (Cycle-1) / SSR in Progress',
@@ -41,18 +43,22 @@ export async function getSettings() {
     phone_secondary: '+91 96105 87077',
     email_info: 'gurukripa.peeth@gmail.com',
     email_principal: 'gurukripa.peeth@gmail.com',
-    address: 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
-    marquee_announcement: 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!',
+    address: 'Gurukripa Shikshan Sansthan College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+    marquee_announcement: 'Admissions Open 2026-27 for B.A. and B.Sc. (Bio) Degree Programs — Apply Online Now!',
     logo_url: '/images/college-logo.png',
   };
 
   const res = await fetchJson('/wp-json/gurukapeeth/v1/settings', fallback);
   if (res) {
-    if (res.college_subtitle && (res.college_subtitle.toLowerCase().includes('teacher') || res.college_subtitle.toLowerCase().includes('ncte'))) {
-      res.college_subtitle = 'Undergraduate Degree College (Arts & Science)';
+    res.college_name = 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH';
+    res.college_hindi = 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ';
+    res.trust_name = 'Shree Narayan Shiksha Seva Samiti Peeth';
+    res.trust_reg_no = '55/DUNGARPUR/2013-14';
+    if (!res.college_subtitle || res.college_subtitle.toLowerCase().includes('teacher') || res.college_subtitle.toLowerCase().includes('ncte')) {
+      res.college_subtitle = 'Run by Shree Narayan Shiksha Seva Samiti Peeth • Affiliated to GGTU Banswara';
     }
     if (res.marquee_announcement && (res.marquee_announcement.toLowerCase().includes('b.ed') || res.marquee_announcement.toLowerCase().includes('integrated') || res.marquee_announcement.toLowerCase().includes('ncte'))) {
-      res.marquee_announcement = 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!';
+      res.marquee_announcement = 'Admissions Open 2026-27 for B.A. and B.Sc. (Bio) Degree Programs — Apply Online Now!';
     }
   }
   return res || fallback;
@@ -65,15 +71,29 @@ export async function getHomepageData() {
     if (data.hero && data.hero.subheading && (data.hero.subheading.toLowerCase().includes('ncte') || data.hero.subheading.toLowerCase().includes('teacher'))) {
       data.hero.subheading = 'Affiliated with Govind Guru Tribal University (GGTU), Banswara & Approved by Govt. of Rajasthan';
     }
-    if (data.settings && data.settings.college_subtitle && (data.settings.college_subtitle.toLowerCase().includes('teacher') || data.settings.college_subtitle.toLowerCase().includes('ncte'))) {
-      data.settings.college_subtitle = 'Undergraduate Degree College (Arts & Science)';
+    if (data.settings) {
+      data.settings.college_name = 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH';
+      data.settings.college_hindi = 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ';
+      data.settings.trust_name = 'Shree Narayan Shiksha Seva Samiti Peeth';
+      data.settings.college_subtitle = 'Run by Shree Narayan Shiksha Seva Samiti Peeth • Affiliated to GGTU Banswara';
     }
     if (Array.isArray(data.programs)) {
-      data.programs = data.programs.filter(p => {
-        const t = (p.title?.rendered || p.title || '').toLowerCase();
-        const s = (p.stream || '').toLowerCase();
-        return !t.includes('b.ed') && !t.includes('d.el.ed') && !t.includes('bstc') && !t.includes('integrated') && !s.includes('teacher');
-      });
+      data.programs = data.programs
+        .filter(p => {
+          const t = (p.title?.rendered || p.title || '').toLowerCase();
+          const s = (p.stream || '').toLowerCase();
+          return !t.includes('b.ed') && !t.includes('d.el.ed') && !t.includes('bstc') && !t.includes('integrated') && !s.includes('teacher');
+        })
+        .map(p => {
+          const t = (p.title?.rendered || p.title || '').toLowerCase();
+          const isBA = t.includes('b.a.') || (p.stream || '').toLowerCase().includes('arts');
+          return {
+            ...p,
+            title: isBA ? 'Bachelor of Arts (B.A.)' : 'Bachelor of Science (B.Sc. - Biology / CBZ)',
+            intake: isBA ? '160 Seats' : '140 Seats',
+            stream: isBA ? 'Faculty of Arts' : 'Faculty of Science',
+          };
+        });
     }
   }
   return data;
@@ -418,10 +438,18 @@ export async function getDisclosures() {
       {
         id: 8,
         category: 'registration',
-        title: 'College Registration Certificate — Rajasthan Society Registration Act',
-        description: 'Registration under the Rajasthan Societies Registration Act, 1958 for Gurukripa Peeth Shiksha Samiti.',
-        issued_date: '15 Mar 2012',
-        pdf_url: '#',
+        title: 'Society Registration Certificate — Shree Narayan Shiksha Seva Samiti Peeth',
+        description: 'Official Registration Certificate granted under the Rajasthan Societies Registration Act, 1958 (Registration No: 55/DUNGARPUR/2013-14) by the Registrar of Societies, Dungarpur.',
+        issued_date: '26 Jan 2024',
+        pdf_url: '/documents/society-registration-certificate.jpeg',
+      },
+      {
+        id: 81,
+        category: 'registration',
+        title: 'Executive Committee Order (नवीन कार्यकारिणी 2023-24) — Office of Assistant Registrar, Dungarpur',
+        description: 'Official certified list of 16 Executive Committee members (अध्यक्ष: श्री कालूराम लबाना, सचिव: श्री विपिन कुमार लबाना, कोषाध्यक्ष: श्रीमती लक्ष्मी लबाना) approved by Office of Assistant Registrar, Cooperative Societies, Dungarpur.',
+        issued_date: '26 Jan 2024',
+        pdf_url: '/documents/society-executive-committee-2023-24.pdf',
       },
       {
         id: 9,

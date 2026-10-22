@@ -38,14 +38,14 @@ export default function AcademicsPage() {
       stream: 'Faculty of Arts',
       title: { rendered: 'Bachelor of Arts (B.A.)' },
       content: { rendered: 'Three-year undergraduate degree in Humanities & Social Sciences offering diverse subject combinations in Hindi Literature, English Literature, Sanskrit, Political Science, History, Geography, Economics, and Sociology under the NEP credit system.' },
-      meta: { duration: '3 Years (6 Semesters)', intake: '80 Seats', eligibility: '10+2 Pass in any stream with minimum 45% marks' },
+      meta: { duration: '3 Years (6 Semesters)', intake: '160 Seats', eligibility: '10+2 Pass in any stream with minimum 45% marks' },
     },
     {
       id: 2,
-      stream: 'Faculty of Science',
-      title: { rendered: 'Bachelor of Science (B.Sc. - Biology)' },
-      content: { rendered: 'Rigorous 3-year foundational science degree with specialized laboratory training in Chemistry, Botany, and Zoology (CBZ) with digital scientific apparatus and practical research orientation.' },
-      meta: { duration: '3 Years (6 Semesters)', intake: '70 Seats', eligibility: '10+2 with Science (PCB) with minimum 50% marks' },
+      stream: 'Faculty of Science (Bio Group)',
+      title: { rendered: 'Bachelor of Science (B.Sc. - Biology / CBZ)' },
+      content: { rendered: 'Rigorous 3-year foundational science degree with specialized laboratory training in Chemistry, Botany, and Zoology (CBZ group). Exclusively biological sciences with modern digital laboratory apparatus and practical research orientation.' },
+      meta: { duration: '3 Years (6 Semesters)', intake: '140 Seats', eligibility: '10+2 with Science (PCB) with minimum 50% marks' },
     },
   ];
 
@@ -125,14 +125,20 @@ export default function AcademicsPage() {
           {/* Programs Grid */}
           <div className="grid-3" style={{ gap: '28px' }}>
             {filteredPrograms.map((prog) => {
-              const title = typeof prog.title === 'string' ? prog.title : (prog.title?.rendered || prog.post_title || 'Academic Program');
+              const rawTitle = typeof prog.title === 'string' ? prog.title : (prog.title?.rendered || prog.post_title || 'Academic Program');
+              const isBA = rawTitle.toLowerCase().includes('b.a.') || (prog.stream || '').toLowerCase().includes('arts');
+              const title = isBA ? 'Bachelor of Arts (B.A.)' : 'Bachelor of Science (B.Sc. - Biology / CBZ)';
               const rawHtml = prog.description || prog.content?.rendered || prog.post_content || '';
-              const cleanDesc = typeof rawHtml === 'string' ? rawHtml.replace(/<[^>]+>/g, '') : '';
+              const cleanDesc = typeof rawHtml === 'string' 
+                ? rawHtml.replace(/<[^>]+>/g, '') 
+                : (isBA 
+                    ? 'Three-year undergraduate degree in Humanities & Social Sciences offering diverse subject combinations under the NEP credit system.' 
+                    : 'Rigorous 3-year foundational science degree with specialized laboratory training in Chemistry, Botany, and Zoology (CBZ group).');
               const meta = prog.meta || {};
-              const duration = prog.duration || meta.duration || '3 Years';
-              const intake = prog.intake || meta.intake || '100+ Seats';
-              const eligibility = prog.eligibility || meta.eligibility || 'Senior Secondary (10+2)';
-              const stream = prog.stream || 'Affiliated GGTU';
+              const duration = prog.duration || meta.duration || '3 Years (6 Semesters)';
+              const intake = isBA ? (prog.intake || meta.intake || '160 Seats') : '140 Seats';
+              const eligibility = isBA ? '10+2 Pass in any stream with minimum 45% marks' : '10+2 with Science (PCB) with minimum 50% marks';
+              const stream = isBA ? (prog.stream || 'Faculty of Arts') : 'Faculty of Science (Bio Group)';
 
               return (
                 <div key={prog.id} className="program-card" style={{ display: 'flex', flexDirection: 'column' }}>

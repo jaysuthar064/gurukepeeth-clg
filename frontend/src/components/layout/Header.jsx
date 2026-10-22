@@ -5,19 +5,20 @@ import { getSettings, getMarqueeData } from '../../api/wordpress';
 
 export default function Header() {
   const [settings, setSettings] = useState({
-    college_name: 'Gurukripa Peeth College',
-    college_hindi: 'गुरुकृपा पीठ महाविद्यालय',
-    college_subtitle: 'Undergraduate Degree College (Arts & Science)',
+    college_name: 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH',
+    college_hindi: 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ',
+    college_subtitle: 'Run by Shree Narayan Shiksha Seva Samiti Peeth • Affiliated to GGTU Banswara',
     phone_primary: '+91 95874 33001',
     phone_secondary: '+91 96105 87077',
     email_info: 'gurukripa.peeth@gmail.com',
     aishe_code: 'C-48902',
     affiliating_univ: 'Govind Guru Tribal University (GGTU), Banswara',
     naac_grade: 'Accredited B+ (Cycle-1) / SSR in Progress',
+    trust_name: 'Shree Narayan Shiksha Seva Samiti Peeth',
   });
 
   const [marquee, setMarquee] = useState({
-    announcement: 'Admissions Open 2026-27 for B.A. and B.Sc. Programs — Apply Online Now!',
+    announcement: 'Admissions Open 2026-27 for B.A. and B.Sc. (Bio) Programs — Apply Online Now!',
     notices: [],
   });
 
@@ -193,6 +194,7 @@ export default function Header() {
               <ul className="dropdown-menu">
                 <li><Link to="/about" className="dropdown-link">Institutional Profile</Link></li>
                 <li><Link to="/about" className="dropdown-link">Vision, Mission & Core Values</Link></li>
+                <li><Link to="/about#society" className="dropdown-link" style={{ color: 'var(--gold-600)', fontWeight: 600 }}>Managing Society &amp; Trust (Samiti)</Link></li>
                 <li><Link to="/about" className="dropdown-link">Chairman & Director's Desk</Link></li>
                 <li><Link to="/about" className="dropdown-link">Secretary's Desk</Link></li>
                 <li><Link to="/about" className="dropdown-link">Principal's Desk</Link></li>
@@ -362,6 +364,7 @@ export default function Header() {
                   <ul className="mobile-sub-menu">
                     <li><Link to="/about">Institutional Profile</Link></li>
                     <li><Link to="/about">Vision, Mission & Core Values</Link></li>
+                    <li><Link to="/about#society" style={{ color: 'var(--gold-700)', fontWeight: 700 }}>Managing Society &amp; Trust (Samiti)</Link></li>
                     <li><Link to="/about">Chairman & Director's Desk</Link></li>
                     <li><Link to="/about">Secretary's Desk</Link></li>
                     <li><Link to="/about">Principal's Desk</Link></li>

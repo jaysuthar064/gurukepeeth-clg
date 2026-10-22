@@ -5,8 +5,10 @@ import { getSettings } from '../../api/wordpress';
 
 export default function Footer() {
   const [settings, setSettings] = useState({
-    college_name: 'Gurukripa Peeth College',
-    college_subtitle: 'Undergraduate Degree College (Arts & Science)',
+    college_name: 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH',
+    college_hindi: 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ',
+    college_subtitle: 'Run by Shree Narayan Shiksha Seva Samiti Peeth • Affiliated to GGTU Banswara',
+    trust_name: 'Shree Narayan Shiksha Seva Samiti Peeth',
     tagline: 'Nurturing Intellect, Cultivating Character, Empowering Society',
     affiliating_univ: 'Govind Guru Tribal University (GGTU), Banswara',
     aishe_code: 'C-48902',
@@ -14,7 +16,7 @@ export default function Footer() {
     phone_primary: '+91 95874 33001',
     phone_secondary: '+91 96105 87077',
     email_info: 'gurukripa.peeth@gmail.com',
-    address: 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+    address: 'Gurukripa Shikshan Sansthan College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
   });
 
   useEffect(() => {
@@ -42,15 +44,15 @@ export default function Footer() {
           <div className="footer-col">
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
               <div style={{ width: '48px', height: '48px', background: '#ffffff', borderRadius: '10px', padding: '3px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
-                <img src="/images/college-logo.png" alt="Gurukripa Peeth College Emblem" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                <img src="/images/college-logo.png" alt="Gurukripa Shikshan Sansthan College Emblem" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
               </div>
               <div>
-                <h4 style={{ margin: 0, color: '#f8fafc', fontSize: '16px', letterSpacing: '0.03em' }}>{settings.college_name}</h4>
-                <div style={{ fontSize: '11px', color: '#fbbf24', fontWeight: 600 }}>गुरुकृपा पीठ महाविद्यालय</div>
+                <h4 style={{ margin: 0, color: '#f8fafc', fontSize: '15px', letterSpacing: '0.02em', lineHeight: 1.25 }}>{settings.college_name}</h4>
+                <div style={{ fontSize: '11px', color: '#fbbf24', fontWeight: 600, marginTop: '2px' }}>{settings.college_hindi || 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ'}</div>
               </div>
             </div>
-            <p style={{ fontSize: '13px', lineHeight: '1.7', color: '#94a3b8', marginBottom: '16px' }}>
-              {settings.tagline}. A premier higher education institution in Southern Rajasthan dedicated to intellectual empowerment, scientific inquiry, and community development.
+            <p style={{ fontSize: '12.5px', lineHeight: '1.65', color: '#cbd5e1', marginBottom: '12px' }}>
+              Managed by <strong style={{ color: '#fbbf24' }}>Shree Narayan Shiksha Seva Samiti Peeth</strong> (Reg. No. 55/DUNGARPUR/2013-14). Premier higher education institution dedicated to academic excellence, tribal empowerment, and scientific learning.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px' }}>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
@@ -76,8 +78,8 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Academic Programs</h4>
             <ul>
-              <li><Link to="/academics">Bachelor of Arts (B.A.)</Link></li>
-              <li><Link to="/academics">Bachelor of Science (B.Sc.)</Link></li>
+              <li><Link to="/academics">Bachelor of Arts (B.A. - 160 Seats)</Link></li>
+              <li><Link to="/academics">Bachelor of Science (B.Sc. Bio - 140 Seats)</Link></li>
               <li><Link to="/admissions">Admissions Guidelines 2026-27</Link></li>
               <li><Link to="/faculty">Faculty & Department Chairs</Link></li>
               <li><Link to="/student-corner">Student Corner & Syllabi</Link></li>
@@ -87,8 +89,9 @@ export default function Footer() {
 
           {/* Col 3: Statutory Disclosures & Quality Assurance */}
           <div className="footer-col">
-            <h4>Statutory & Quality Hub</h4>
+            <h4>Governance &amp; Statutory</h4>
             <ul>
+              <li><Link to="/about#society" style={{ color: '#fbbf24', fontWeight: 600 }}>Managing Society &amp; Trust</Link></li>
               <li><Link to="/naac">NAAC Accreditation Hub</Link></li>
               <li><Link to="/naac">Institutional SSR (7 Criteria)</Link></li>
               <li><Link to="/iqac">IQAC Cell & Annual Reports (AQAR)</Link></li>
@@ -140,9 +143,10 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <div>
-            © {new Date().getFullYear()} {settings.college_name}, Dungarpur. Affiliated to {settings.affiliating_univ || 'Govind Guru Tribal University (GGTU), Banswara'}.
+            © {new Date().getFullYear()} {settings.college_name}, Dungarpur. Run by Shree Narayan Shiksha Seva Samiti Peeth.
           </div>
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <span>Affiliated to GGTU Banswara</span>
             <span>AISHE: {settings.aishe_code}</span>
             <span>Accreditation: {settings.naac_grade ? settings.naac_grade.split('/')[0].trim() : 'NAAC B+'}</span>
           </div>

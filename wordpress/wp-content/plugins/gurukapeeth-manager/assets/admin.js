@@ -979,8 +979,11 @@
 
 			// 1. Collect Settings
 			const settingsData = {
-				college_name: $('#set_college_name').val() || 'Gurukripa Peeth College',
-				college_hindi: $('#set_college_hindi').val() || 'गुरुकृपा पीठ महाविद्यालय',
+				college_name: $('#set_college_name').val() || 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH',
+				college_hindi: $('#set_college_hindi').val() || 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ',
+				trust_name: $('#set_trust_name').val() || 'Shree Narayan Shiksha Seva Samiti Peeth',
+				trust_hindi: $('#set_trust_hindi').val() || 'श्री नारायण शिक्षा सेवा समिति, पीठ',
+				trust_reg_no: $('#set_trust_reg_no').val() || '55/DUNGARPUR/2013-14',
 				college_subtitle: $('#set_college_subtitle').val() || '',
 				tagline: $('#set_tagline').val() || '',
 				affiliating_univ: $('#set_affiliating_univ').val() || '',
