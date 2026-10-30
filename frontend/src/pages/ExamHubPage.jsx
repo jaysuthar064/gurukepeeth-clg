@@ -847,7 +847,7 @@ function ExamHubPage() {
                       Government Scholarship Welfare Schemes
                     </h2>
                     <p style={{ color: 'var(--text-muted)', fontSize: 14, margin: 0 }}>
-                      Financial assistance and merit scholarships for eligible students of Gurukripa Peeth College.
+                      Financial assistance and merit scholarships for eligible students of Gurukripa Shikshan Sansthan College Peeth.
                     </p>
                   </div>
 

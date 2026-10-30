@@ -120,21 +120,21 @@ export default function HomePage() {
       name: "Chairman & Director's Desk", 
       role_title: 'Director / Chairman', 
       qualifications: 'Mr. Kalu Ram Labana', 
-      message: 'Gurukripa Peeth College is committed to delivering quality higher education and teacher training to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.' 
+      message: 'Gurukripa Shikshan Sansthan College Peeth is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.' 
     },
     { 
       id: 2, 
       name: "Secretary's Desk", 
       role_title: 'Secretary', 
       qualifications: 'Mr. Vipin Kumar Labana', 
-      message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and pedagogical careers.' 
+      message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Shikshan Sansthan College stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.' 
     },
     { 
       id: 3, 
       name: "Principal's Desk", 
       role_title: 'Principal & Head of Institution', 
       qualifications: 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)', 
-      message: 'Welcome to Gurukripa Peeth College. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU standards.' 
+      message: 'Welcome to Gurukripa Shikshan Sansthan College Peeth. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.' 
     },
   ];
 
@@ -458,7 +458,7 @@ export default function HomePage() {
                     "{lead.message}"
                   </p>
                   <div style={{ marginTop: 'auto', paddingTop: '14px', borderTop: '1px solid #f4f3ef', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '12px', color: '#64748b' }}>Gurukripa Peeth College</span>
+                    <span style={{ fontSize: '12px', color: '#64748b' }}>Gurukripa Shikshan Sansthan College</span>
                     <Link to="/about" style={{ fontSize: '13px', color: '#b45309', fontWeight: 700 }}>
                       Read Profile →
                     </Link>
@@ -479,7 +479,7 @@ export default function HomePage() {
             <span className="section-tag" style={{ color: '#fde68a' }}>Statutory Public Disclosure</span>
             <h2 className="section-title">NAAC Accreditation & Quality Assurance Hub</h2>
             <p className="section-desc" style={{ marginBottom: '32px' }}>
-              Gurukripa Peeth College adheres strictly to UGC and NAAC quality frameworks. Complete institutional self-study documents, 7 Criterion matrices, and Annual Quality Assurance Reports (AQAR) are publicly accessible for institutional transparency.
+              Gurukripa Shikshan Sansthan College adheres strictly to UGC and NAAC quality frameworks. Complete institutional self-study documents, 7 Criterion matrices, and Annual Quality Assurance Reports (AQAR) are publicly accessible for institutional transparency.
             </p>
             <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link to="/naac" className="btn btn-gold btn-large">

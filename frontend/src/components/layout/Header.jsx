@@ -134,15 +134,15 @@ export default function Header() {
         <div className="container header-brand-row">
           <Link to="/" className="brand-identity" onClick={() => setMobileMenuOpen(false)}>
             {/* Heraldic Collegiate Seal */}
-            <div className="brand-emblem" title="Gurukripa Peeth Institutional Seal">
+            <div className="brand-emblem" title="Gurukripa Shikshan Sansthan College Peeth Institutional Seal">
               <img
                 src="/images/college-logo.png"
-                alt="Gurukripa Peeth College Emblem"
+                alt="Gurukripa Shikshan Sansthan College Peeth Emblem"
                 className="brand-logo-img"
               />
             </div>
             <div className="brand-titles">
-              <div className="brand-hindi">{settings.college_hindi || 'गुरुकृपा पीठ महाविद्यालय'}</div>
+              <div className="brand-hindi">{settings.college_hindi || 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ'}</div>
               <h1>{settings.college_name}</h1>
               <div className="brand-affil">
                 {settings.college_subtitle} • Affiliated to {settings.affiliating_univ || 'Govind Guru Tribal University (GGTU), Banswara'}

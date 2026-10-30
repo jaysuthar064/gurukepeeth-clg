@@ -426,7 +426,7 @@ function DisclosuresPage() {
                 Anti-Ragging Committee &amp; Student Safety Mandate
               </h2>
               <p style={{ color: '#fee2e2', fontSize: 14, lineHeight: 1.65, margin: 0 }}>
-                Gurukripa Peeth College maintains strict compliance with <strong>UGC Regulation 2009</strong> and
+                Gurukripa Shikshan Sansthan College maintains strict compliance with <strong>UGC Regulation 2009</strong> and
                 the Hon'ble Supreme Court directives. An Anti-Ragging Committee and Squad are constituted annually.
                 All enrolled students and guardians must submit the statutory anti-ragging undertaking.
               </p>

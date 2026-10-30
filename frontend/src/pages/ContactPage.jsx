@@ -16,12 +16,14 @@ export default function ContactPage() {
   });
 
   const [settings, setSettings] = useState({
-    college_name: 'Gurukripa Peeth College',
+    college_name: 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH',
+    college_hindi: 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ',
+    trust_name: 'Shree Narayan Shiksha Seva Samiti Peeth',
     phone_primary: '+91 95874 33001',
     phone_secondary: '+91 96105 87077',
     email_info: 'gurukripa.peeth@gmail.com',
     email_principal: 'gurukripa.peeth@gmail.com',
-    address: 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+    address: 'Gurukripa Shikshan Sansthan College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
   });
 
   useEffect(() => {

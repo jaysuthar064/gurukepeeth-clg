@@ -16,7 +16,7 @@ export default function AboutPage() {
     affiliating_univ: 'Govind Guru Tribal University (GGTU), Banswara',
     aishe_code: 'C-48902',
     naac_grade: 'Accredited B+ (Cycle-1) / SSR in Progress',
-    address: 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+    address: 'Gurukripa Shikshan Sansthan College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
   });
 
   const [leadership, setLeadership] = useState([]);
@@ -61,21 +61,21 @@ export default function AboutPage() {
       name: "Chairman & Director's Desk", 
       role_title: 'Director / Chairman', 
       qualifications: 'Mr. Kalu Ram Labana', 
-      message: 'Gurukripa Peeth College is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.' 
+      message: 'Gurukripa Shikshan Sansthan College Peeth is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.' 
     },
     { 
       id: 2, 
       name: "Secretary's Desk", 
       role_title: 'Secretary', 
       qualifications: 'Mr. Vipin Kumar Labana', 
-      message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.' 
+      message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Shikshan Sansthan College Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.' 
     },
     { 
       id: 3, 
       name: "Principal's Desk", 
       role_title: 'Principal & Head of Institution', 
       qualifications: 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)', 
-      message: 'Welcome to Gurukripa Peeth College. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.' 
+      message: 'Welcome to Gurukripa Shikshan Sansthan College Peeth. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.' 
     },
   ];
 

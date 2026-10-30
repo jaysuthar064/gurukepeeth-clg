@@ -335,7 +335,7 @@ export default function FacultyPage() {
           <span className="page-hero-tag">Academic Faculty & Mentors</span>
           <h1 className="page-hero-title">Teaching Staff & Seniority Register</h1>
           <p className="page-hero-desc">
-            Official roster of approved academic faculty members at Gurukripa Peeth College, organized strictly in order of institutional seniority in compliance with university statutes (GGTU, Banswara).
+            Official roster of approved academic faculty members at Gurukripa Shikshan Sansthan College Peeth, organized strictly in order of institutional seniority in compliance with university statutes (GGTU, Banswara).
           </p>
 
           {/* Quick Metrics Bar */}
@@ -658,7 +658,7 @@ export default function FacultyPage() {
                   Statutory Compliance & Seniority Approval
                 </h3>
                 <p style={{ color: '#64748b', fontSize: '13.5px', lineHeight: '1.6', margin: '0 0 16px 0' }}>
-                  This seniority roster of the teaching staff at Gurukripa Peeth College (Peeth, Simalwara, Dungarpur) is maintained in strict conformity with Govind Guru Tribal University (GGTU), Banswara statutes and the Directorate of College Education, Govt. of Rajasthan. All faculty members are duly approved for Undergraduate Degree instructional roles.
+                  This seniority roster of the teaching staff at Gurukripa Shikshan Sansthan College Peeth (Peeth, Simalwara, Dungarpur) is maintained in strict conformity with Govind Guru Tribal University (GGTU), Banswara statutes and the Directorate of College Education, Govt. of Rajasthan. All faculty members are duly approved for Undergraduate Degree instructional roles.
                 </p>
                 <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
                   <a href="mailto:gurukripa.peeth@gmail.com" className="btn btn-primary" style={{ fontSize: '13px', padding: '8px 18px' }}>

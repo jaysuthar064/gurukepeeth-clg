@@ -275,7 +275,7 @@ export default function AcademicsPage() {
                   University Affiliations &amp; Rajasthan Govt. Permanent NOCs
                 </h3>
                 <p style={{ color: '#64748b', fontSize: '14px', margin: 0, maxWidth: '720px' }}>
-                  Gurukripa Peeth College operates under permanent recognition and affiliation. Official government orders and annual affiliation letters are accessible for public verification.
+                  Gurukripa Shikshan Sansthan College operates under permanent recognition and affiliation. Official government orders and annual affiliation letters are accessible for public verification.
                 </p>
               </div>
               <Link to="/disclosures" className="btn-outline-sm" style={{ fontWeight: 600, padding: '8px 18px', background: '#fff' }}>
@@ -338,7 +338,7 @@ export default function AcademicsPage() {
               <span className="section-tag">National Education Policy</span>
               <h2 className="section-title">NEP 2020 Academic Architecture</h2>
               <p className="section-desc">
-                Gurukripa Peeth College implements the University Grants Commission (UGC) and GGTU curriculum framework for holistic student development.
+                Gurukripa Shikshan Sansthan College implements the University Grants Commission (UGC) and GGTU curriculum framework for holistic student development.
               </p>
             </div>
 
