@@ -348,41 +348,15 @@ function DisclosuresPage() {
                       <span style={{ fontSize: 12, color: 'var(--text-light)', fontWeight: 500 }}>
                         {doc.issued_date || 'Current Session'}
                       </span>
-                      {doc.pdf_url && doc.pdf_url !== '#' ? (
-                        <a
-                          href={doc.pdf_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-outline-sm"
-                          style={{ fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 6 }}
-                        >
-                          {doc.pdf_url.endsWith('.jpeg') || doc.pdf_url.endsWith('.jpg') || doc.pdf_url.endsWith('.png') ? (
-                            <>
-                              <FileText size={12} /> View Certificate
-                            </>
-                          ) : (
-                            <>
-                              <Download size={12} /> Download PDF
-                            </>
-                          )}
-                        </a>
-                      ) : (
-                        <a
-                          href={`mailto:gurukripa.peeth@gmail.com?subject=Institutional Disclosure Request: ${encodeURIComponent(doc.title)}`}
-                          className="btn-outline-sm"
-                          style={{
-                            fontSize: 12,
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: 6,
-                            borderColor: 'var(--surface-300)',
-                            color: 'var(--primary-700)',
-                            background: 'var(--surface-50)',
-                          }}
-                        >
-                          <FileText size={12} /> Request Record
-                        </a>
-                      )}
+                      <a
+                        href={doc.pdf_url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-outline-sm"
+                        style={{ fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                      >
+                        <Download size={12} /> Download PDF
+                      </a>
                     </div>
                   </div>
                 );

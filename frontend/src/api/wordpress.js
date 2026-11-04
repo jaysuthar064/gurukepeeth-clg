@@ -439,7 +439,7 @@ export async function getDisclosures() {
         title: 'Society Registration Certificate — Shree Narayan Shiksha Seva Samiti Peeth',
         description: 'Official Registration Certificate granted under the Rajasthan Societies Registration Act, 1958 (Registration No: 55/DUNGARPUR/2013-14) by the Registrar of Societies, Dungarpur.',
         issued_date: '26 Jan 2024',
-        pdf_url: '/documents/society-registration-certificate.jpeg',
+        pdf_url: '/documents/society-registration-certificate.pdf',
       },
       {
         id: 81,
@@ -479,15 +479,15 @@ export async function getDisclosures() {
         title: 'Internal Complaints & Women Grievance Committee — As per Vishakha Guidelines',
         description: 'Constituted statutory committee for prevention of harassment and student grievance redressal as mandated by UGC & GGTU Banswara.',
         issued_date: '01 Aug 2026',
-        pdf_url: '/documents/committees/anti-ragging-committee-order-2026-27.pdf',
+        pdf_url: '/documents/committees/internal-complaints-committee-order-2026-27.pdf',
       },
       {
         id: 14,
         category: 'ugc_approval',
-        title: 'UGC 2(f) & 12(B) Application Status',
-        description: 'Current status of application under Section 2(f) and 12(B) of the UGC Act, 1956.',
+        title: 'UGC 2(f) & 12(B) Recognition Application Status',
+        description: 'Official statutory compliance memorandum and UGC Section 2(f) & 12(B) recognition application profile under UGC Act, 1956.',
         issued_date: '2025-26',
-        pdf_url: '#',
+        pdf_url: '/documents/compliance/ugc-2f-recognition-application-status.pdf',
       },
     ]
   });

@@ -716,17 +716,7 @@ class Gurukapeeth_Data {
 	// STATUTORY DISCLOSURES DATA
 	// ============================================================
 	public static function get_disclosures() {
-		$saved = get_option( 'gurukapeeth_disclosures', null );
-		if ( is_array( $saved ) ) {
-			// Filter out any legacy fire_safety
-			$filtered = array_values( array_filter( $saved, function( $item ) {
-				$cat = $item['category'] ?? '';
-				return $cat !== 'fire_safety';
-			} ) );
-			return $filtered;
-		}
-
-		return array(
+		$defaults = array(
 			// 1. Rajasthan Government Permanent NOCs
 			array(
 				'id'          => 1,
@@ -794,7 +784,7 @@ class Gurukapeeth_Data {
 				'title'       => 'Society Registration Certificate — Shree Narayan Shiksha Seva Samiti Peeth',
 				'description' => 'Official Registration Certificate granted under Rajasthan Societies Registration Act, 1958 (Registration No: 55/DUNGARPUR/2013-14) by the Registrar of Societies, Dungarpur.',
 				'issued_date' => '26 Jan 2024',
-				'pdf_url'     => '/documents/society-registration-certificate.jpeg',
+				'pdf_url'     => '/documents/society-registration-certificate.pdf',
 			),
 			array(
 				'id'          => 81,
@@ -831,20 +821,58 @@ class Gurukapeeth_Data {
 			array(
 				'id'          => 13,
 				'category'    => 'icc',
-				'title'       => 'Internal Complaints Committee (ICC) — As per Vishakha Guidelines',
-				'description' => 'Constituted ICC for prevention of sexual harassment at workplace as mandated by UGC.',
+				'title'       => 'Internal Complaints & Women Grievance Committee — As per Vishakha Guidelines',
+				'description' => 'Constituted statutory committee for prevention of harassment and student grievance redressal as mandated by UGC & GGTU Banswara.',
 				'issued_date' => '01 Aug 2026',
-				'pdf_url'     => '#',
+				'pdf_url'     => '/documents/committees/internal-complaints-committee-order-2026-27.pdf',
 			),
 			array(
 				'id'          => 14,
 				'category'    => 'ugc_approval',
-				'title'       => 'UGC 2(f) & 12(B) Application Status',
-				'description' => 'Current status of application under Section 2(f) and 12(B) of the UGC Act, 1956.',
+				'title'       => 'UGC 2(f) & 12(B) Recognition Application Status',
+				'description' => 'Official statutory compliance memorandum and UGC Section 2(f) & 12(B) recognition application profile under UGC Act, 1956.',
 				'issued_date' => '2025-26',
-				'pdf_url'     => '#',
+				'pdf_url'     => '/documents/compliance/ugc-2f-recognition-application-status.pdf',
 			),
 		);
+
+		$saved = get_option( 'gurukapeeth_disclosures', null );
+		if ( ! is_array( $saved ) ) {
+			return $defaults;
+		}
+
+		// Ensure any saved entry has active PDF URLs and no dead '#'
+		$default_map = array();
+		foreach ( $defaults as $def ) {
+			$default_map[ $def['id'] ] = $def;
+		}
+
+		$merged = array();
+		foreach ( $saved as $item ) {
+			$cat = $item['category'] ?? '';
+			if ( $cat === 'fire_safety' ) {
+				continue;
+			}
+			$id = $item['id'] ?? 0;
+			if ( isset( $default_map[ $id ] ) ) {
+				if ( empty( $item['pdf_url'] ) || $item['pdf_url'] === '#' ) {
+					$item['pdf_url'] = $default_map[ $id ]['pdf_url'];
+				}
+				$merged[ $id ] = $item;
+			} else {
+				$merged[ $id ] = $item;
+			}
+		}
+
+		// Ensure any missing default items are included
+		foreach ( $defaults as $def ) {
+			if ( ! isset( $merged[ $def['id'] ] ) ) {
+				$merged[ $def['id'] ] = $def;
+			}
+		}
+
+		return array_values( $merged );
+	}
 	}
 
 	// ============================================================
