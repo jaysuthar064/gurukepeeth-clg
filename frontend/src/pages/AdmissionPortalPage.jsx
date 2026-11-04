@@ -753,7 +753,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
           </p>
 
           {/* Portal Sub-tabs: Apply vs Status */}
-          <div style={{ display: 'inline-flex', background: 'rgba(255, 255, 255, 0.1)', padding: '4px', borderRadius: '8px', marginTop: '20px' }}>
+          <div style={{ display: 'inline-flex', flexWrap: 'wrap', maxWidth: '100%', background: 'rgba(255, 255, 255, 0.1)', padding: '4px', borderRadius: '8px', marginTop: '20px', gap: '4px' }}>
             <button
               type="button"
               onClick={() => { setActiveTab('apply'); setFieldErrors({}); }}
@@ -809,8 +809,8 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
               {/* Step Tracker Indicator */}
               {step <= 4 && (
-                <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '20px 24px', marginBottom: '32px', boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', position: 'relative' }}>
+                <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '16px 20px', marginBottom: '28px', boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)' }}>
+                  <div className="admission-step-track">
                     {[
                       { num: 1, title: 'Personal Details', icon: User },
                       { num: 2, title: 'Academic & Program', icon: BookOpen },
@@ -853,7 +853,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
               {/* Step 1: Personal Details */}
               {step === 1 && (
-                <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '36px', boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)' }}>
+                <div className="admission-card-container">
                   <div style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '16px', marginBottom: '24px' }}>
                     <h2 style={{ fontSize: '20px', color: '#0f172a', margin: '0 0 4px 0', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
                       Step 1: Student Personal Details
@@ -863,7 +863,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     </p>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                  <div className="responsive-form-grid-2" style={{ gap: '20px' }}>
                     <div id="field-name" style={{ gridColumn: '1 / -1' }}>
                       <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: fieldErrors.name ? '#dc2626' : '#334155', marginBottom: '6px' }}>
                         Candidate Full Name (छात्र का पूरा नाम) *
@@ -1151,7 +1151,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
               {/* Step 2: Academic Details */}
               {step === 2 && (
-                <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '36px', boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)' }}>
+                <div className="admission-card-container">
                   <div style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '16px', marginBottom: '24px' }}>
                     <h2 style={{ fontSize: '20px', color: '#0f172a', margin: '0 0 4px 0', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
                       Step 2: Program Choice &amp; Qualifying Marks
@@ -1166,7 +1166,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     Select Degree Program (पाठ्यक्रम चुनें) *
                   </label>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '28px' }}>
+                  <div className="responsive-form-grid-2" style={{ gap: '16px', marginBottom: '28px' }}>
                     {/* B.A. Card */}
                     <div
                       onClick={() => setFormData(prev => ({ ...prev, program: 'B.A.' }))}
@@ -1253,7 +1253,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                           Selected: {formData.subjects.length} / 3
                         </span>
                       </div>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px' }}>
                         {[
                           'Hindi Literature',
                           'Political Science',
@@ -1308,7 +1308,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     Senior Secondary (10+2 / 12वीं) Examination Record
                   </h3>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div className="responsive-form-grid-2" style={{ gap: '16px' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
                         Board of Examination (शिक्षा बोर्ड) *
@@ -1393,7 +1393,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       )}
                     </div>
 
-                    <div id="field-prev_marks_obtained" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+                    <div id="field-prev_marks_obtained" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '10px' }}>
                       <div>
                         <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: fieldErrors.prev_marks_obtained ? '#dc2626' : '#334155', marginBottom: '6px' }}>
                           Marks Obtained *
@@ -1468,7 +1468,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
               {/* Step 3: REAL DOCUMENT UPLOADS */}
               {step === 3 && (
-                <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '36px', boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)' }}>
+                <div className="admission-card-container">
                   <div style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '16px', marginBottom: '20px' }}>
                     <h2 style={{ fontSize: '20px', color: '#0f172a', margin: '0 0 4px 0', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
                       Step 3: Document Uploads &amp; Verification
@@ -1598,7 +1598,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
               {/* Step 4: Review & Payment */}
               {step === 4 && (
-                <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '36px', boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)' }}>
+                <div className="admission-card-container">
                   <div style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '16px', marginBottom: '24px' }}>
                     <h2 style={{ fontSize: '20px', color: '#0f172a', margin: '0 0 4px 0', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
                       Step 4: Application Review &amp; Fee Payment
@@ -1641,7 +1641,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px 24px', fontSize: '13px', borderTop: '1px solid #e2e8f0', paddingTop: '14px' }}>
+                    <div className="receipt-meta-grid" style={{ borderTop: '1px solid #e2e8f0', paddingTop: '14px' }}>
                       <div><span style={{ color: '#64748b' }}>Contact Mobile:</span> <strong>+91 {formData.phone}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Aadhaar Number:</span> <strong>{formData.aadhar}</strong></div>
                       <div style={{ gridColumn: '1 / -1' }}><span style={{ color: '#64748b' }}>Address:</span> <strong>{formData.address}, {formData.district}, PIN {formData.pincode}</strong></div>
@@ -1656,7 +1656,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     <h3 style={{ fontSize: '14px', color: '#0f172a', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <FileCheck size={18} style={{ color: '#059669' }} /> Attached Verification Documents:
                     </h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div className="responsive-form-grid-2" style={{ gap: '10px' }}>
                       {[
                         { key: 'photo', label: 'Passport Photograph' },
                         { key: 'signature', label: 'Candidate Signature' },
@@ -1819,7 +1819,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     </div>
 
                     {/* Data Grid */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 24px', fontSize: '13px', marginBottom: '20px' }}>
+                    <div className="receipt-meta-grid">
                       <div><span style={{ color: '#64748b' }}>Student Name:</span> <strong>{formData.name}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Father's Name:</span> <strong>{formData.father_name}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Mother's Name:</span> <strong>{formData.mother_name}</strong></div>
@@ -1913,7 +1913,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
           {/* ============================================================== */}
           {activeTab === 'status' && (
             <div style={{ maxWidth: '780px', margin: '0 auto' }}>
-              <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '36px', boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)' }}>
+              <div className="admission-card-container">
                 <h2 style={{ fontSize: '20px', color: '#0f172a', margin: '0 0 6px 0', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
                   Track Admission Application Status
                 </h2>
@@ -1921,7 +1921,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                   Enter your Application Reference Number (e.g. <code>GPC-ADM-2026-XXXXX</code>) to check your payment status and verification stage.
                 </p>
 
-                <form onSubmit={handleTrackApplication} style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+                <form onSubmit={handleTrackApplication} style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '24px' }}>
                   <input
                     type="text"
                     value={trackerRef}
@@ -1966,7 +1966,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '13px', marginBottom: '20px' }}>
+                    <div className="receipt-meta-grid" style={{ gap: '12px', marginBottom: '20px' }}>
                       <div><span style={{ color: '#64748b' }}>Candidate:</span> <strong>{trackedApp.name}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Father's Name:</span> <strong>{trackedApp.father_name}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Program:</span> <strong style={{ color: '#1e40af' }}>{trackedApp.program}</strong></div>
@@ -1982,7 +1982,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       <strong style={{ fontSize: '12px', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '12px' }}>
                         Admission Progress Stages
                       </strong>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', textAlign: 'center' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px', textAlign: 'center' }}>
                         <div style={{ padding: '8px', background: '#ecfdf5', borderRadius: '6px', border: '1px solid #a7f3d0' }}>
                           <div style={{ fontSize: '16px', color: '#059669' }}>✓</div>
                           <div style={{ fontSize: '11px', fontWeight: 600, color: '#065f46' }}>Form Submitted</div>

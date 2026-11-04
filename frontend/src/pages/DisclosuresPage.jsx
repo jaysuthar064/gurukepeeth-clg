@@ -179,10 +179,8 @@ function DisclosuresPage() {
       <div style={{ padding: '32px 0 0', background: 'var(--surface-50)' }}>
         <div className="container">
           <div
+            className="chips-horizontal-scroll"
             style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 8,
               borderBottom: '1px solid var(--surface-200)',
               paddingBottom: 20,
             }}
@@ -501,7 +499,7 @@ function DisclosuresPage() {
                   border: '1px solid var(--surface-200)',
                 }}
               >
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                <div className="responsive-form-grid-2" style={{ marginBottom: 16 }}>
                   <div>
                     <label
                       style={{

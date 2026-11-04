@@ -2438,3 +2438,171 @@ html, body, #root {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
+
+/* ============================================================
+   RESPONSIVE UTILITIES (Mobile-First Polish & Anti-Overflow)
+   ============================================================ */
+
+/* 1. Brand identity overflow protection */
+.brand-identity {
+  min-width: 0;
+  flex: 1;
+}
+
+.brand-titles {
+  min-width: 0;
+  flex: 1;
+}
+
+.header-right-actions {
+  flex-shrink: 0;
+}
+
+/* 2. Responsive 2-column form grids */
+.responsive-form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .responsive-form-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+}
+
+/* 3. Horizontal scrolling filter chips */
+.chips-horizontal-scroll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .chips-horizontal-scroll {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .chips-horizontal-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* 4. Admission step tracker */
+.admission-step-track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  position: relative;
+}
+
+@media (max-width: 720px) {
+  .admission-step-track {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .admission-step-track {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* 5. Admission card container */
+.admission-card-container {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 36px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+@media (max-width: 640px) {
+  .admission-card-container {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+}
+
+/* 6. General card container box */
+.responsive-card-box {
+  background: #f8fafc;
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+@media (max-width: 640px) {
+  .responsive-card-box {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+}
+
+/* 7. Faculty search input */
+.faculty-search-box {
+  position: relative;
+  width: 260px;
+}
+
+@media (max-width: 640px) {
+  .faculty-search-box {
+    width: 100%;
+  }
+}
+
+/* 8. Table responsive wrapper */
+.table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 24px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--surface-200);
+  background: #ffffff;
+}
+
+/* 9. Small mobile brand refinements */
+@media (max-width: 480px) {
+  .brand-titles h1 {
+    font-size: 14.5px !important;
+    letter-spacing: 0.01em;
+  }
+  .brand-emblem {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .page-hero-title {
+    font-size: 22px !important;
+  }
+  .page-hero-banner {
+    padding: 20px 0 !important;
+  }
+  .section {
+    padding: 32px 0 !important;
+  }
+}
+
+/* 10. Receipt grid mobile collapse */
+.receipt-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 640px) {
+  .receipt-meta-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

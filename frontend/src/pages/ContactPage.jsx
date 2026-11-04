@@ -168,7 +168,7 @@ export default function ContactPage() {
             </div>
 
             {/* Inquiry Form */}
-            <div style={{ background: '#f8fafc', padding: '32px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(15, 23, 42, 0.04)' }}>
+            <div className="responsive-card-box">
               <span className="section-tag">Direct Inquiry</span>
               <h3 style={{ fontSize: '22px', color: '#0f172a', marginBottom: '8px' }}>Send Us a Message</h3>
               <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px' }}>
@@ -222,7 +222,7 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '16px' }}>
+                  <div className="responsive-form-grid-2" style={{ gap: '14px', marginBottom: '16px' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>Email Address</label>
                       <input 

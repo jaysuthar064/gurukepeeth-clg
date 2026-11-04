@@ -386,7 +386,7 @@ export default function FacultyPage() {
           {/* Controls: Search, Filters, and View Switcher */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '28px' }}>
             {/* Filter Chips */}
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <div className="chips-horizontal-scroll">
               <button
                 type="button"
                 onClick={() => setDeptFilter('all')}
@@ -420,7 +420,7 @@ export default function FacultyPage() {
             {/* Right Group: Search Box + View Mode Toggle */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               {/* Search Box */}
-              <div style={{ position: 'relative', width: '260px' }}>
+              <div className="faculty-search-box">
                 <Search size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                 <input
                   type="text"
