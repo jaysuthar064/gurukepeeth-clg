@@ -857,7 +857,6 @@ class Gurukapeeth_Data {
 
 		return array_values( $merged );
 	}
-	}
 
 	// ============================================================
 	// SYLLABUS HUB & EXAM PORTAL DATA
