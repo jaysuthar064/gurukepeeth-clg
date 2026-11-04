@@ -89,7 +89,10 @@ export default function IQACPage() {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '20px', color: '#0f172a', margin: 0 }}>Annual Quality Assurance Reports (AQAR)</h3>
-                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Public Disclosure Mandated by NAAC</span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Institutional Quality Documentation</span>
+              </div>
+              <div style={{ background: '#f8fafc', padding: '16px 20px', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '20px', fontSize: '13.5px', color: '#475569' }}>
+                <strong style={{ color: '#0f172a' }}>Notice:</strong> AQAR document compilations and NAAC cycle evaluations are maintained at the College Quality Assurance Cell. For certified paper copies or inspection records, submit an institutional inquiry to the Principal's Secretariat.
               </div>
               <table className="statutory-table">
                 <thead>
@@ -97,7 +100,7 @@ export default function IQACPage() {
                     <th>Academic Session</th>
                     <th>Report Title</th>
                     <th>Submission Status</th>
-                    <th>Download</th>
+                    <th>Access</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -108,14 +111,20 @@ export default function IQACPage() {
                         <td>{r.title}</td>
                         <td><span style={{ background: '#ecfdf5', color: '#065f46', padding: '4px 10px', borderRadius: '4px', fontSize: '12px', fontWeight: 600 }}>{r.status || 'Verified'}</span></td>
                         <td>
-                          <a 
-                            href={r.pdf_url || '#'} 
-                            target={r.pdf_url && r.pdf_url !== '#' ? '_blank' : '_self'}
-                            rel="noreferrer"
-                            className="pdf-download-link"
-                          >
-                            <Download size={14} /> Download AQAR PDF
-                          </a>
+                          {r.pdf_url && r.pdf_url !== '#' ? (
+                            <a 
+                              href={r.pdf_url} 
+                              target="_blank"
+                              rel="noreferrer"
+                              className="pdf-download-link"
+                            >
+                              <Download size={14} /> Download AQAR PDF
+                            </a>
+                          ) : (
+                            <span style={{ fontSize: '12px', color: '#64748b', fontStyle: 'italic' }}>
+                              Available at IQAC Cell
+                            </span>
+                          )}
                         </td>
                       </tr>
                     ))
@@ -131,7 +140,7 @@ export default function IQACPage() {
           {activeTab === 'minutes' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <h3 style={{ fontSize: '20px', color: '#0f172a', margin: 0 }}>IQAC Meeting Proceedings & Action Taken Reports (ATR)</h3>
+                <h3 style={{ fontSize: '20px', color: '#0f172a', margin: 0 }}>IQAC Meeting Proceedings &amp; Action Taken Reports (ATR)</h3>
                 <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Verified Minutes of Proceedings</span>
               </div>
               <table className="statutory-table">
@@ -140,7 +149,7 @@ export default function IQACPage() {
                     <th>Academic Session</th>
                     <th>Key Agenda / Title</th>
                     <th>Status / Action Taken (ATR)</th>
-                    <th>Proceedings PDF</th>
+                    <th>Proceedings</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -162,14 +171,20 @@ export default function IQACPage() {
                           </span>
                         </td>
                         <td>
-                          <a 
-                            href={m.pdf_url || '#'} 
-                            target={m.pdf_url && m.pdf_url !== '#' ? '_blank' : '_self'}
-                            rel="noreferrer" 
-                            className="pdf-download-link"
-                          >
-                            <Download size={14} /> Download PDF
-                          </a>
+                          {m.pdf_url && m.pdf_url !== '#' ? (
+                            <a 
+                              href={m.pdf_url} 
+                              target="_blank"
+                              rel="noreferrer" 
+                              className="pdf-download-link"
+                            >
+                              <Download size={14} /> Download PDF
+                            </a>
+                          ) : (
+                            <span style={{ fontSize: '12px', color: '#64748b', fontStyle: 'italic' }}>
+                              Recorded in Minute Book
+                            </span>
+                          )}
                         </td>
                       </tr>
                     ))
@@ -184,7 +199,7 @@ export default function IQACPage() {
           {/* Tab 3: Composition */}
           {activeTab === 'committee' && (
             <div>
-              <h3 style={{ fontSize: '20px', color: '#0f172a', marginBottom: '16px' }}>IQAC Advisory & Executive Committee (Session 2026-27)</h3>
+              <h3 style={{ fontSize: '20px', color: '#0f172a', marginBottom: '16px' }}>IQAC Advisory &amp; Executive Committee (Session 2026-27)</h3>
               <table className="statutory-table">
                 <thead>
                   <tr>
@@ -196,33 +211,48 @@ export default function IQACPage() {
                 <tbody>
                   <tr>
                     <td><strong>Chairperson</strong></td>
-                    <td>Dr. Rajesh Sharma</td>
-                    <td>Principal & Head of Institution</td>
+                    <td>Dr. Hari Shanker Maru</td>
+                    <td>Principal &amp; Head of Institution (Ph.D., M.A.)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Management Nominee</strong></td>
+                    <td>Mr. Kalu Ram Labana</td>
+                    <td>Chairman / Director, Shree Narayan Shiksha Seva Samiti</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Secretary / Management</strong></td>
+                    <td>Mr. Vipin Kumar Labana</td>
+                    <td>Secretary, Shree Narayan Shiksha Seva Samiti</td>
                   </tr>
                   <tr>
                     <td><strong>IQAC Coordinator</strong></td>
-                    <td>Dr. Meenakshi Joshi</td>
-                    <td>Associate Professor, Dept. of Chemistry</td>
+                    <td>Mrs. Priyanka Pandya</td>
+                    <td>Assistant Professor (Senior Faculty &amp; Library Cell)</td>
                   </tr>
                   <tr>
-                    <td><strong>Teacher Representative</strong></td>
-                    <td>Prof. Suresh Kumar Patel</td>
-                    <td>Assistant Professor, Faculty of Arts</td>
+                    <td><strong>Teacher Representative (Arts)</strong></td>
+                    <td>Mr. Rajesh Kumar Damor</td>
+                    <td>Assistant Professor, Sanskrit Literature</td>
                   </tr>
                   <tr>
-                    <td><strong>Management Representative</strong></td>
-                    <td>Shri Narendra Mehta</td>
-                    <td>Member, Governing Council</td>
+                    <td><strong>Teacher Representative (Arts)</strong></td>
+                    <td>Mr. Ashok Kumar Damor</td>
+                    <td>Assistant Professor, Geography</td>
                   </tr>
                   <tr>
-                    <td><strong>Administrative Officer</strong></td>
-                    <td>Shri B.L. Sharma</td>
-                    <td>Office Superintendent</td>
+                    <td><strong>Teacher Representative (Science)</strong></td>
+                    <td>Mrs. Priyanka Rathore</td>
+                    <td>Assistant Professor, Zoology</td>
                   </tr>
                   <tr>
-                    <td><strong>Student Nominee</strong></td>
-                    <td>Ms. Priya Sharma</td>
-                    <td>B.A. Final Year Student</td>
+                    <td><strong>IT &amp; Technical In-Charge</strong></td>
+                    <td>Mr. Ramesh Chandra Pargi</td>
+                    <td>Assistant Professor &amp; IT / Admission Desk (+91 82092 77580)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Teacher Representative (English)</strong></td>
+                    <td>Ms. Laxmi Labana</td>
+                    <td>Assistant Professor, English Literature</td>
                   </tr>
                 </tbody>
               </table>

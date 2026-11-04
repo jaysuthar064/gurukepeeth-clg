@@ -154,9 +154,9 @@ export default function NAACPage() {
                       <CheckCircle2 size={16} style={{ color: '#059669' }} />
                       <span style={{ fontSize: '14px', fontWeight: 600, color: '#1e293b' }}>{m}</span>
                     </div>
-                    <a href="#" className="pdf-download-link">
-                      <Download size={13} /> Metric Evidence PDF
-                    </a>
+                    <span style={{ fontSize: '12px', color: '#475569', background: '#f1f5f9', padding: '4px 12px', borderRadius: '4px', fontWeight: 600 }}>
+                      Evaluated Criterion
+                    </span>
                   </div>
                 ))}
               </div>

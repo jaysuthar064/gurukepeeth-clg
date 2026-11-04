@@ -10,6 +10,14 @@ export default defineConfig({
       '/wp-json': {
         target: 'http://localhost:8884',
         changeOrigin: true,
+        configure: (proxy, _options) => {
+          proxy.on('error', (_err, _req, res) => {
+            if (res && !res.headersSent) {
+              res.writeHead(503, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ offline: true, message: 'WordPress offline, fallback data active' }));
+            }
+          });
+        },
       },
     },
   },

@@ -753,14 +753,6 @@ class Gurukapeeth_Data {
 				'pdf_url'     => '/documents/affiliation/ggtu-affiliation-2024-25.pdf',
 			),
 			array(
-				'id'          => 45,
-				'category'    => 'affiliation',
-				'title'       => 'GGTU Affiliation Order — Session 2023-24',
-				'description' => 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara for Academic Session 2023-24 for B.A. (80 seats) and B.Sc. (70 seats).',
-				'issued_date' => '18 Jul 2023',
-				'pdf_url'     => '/documents/affiliation/ggtu-affiliation-2023-24.pdf',
-			),
-			array(
 				'id'          => 5,
 				'category'    => 'affiliation',
 				'title'       => 'GGTU Affiliation Order — Session 2022-23',
@@ -820,19 +812,11 @@ class Gurukapeeth_Data {
 			),
 			array(
 				'id'          => 13,
-				'category'    => 'icc',
+				'category'    => 'anti_ragging',
 				'title'       => 'Internal Complaints & Women Grievance Committee — As per Vishakha Guidelines',
 				'description' => 'Constituted statutory committee for prevention of harassment and student grievance redressal as mandated by UGC & GGTU Banswara.',
 				'issued_date' => '01 Aug 2026',
 				'pdf_url'     => '/documents/committees/internal-complaints-committee-order-2026-27.pdf',
-			),
-			array(
-				'id'          => 14,
-				'category'    => 'ugc_approval',
-				'title'       => 'UGC 2(f) & 12(B) Recognition Application Status',
-				'description' => 'Official statutory compliance memorandum and UGC Section 2(f) & 12(B) recognition application profile under UGC Act, 1956.',
-				'issued_date' => '2025-26',
-				'pdf_url'     => '/documents/compliance/ugc-2f-recognition-application-status.pdf',
 			),
 		);
 

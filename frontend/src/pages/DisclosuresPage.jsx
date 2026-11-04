@@ -25,8 +25,6 @@ const CATEGORY_ICONS = {
   building_noc: Building,
   fee_structure: Coins,
   anti_ragging: ShieldAlert,
-  icc: Scale,
-  ugc_approval: CheckCircle2,
 };
 
 const DISCLOSURE_CATEGORIES = [
@@ -36,8 +34,6 @@ const DISCLOSURE_CATEGORIES = [
   { key: 'building_noc', label: 'PWD Building Safety Certificate', color: 'var(--emerald-800)' },
   { key: 'fee_structure', label: 'Fee Structure & Refund Policy', color: 'var(--gold-700)' },
   { key: 'anti_ragging', label: 'Anti-Ragging Committee & Policy', color: 'var(--crimson-800)' },
-  { key: 'icc', label: 'Internal Complaints Committee (ICC)', color: 'var(--primary-700)' },
-  { key: 'ugc_approval', label: 'UGC 2(f) & 12(B) Status', color: 'var(--primary-900)' },
 ];
 
 function DisclosuresPage() {
@@ -147,16 +143,16 @@ function DisclosuresPage() {
             <div className="stat-card" style={{ textAlign: 'center', padding: '16px 12px' }}>
               <div
                 style={{
-                  fontSize: 26,
+                  fontSize: 24,
                   fontWeight: 800,
-                  color: 'var(--gold-600)',
+                  color: 'var(--emerald-800)',
                   fontFamily: 'var(--font-heading)',
                 }}
               >
-                GGTU
+                Permanent
               </div>
               <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', marginTop: 4 }}>
-                Affiliated University
+                Raj. Govt. NOC (B.A. &amp; B.Sc.)
               </div>
             </div>
 
@@ -165,7 +161,7 @@ function DisclosuresPage() {
                 style={{
                   fontSize: 26,
                   fontWeight: 800,
-                  color: 'var(--primary-700)',
+                  color: 'var(--gold-600)',
                   fontFamily: 'var(--font-heading)',
                 }}
               >
