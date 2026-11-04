@@ -15,8 +15,9 @@ export default function Footer() {
     naac_grade: 'Accredited B+ (Cycle-1) / SSR in Progress',
     phone_primary: '+91 95874 33001',
     phone_secondary: '+91 96105 87077',
+    phone_admission: '+91 82092 77580',
     email_info: 'gurukripa.peeth@gmail.com',
-    address: 'Gurukripa Shikshan Sansthan College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+    address: 'Gurukripa Shikshan Sansthan College, Rati Ka Fala, Duka Bye Pass, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406, India',
   });
 
   useEffect(() => {
@@ -66,6 +67,10 @@ export default function Footer() {
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <Phone size={15} style={{ color: '#f59e0b', flexShrink: 0 }} />
                 <span>Chairman: <a href="tel:+919610587077" style={{ color: '#cbd5e1' }}>+91 96105 87077</a> (Mr. Kalu Ram Labana)</span>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Phone size={15} style={{ color: '#fbbf24', flexShrink: 0 }} />
+                <span>IT & Admission: <a href="tel:+918209277580" style={{ color: '#fbbf24', fontWeight: 600 }}>+91 82092 77580</a> (Mr. Ramesh Chandra Pargi)</span>
               </div>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <Mail size={15} style={{ color: '#f59e0b', flexShrink: 0 }} />

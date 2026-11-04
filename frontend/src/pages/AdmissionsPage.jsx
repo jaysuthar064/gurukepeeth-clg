@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Calendar, FileText, CheckCircle2, AlertCircle, Download, Send, RefreshCw, UserCheck, Info } from 'lucide-react';
 import { getAdmissions, getPrograms, submitInquiry } from '../api/wordpress';
 
@@ -118,6 +119,27 @@ export default function AdmissionsPage() {
           <p className="page-hero-desc">
             Complete details on eligibility, merit cutoff lists, online inquiry, and reservation norms as per Government of Rajasthan and GGTU Banswara.
           </p>
+        </div>
+      </div>
+
+      {/* Official Online Admission Portal Callout */}
+      <div style={{ background: 'linear-gradient(135deg, #0f2b48 0%, #1e3a8a 100%)', color: '#ffffff', padding: '24px 0', borderBottom: '3px solid #b45309' }}>
+        <div className="container" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '20px' }}>
+          <div>
+            <span style={{ display: 'inline-block', background: '#b45309', color: '#fff', fontSize: '11px', fontWeight: 800, padding: '3px 10px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>Official Portal Active</span>
+            <h3 style={{ margin: 0, fontSize: '22px', fontFamily: 'var(--font-display, Cinzel, serif)', color: '#fff' }}>Online Admission & Fee Payment Portal 2026-27</h3>
+            <p style={{ margin: '6px 0 0 0', fontSize: '14px', color: '#cbd5e1', maxWidth: '650px', lineHeight: '1.5' }}>
+              Direct online form submission & secure fee payment via Razorpay for B.A. (160 seats) and B.Sc. Biology (140 seats). Instant receipt & enrolment verification.
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <Link to="/admissions/apply" className="btn btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontWeight: 700, fontSize: '14px', textDecoration: 'none' }}>
+              Apply &amp; Pay Online Now &rarr;
+            </Link>
+            <Link to="/admissions/status" className="btn" style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', padding: '12px 20px', fontSize: '14px', textDecoration: 'none' }}>
+              Track Application Status
+            </Link>
+          </div>
         </div>
       </div>
 

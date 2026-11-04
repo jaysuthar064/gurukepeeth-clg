@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {
   Award,
   Building2,
+  Building,
   FileText,
   ShieldCheck,
-  Flame,
-  Building,
   CheckCircle2,
   Coins,
   ShieldAlert,
@@ -23,24 +22,22 @@ const CATEGORY_ICONS = {
   affiliation: Award,
   govt_noc: Building2,
   registration: ShieldCheck,
-  fire_safety: Flame,
   building_noc: Building,
-  ugc_approval: CheckCircle2,
   fee_structure: Coins,
   anti_ragging: ShieldAlert,
   icc: Scale,
+  ugc_approval: CheckCircle2,
 };
 
 const DISCLOSURE_CATEGORIES = [
   { key: 'affiliation', label: 'GGTU Affiliation Orders', color: 'var(--primary-700)' },
   { key: 'govt_noc', label: 'Raj. Govt Permanent NOC (B.A. & B.Sc.)', color: 'var(--emerald-700)' },
   { key: 'registration', label: 'Society & Trust Registration', color: 'var(--primary-800)' },
-  { key: 'fire_safety', label: 'Fire Safety Certificate', color: 'var(--crimson-700)' },
-  { key: 'building_noc', label: 'Building Safety & Stability NOC', color: 'var(--emerald-800)' },
-  { key: 'ugc_approval', label: 'UGC 2(f) & 12(B) Status', color: 'var(--primary-900)' },
+  { key: 'building_noc', label: 'PWD Building Safety Certificate', color: 'var(--emerald-800)' },
   { key: 'fee_structure', label: 'Fee Structure & Refund Policy', color: 'var(--gold-700)' },
   { key: 'anti_ragging', label: 'Anti-Ragging Committee & Policy', color: 'var(--crimson-800)' },
   { key: 'icc', label: 'Internal Complaints Committee (ICC)', color: 'var(--primary-700)' },
+  { key: 'ugc_approval', label: 'UGC 2(f) & 12(B) Status', color: 'var(--primary-900)' },
 ];
 
 function DisclosuresPage() {
@@ -80,7 +77,7 @@ function DisclosuresPage() {
     }
   };
 
-  const disclosures = data?.documents || [];
+  const disclosures = Array.isArray(data) ? data : (data?.documents || []);
   const filtered =
     activeCategory === 'all'
       ? disclosures
@@ -357,20 +354,34 @@ function DisclosuresPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="btn-outline-sm"
-                          style={{ fontSize: 12 }}
+                          style={{ fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 6 }}
                         >
-                          <Download size={12} /> Download PDF
+                          {doc.pdf_url.endsWith('.jpeg') || doc.pdf_url.endsWith('.jpg') || doc.pdf_url.endsWith('.png') ? (
+                            <>
+                              <FileText size={12} /> View Certificate
+                            </>
+                          ) : (
+                            <>
+                              <Download size={12} /> Download PDF
+                            </>
+                          )}
                         </a>
                       ) : (
-                        <span
+                        <a
+                          href={`mailto:gurukripa.peeth@gmail.com?subject=Institutional Disclosure Request: ${encodeURIComponent(doc.title)}`}
+                          className="btn-outline-sm"
                           style={{
-                            fontSize: 11.5,
-                            color: 'var(--text-light)',
-                            fontStyle: 'italic',
+                            fontSize: 12,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 6,
+                            borderColor: 'var(--surface-300)',
+                            color: 'var(--primary-700)',
+                            background: 'var(--surface-50)',
                           }}
                         >
-                          Available on request
-                        </span>
+                          <FileText size={12} /> Request Record
+                        </a>
                       )}
                     </div>
                   </div>

@@ -12,6 +12,7 @@ import FacultyPage from './pages/FacultyPage';
 import ContactPage from './pages/ContactPage';
 import DisclosuresPage from './pages/DisclosuresPage';
 import ExamHubPage from './pages/ExamHubPage';
+import AdmissionPortalPage from './pages/AdmissionPortalPage';
 
 function ScrollHandler() {
   const { pathname, hash } = useLocation();
@@ -42,6 +43,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about/*" element={<AboutPage />} />
             <Route path="/academics/*" element={<AcademicsPage />} />
+            <Route path="/admissions/apply" element={<AdmissionPortalPage />} />
+            <Route path="/admissions/status" element={<AdmissionPortalPage defaultTab="status" />} />
             <Route path="/admissions/*" element={<AdmissionsPage />} />
             <Route path="/iqac/*" element={<IQACPage />} />
             <Route path="/naac/*" element={<NAACPage />} />

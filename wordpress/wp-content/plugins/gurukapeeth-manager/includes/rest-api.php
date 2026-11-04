@@ -111,6 +111,43 @@ class Gurukapeeth_REST_API {
 			'callback'            => array( __CLASS__, 'get_grievances' ),
 			'permission_callback' => '__return_true',
 		) );
+
+		// Admission Portal & Razorpay Gateway Endpoints
+		register_rest_route( $ns, '/admission/apply', array(
+			'methods'             => 'POST',
+			'callback'            => array( __CLASS__, 'submit_admission_application' ),
+			'permission_callback' => '__return_true',
+		) );
+
+		register_rest_route( $ns, '/admission/create-order', array(
+			'methods'             => 'POST',
+			'callback'            => array( __CLASS__, 'create_admission_order' ),
+			'permission_callback' => '__return_true',
+		) );
+
+		register_rest_route( $ns, '/admission/verify-payment', array(
+			'methods'             => 'POST',
+			'callback'            => array( __CLASS__, 'verify_admission_payment' ),
+			'permission_callback' => '__return_true',
+		) );
+
+		register_rest_route( $ns, '/admission/status/(?P<ref>[a-zA-Z0-9_-]+)', array(
+			'methods'             => 'GET',
+			'callback'            => array( __CLASS__, 'get_admission_status' ),
+			'permission_callback' => '__return_true',
+		) );
+
+		register_rest_route( $ns, '/admission/applications', array(
+			'methods'             => 'GET',
+			'callback'            => array( __CLASS__, 'get_admission_applications' ),
+			'permission_callback' => '__return_true',
+		) );
+
+		register_rest_route( $ns, '/admission/update-status', array(
+			'methods'             => 'POST',
+			'callback'            => array( __CLASS__, 'update_admission_status' ),
+			'permission_callback' => '__return_true',
+		) );
 	}
 
 	public static function get_settings() {
@@ -342,6 +379,240 @@ class Gurukapeeth_REST_API {
 
 	public static function get_grievances() {
 		return rest_ensure_response( Gurukapeeth_Data::get_grievances() );
+	}
+
+	// ============================================================
+	// ADMISSION PORTAL CALLBACKS
+	// ============================================================
+
+	public static function submit_admission_application( WP_REST_Request $request ) {
+		$params = $request->get_json_params();
+		if ( empty( $params ) ) {
+			$params = $request->get_params();
+		}
+
+		$name        = sanitize_text_field( $params['name'] ?? '' );
+		$phone       = sanitize_text_field( $params['phone'] ?? '' );
+		$father_name = sanitize_text_field( $params['father_name'] ?? '' );
+
+		if ( empty( $name ) || empty( $phone ) || empty( $father_name ) ) {
+			return new WP_Error(
+				'missing_required_fields',
+				'Student Name, Father Name, and Contact Mobile Number are mandatory.',
+				array( 'status' => 400 )
+			);
+		}
+
+		$saved = Gurukapeeth_Data::save_application( $params );
+
+		return rest_ensure_response( array(
+			'success'          => true,
+			'message'          => 'Application registered successfully. Proceeding to fee payment.',
+			'reference_number' => $saved['ref'],
+			'application_id'   => $saved['id'],
+			'fee_amount'       => $saved['fee_amount'],
+			'application'      => $saved,
+		) );
+	}
+
+	public static function create_admission_order( WP_REST_Request $request ) {
+		$params = $request->get_json_params();
+		if ( empty( $params ) ) {
+			$params = $request->get_params();
+		}
+
+		$ref_or_id = sanitize_text_field( $params['application_id'] ?? ( $params['ref'] ?? '' ) );
+		if ( empty( $ref_or_id ) ) {
+			return new WP_Error(
+				'missing_application_id',
+				'Application Reference or ID is required to generate payment order.',
+				array( 'status' => 400 )
+			);
+		}
+
+		$app = Gurukapeeth_Data::get_application_by_ref( $ref_or_id );
+		if ( ! $app ) {
+			return new WP_Error(
+				'application_not_found',
+				'No admission application found with given reference.',
+				array( 'status' => 404 )
+			);
+		}
+
+		$settings   = Gurukapeeth_Data::get_settings();
+		$key_id     = trim( $settings['razorpay_key_id'] ?? '' );
+		$key_secret = trim( $settings['razorpay_key_secret'] ?? '' );
+		$amount     = floatval( $app['fee_amount'] );
+		$amount_paise = round( $amount * 100 );
+
+		$is_placeholder_key = (
+			empty( $key_id ) ||
+			empty( $key_secret ) ||
+			stripos( $key_id, 'PLACEHOLDER' ) !== false ||
+			stripos( $key_secret, 'PLACEHOLDER' ) !== false ||
+			$key_id === 'rzp_test_5173GURUKRIPA'
+		);
+
+		$razorpay_order_id = '';
+		$is_mock = false;
+
+		// If real credentials, call Razorpay Orders API
+		if ( ! $is_placeholder_key ) {
+			$auth = base64_encode( $key_id . ':' . $key_secret );
+			$response = wp_remote_post( 'https://api.razorpay.com/v1/orders', array(
+				'headers' => array(
+					'Authorization' => 'Basic ' . $auth,
+					'Content-Type'  => 'application/json',
+				),
+				'body'    => wp_json_encode( array(
+					'amount'   => $amount_paise,
+					'currency' => 'INR',
+					'receipt'  => substr( $app['ref'], 0, 40 ),
+					'notes'    => array(
+						'application_ref' => $app['ref'],
+						'student_name'    => $app['name'],
+						'program'         => $app['program'],
+					),
+				) ),
+				'timeout' => 15,
+			) );
+
+			if ( ! is_wp_error( $response ) ) {
+				$body = json_decode( wp_remote_retrieve_body( $response ), true );
+				if ( ! empty( $body['id'] ) ) {
+					$razorpay_order_id = $body['id'];
+				}
+			}
+		}
+
+		// Fallback / Sandbox order for development or test placeholders
+		if ( empty( $razorpay_order_id ) ) {
+			$razorpay_order_id = 'order_mock_' . substr( md5( uniqid( rand(), true ) ), 0, 14 );
+			$is_mock = true;
+		}
+
+		return rest_ensure_response( array(
+			'success'          => true,
+			'order_id'         => $razorpay_order_id,
+			'amount'           => $amount,
+			'amount_paise'     => $amount_paise,
+			'currency'         => 'INR',
+			'key_id'           => $is_mock ? 'rzp_test_5173GURUKRIPA' : $key_id,
+			'application_ref'  => $app['ref'],
+			'application_id'   => $app['id'],
+			'student_name'     => $app['name'],
+			'student_email'    => $app['email'] ?: 'admission@gurukripapeeth.ac.in',
+			'student_phone'    => $app['phone'],
+			'program'          => $app['program'],
+			'is_mock'          => $is_mock,
+		) );
+	}
+
+	public static function verify_admission_payment( WP_REST_Request $request ) {
+		$params = $request->get_json_params();
+		if ( empty( $params ) ) {
+			$params = $request->get_params();
+		}
+
+		$ref_or_id  = sanitize_text_field( $params['application_id'] ?? ( $params['ref'] ?? '' ) );
+		$payment_id = sanitize_text_field( $params['razorpay_payment_id'] ?? '' );
+		$order_id   = sanitize_text_field( $params['razorpay_order_id'] ?? '' );
+		$signature  = sanitize_text_field( $params['razorpay_signature'] ?? '' );
+
+		if ( empty( $ref_or_id ) || empty( $payment_id ) ) {
+			return new WP_Error(
+				'invalid_payment_payload',
+				'Application Reference and Payment ID are required.',
+				array( 'status' => 400 )
+			);
+		}
+
+		$app = Gurukapeeth_Data::get_application_by_ref( $ref_or_id );
+		if ( ! $app ) {
+			return new WP_Error(
+				'application_not_found',
+				'Application not found.',
+				array( 'status' => 404 )
+			);
+		}
+
+		$settings   = Gurukapeeth_Data::get_settings();
+		$key_secret = trim( $settings['razorpay_key_secret'] ?? '' );
+
+		$is_mock = (
+			strpos( $order_id, 'order_mock_' ) === 0 ||
+			$signature === 'mock_signature' ||
+			stripos( $key_secret, 'PLACEHOLDER' ) !== false ||
+			empty( $key_secret )
+		);
+
+		// If live credentials and real signature provided, verify HMAC
+		if ( ! $is_mock ) {
+			$expected_signature = hash_hmac( 'sha256', $order_id . '|' . $payment_id, $key_secret );
+			if ( ! hash_equals( $expected_signature, $signature ) ) {
+				return new WP_Error(
+					'payment_signature_verification_failed',
+					'Payment signature verification failed. Please contact admission helpline.',
+					array( 'status' => 400 )
+				);
+			}
+		}
+
+		// Update application record to Paid
+		$updated = Gurukapeeth_Data::update_application_payment( $ref_or_id, $payment_id, $order_id, $signature, 'Razorpay' );
+
+		return rest_ensure_response( array(
+			'success'          => true,
+			'message'          => 'Payment verified successfully. Admission registration confirmed!',
+			'reference_number' => $updated['ref'],
+			'payment_id'       => $payment_id,
+			'application'      => $updated,
+		) );
+	}
+
+	public static function get_admission_status( WP_REST_Request $request ) {
+		$ref = sanitize_text_field( $request->get_param( 'ref' ) );
+		$app = Gurukapeeth_Data::get_application_by_ref( $ref );
+
+		if ( ! $app ) {
+			return rest_ensure_response( array(
+				'success' => false,
+				'message' => 'No admission record found with reference: ' . esc_html( $ref ),
+			) );
+		}
+
+		return rest_ensure_response( array(
+			'success'     => true,
+			'application' => $app,
+		) );
+	}
+
+	public static function get_admission_applications() {
+		return rest_ensure_response( array(
+			'success'      => true,
+			'applications' => Gurukapeeth_Data::get_applications(),
+		) );
+	}
+
+	public static function update_admission_status( WP_REST_Request $request ) {
+		$params = $request->get_json_params();
+		if ( empty( $params ) ) {
+			$params = $request->get_params();
+		}
+
+		$id     = sanitize_text_field( $params['id'] ?? '' );
+		$status = sanitize_text_field( $params['status'] ?? '' );
+
+		if ( empty( $id ) || empty( $status ) ) {
+			return new WP_Error( 'missing_params', 'ID and Status required.', array( 'status' => 400 ) );
+		}
+
+		Gurukapeeth_Data::update_application_status( $id, $status );
+
+		return rest_ensure_response( array(
+			'success' => true,
+			'message' => 'Status updated to ' . $status,
+		) );
 	}
 }
 

@@ -7,6 +7,42 @@ import {
 } from 'lucide-react';
 import { getHomepageData } from '../api/wordpress';
 
+function LeaderAvatar({ photoUrl, name, initials }) {
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setError(false);
+  }, [photoUrl]);
+
+  if (photoUrl && !error) {
+    return (
+      <img
+        src={photoUrl}
+        alt={name}
+        style={{
+          width: '56px',
+          height: '56px',
+          borderRadius: '12px',
+          objectFit: 'cover',
+          border: '2px solid #b45309',
+          flexShrink: 0,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        }}
+        onError={() => setError(true)}
+      />
+    );
+  }
+
+  return (
+    <div
+      className="leader-emblem-seal"
+      style={{ fontSize: initials.length > 1 ? '15px' : '20px' }}
+    >
+      {initials}
+    </div>
+  );
+}
+
 export default function HomePage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -120,6 +156,7 @@ export default function HomePage() {
       name: "Chairman & Director's Desk", 
       role_title: 'Director / Chairman', 
       qualifications: 'Mr. Kalu Ram Labana', 
+      photo_url: '/images/leadership/director-kalu-ram-labana.png',
       message: 'Gurukripa Shikshan Sansthan College Peeth is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.' 
     },
     { 
@@ -127,6 +164,7 @@ export default function HomePage() {
       name: "Secretary's Desk", 
       role_title: 'Secretary', 
       qualifications: 'Mr. Vipin Kumar Labana', 
+      photo_url: '',
       message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Shikshan Sansthan College stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.' 
     },
     { 
@@ -134,6 +172,7 @@ export default function HomePage() {
       name: "Principal's Desk", 
       role_title: 'Principal & Head of Institution', 
       qualifications: 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)', 
+      photo_url: '/images/leadership/principal-dr-hari-shanker-maru.jpeg',
       message: 'Welcome to Gurukripa Shikshan Sansthan College Peeth. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.' 
     },
   ];
@@ -265,9 +304,15 @@ export default function HomePage() {
             <Link to="/admissions" className="btn btn-gold" style={{ background: '#ffffff', color: '#78350f', border: 'none', fontWeight: 700 }}>
               Apply Online Now ↗
             </Link>
-            <Link to="/admissions" className="btn btn-outline" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.6)' }}>
-              <Download size={14} /> Prospectus & Fee Details
-            </Link>
+            <a 
+              href="/documents/fees/approved-fee-structure-2026-27.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-outline" 
+              style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.6)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+            >
+              <Download size={14} /> Approved Fee Structure (PDF)
+            </a>
           </div>
         </div>
       </section>
@@ -445,9 +490,7 @@ export default function HomePage() {
               return (
                 <div key={lead.id} className="leader-card">
                   <div className="leader-header">
-                    <div className="leader-emblem-seal" style={{ fontSize: initials.length > 1 ? '15px' : '20px' }}>
-                      {initials}
-                    </div>
+                    <LeaderAvatar photoUrl={lead.photo_url} name={lead.name} initials={initials} />
                     <div className="leader-meta">
                       <h3>{lead.name}</h3>
                       <div className="leader-designation">{lead.role_title}</div>

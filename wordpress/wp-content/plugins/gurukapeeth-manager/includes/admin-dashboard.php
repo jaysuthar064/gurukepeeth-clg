@@ -20,6 +20,7 @@ function gurukapeeth_render_unified_cms() {
 	$disclosures = Gurukapeeth_Data::get_disclosures();
 	$examhub     = Gurukapeeth_Data::get_examhub();
 	$grievances  = Gurukapeeth_Data::get_grievances();
+	$applications = Gurukapeeth_Data::get_applications();
 
 	$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'settings';
 	?>
@@ -90,6 +91,9 @@ function gurukapeeth_render_unified_cms() {
 			</button>
 			<button type="button" class="tab-btn <?php echo ( $current_tab === 'grievances' ) ? 'active' : ''; ?>" data-target="tab-grievances">
 				Grievances (<?php echo count( $grievances ); ?>)
+			</button>
+			<button type="button" class="tab-btn <?php echo ( $current_tab === 'applications' ) ? 'active' : ''; ?>" data-target="tab-applications" style="font-weight: 700; color: #b45309;">
+				🎓 Applications (<?php echo count( $applications ); ?>)
 			</button>
 		</nav>
 
@@ -612,6 +616,151 @@ function gurukapeeth_render_unified_cms() {
 				</div>
 			</div>
 
+			<!-- TAB: Admission Applications & Fee Payments -->
+			<div class="tab-pane <?php echo ( $current_tab === 'applications' ) ? 'active' : ''; ?>" id="tab-applications">
+				<div class="panel-card">
+					<div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+						<div>
+							<h2>Online Admission Applications & Fee Payments</h2>
+							<span class="api-tag">Syncs with: <code>/wp-json/gurukapeeth/v1/admission/applications</code></span>
+						</div>
+					</div>
+
+					<?php
+					$total_apps   = count( $applications );
+					$paid_apps    = 0;
+					$total_fee    = 0;
+					$pending_apps = 0;
+					foreach ( $applications as $a ) {
+						$st = $a['status'] ?? '';
+						if ( $st === 'Paid' || $st === 'Documents Verified' || $st === 'Admitted' ) {
+							$paid_apps++;
+							$total_fee += floatval( $a['fee_amount'] ?? 0 );
+						} else {
+							$pending_apps++;
+						}
+					}
+					?>
+
+					<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 16px 0 24px 0;">
+						<div style="background: #eff6ff; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #bfdbfe;">
+							<strong style="font-size: 26px; color: #1e40af;"><?php echo $total_apps; ?></strong>
+							<div style="font-size: 12px; color: #64748b; margin-top: 4px; font-weight: 600;">Total Registrations</div>
+						</div>
+						<div style="background: #ecfdf5; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #a7f3d0;">
+							<strong style="font-size: 26px; color: #065f46;"><?php echo $paid_apps; ?></strong>
+							<div style="font-size: 12px; color: #64748b; margin-top: 4px; font-weight: 600;">Fee Paid Applications</div>
+						</div>
+						<div style="background: #fefce8; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #fde047;">
+							<strong style="font-size: 26px; color: #854d0e;">₹ <?php echo number_format( $total_fee ); ?></strong>
+							<div style="font-size: 12px; color: #64748b; margin-top: 4px; font-weight: 600;">Total Fees Collected</div>
+						</div>
+						<div style="background: #fff7ed; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #fed7aa;">
+							<strong style="font-size: 26px; color: #9a3412;"><?php echo $pending_apps; ?></strong>
+							<div style="font-size: 12px; color: #64748b; margin-top: 4px; font-weight: 600;">Pending Payment</div>
+						</div>
+					</div>
+
+					<?php if ( empty( $applications ) ) : ?>
+						<div style="text-align: center; padding: 48px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+							<span class="dashicons dashicons-welcome-learn-more" style="font-size: 48px; width: 48px; height: 48px; color: #94a3b8; margin-bottom: 12px;"></span>
+							<h3 style="color: #334155; margin-bottom: 6px;">No Online Applications Yet</h3>
+							<p style="color: #64748b; font-size: 14px; max-width: 500px; margin: 0 auto;">
+								When students submit their forms on the frontend Admission Portal (<code>/admissions/apply</code>) and pay fees, their full admission records and payment IDs will appear here.
+							</p>
+						</div>
+					<?php else : ?>
+					<table class="cms-data-table" style="width:100%; border-collapse:collapse;">
+						<thead>
+							<tr style="background: #0f172a; color: #fff;">
+								<th style="padding: 10px; text-align: left;">Ref #</th>
+								<th style="padding: 10px; text-align: left;">Student / Father</th>
+								<th style="padding: 10px; text-align: left;">Program</th>
+								<th style="padding: 10px; text-align: left;">12th Marks</th>
+								<th style="padding: 10px; text-align: left;">Contact</th>
+								<th style="padding: 10px; text-align: left;">Documents</th>
+								<th style="padding: 10px; text-align: left;">Fee & Payment ID</th>
+								<th style="padding: 10px; text-align: left;">Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ( $applications as $app ) : ?>
+							<tr style="border-bottom: 1px solid #e2e8f0;">
+								<td style="padding: 10px;">
+									<strong style="color: #b45309; font-size: 13px;"><?php echo esc_html( $app['ref'] ?? 'N/A' ); ?></strong>
+									<div style="font-size: 11px; color: #64748b;"><?php echo esc_html( $app['created_at'] ?? '' ); ?></div>
+								</td>
+								<td style="padding: 10px;">
+									<div style="font-weight: 700; color: #0f172a;"><?php echo esc_html( $app['name'] ?? '' ); ?></div>
+									<div style="font-size: 12px; color: #475569;">S/D of: <?php echo esc_html( $app['father_name'] ?? 'N/A' ); ?></div>
+									<div style="font-size: 11px; color: #64748b;">Category: <?php echo esc_html( $app['category'] ?? 'General' ); ?> • <?php echo esc_html( $app['gender'] ?? '' ); ?></div>
+								</td>
+								<td style="padding: 10px;">
+									<span style="font-weight: 600; color: #1e3a8a;"><?php echo esc_html( $app['program'] ?? '' ); ?></span>
+									<?php if ( ! empty( $app['subjects'] ) ) : ?>
+										<div style="font-size: 11px; color: #64748b;"><?php echo esc_html( $app['subjects'] ); ?></div>
+									<?php endif; ?>
+								</td>
+								<td style="padding: 10px;">
+									<div style="font-weight: 700; color: #059669; font-size: 14px;"><?php echo esc_html( $app['prev_percentage'] ? $app['prev_percentage'] . '%' : 'N/A' ); ?></div>
+									<div style="font-size: 11px; color: #64748b;"><?php echo esc_html( $app['prev_board'] ?? 'RBSE' ); ?> (<?php echo esc_html( $app['prev_passing_year'] ?? '2026' ); ?>)</div>
+								</td>
+								<td style="padding: 10px;">
+									<div style="font-size: 13px; font-weight: 600;">
+										<a href="tel:<?php echo esc_attr( $app['phone'] ?? '' ); ?>"><?php echo esc_html( $app['phone'] ?? '' ); ?></a>
+									</div>
+									<div style="font-size: 11px; color: #64748b;">
+										<?php echo esc_html( $app['district'] ?? '' ); ?>, <?php echo esc_html( $app['state'] ?? 'Rajasthan' ); ?>
+									</div>
+								</td>
+								<td style="padding: 10px;">
+									<?php
+									$app_docs = $app['documents'] ?? array();
+									$has_any_doc = false;
+									if ( is_array( $app_docs ) ) {
+										foreach ( $app_docs as $dkey => $dval ) {
+											if ( empty( $dval ) ) continue;
+											$durl = is_array( $dval ) ? ( $dval['url'] ?? '' ) : '';
+											$dname = is_array( $dval ) ? ( $dval['name'] ?? $dkey ) : $dkey;
+											if ( $durl ) {
+												$has_any_doc = true;
+												echo '<a href="' . esc_url( $durl ) . '" target="_blank" style="display: inline-block; margin: 2px; padding: 2px 6px; background: #e0f2fe; color: #0369a1; border-radius: 4px; font-size: 10px; font-weight: 600; text-decoration: none;" title="' . esc_attr( $dname ) . '">📎 ' . esc_html( strtoupper( substr( $dkey, 0, 8 ) ) ) . '</a>';
+											} elseif ( ! empty( $dval['uploaded'] ) || $dval === true ) {
+												$has_any_doc = true;
+												echo '<span style="display: inline-block; margin: 2px; padding: 2px 6px; background: #ecfdf5; color: #065f46; border-radius: 4px; font-size: 10px;">✓ ' . esc_html( $dkey ) . '</span>';
+											}
+										}
+									}
+									if ( ! $has_any_doc ) {
+										echo '<span style="color: #94a3b8; font-size: 11px;">No uploads</span>';
+									}
+									?>
+								</td>
+								<td style="padding: 10px;">
+									<div style="font-weight: 700; color: #0f172a;">₹ <?php echo number_format( floatval( $app['fee_amount'] ?? 0 ) ); ?></div>
+									<?php if ( ! empty( $app['payment_id'] ) ) : ?>
+										<code style="font-size: 11px; background: #f1f5f9; padding: 2px 4px; border-radius: 3px;"><?php echo esc_html( $app['payment_id'] ); ?></code>
+										<div style="font-size: 10px; color: #64748b;"><?php echo esc_html( $app['payment_date'] ?? '' ); ?></div>
+									<?php else : ?>
+										<span style="font-size: 11px; color: #dc2626;">Unpaid</span>
+									<?php endif; ?>
+								</td>
+								<td style="padding: 10px;">
+									<select class="app-status-select" data-id="<?php echo esc_attr( $app['id'] ); ?>" style="font-size: 12px; padding: 4px 8px; border-radius: 4px; border: 1px solid #cbd5e1; font-weight: 600;">
+										<option value="Pending Payment" <?php selected( $app['status'] ?? '', 'Pending Payment' ); ?>>🟠 Pending Payment</option>
+										<option value="Paid" <?php selected( $app['status'] ?? '', 'Paid' ); ?>>🟢 Fee Paid</option>
+										<option value="Documents Verified" <?php selected( $app['status'] ?? '', 'Documents Verified' ); ?>>🔵 Docs Verified</option>
+										<option value="Admitted" <?php selected( $app['status'] ?? '', 'Admitted' ); ?>>🎓 Enrolled / Admitted</option>
+										<option value="Rejected" <?php selected( $app['status'] ?? '', 'Rejected' ); ?>>🔴 Rejected</option>
+									</select>
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+					<?php endif; ?>
+				</div>
+			</div>
 		</div>
 
 		<!-- Reusable Generic Item Edit Modal -->

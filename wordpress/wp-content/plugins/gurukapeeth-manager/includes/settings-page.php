@@ -26,6 +26,10 @@ function gurukapeeth_render_settings_page() {
 			'facebook_url'        => esc_url_raw( $_POST['facebook_url'] ?? '' ),
 			'youtube_url'         => esc_url_raw( $_POST['youtube_url'] ?? '' ),
 			'marquee_announcement'=> sanitize_text_field( $_POST['marquee_announcement'] ?? '' ),
+			'razorpay_key_id'     => sanitize_text_field( $_POST['razorpay_key_id'] ?? '' ),
+			'razorpay_key_secret' => sanitize_text_field( $_POST['razorpay_key_secret'] ?? '' ),
+			'admission_fee_ba'    => sanitize_text_field( $_POST['admission_fee_ba'] ?? '3500' ),
+			'admission_fee_bsc'   => sanitize_text_field( $_POST['admission_fee_bsc'] ?? '4500' ),
 		);
 
 		update_option( 'gurukapeeth_settings', $settings );
@@ -84,12 +88,16 @@ function gurukapeeth_render_settings_page() {
 				<div class="form-section">
 					<h3>Official Contacts & Communications</h3>
 					<div class="form-row">
-						<label>Primary Phone / Helpline:</label>
+						<label>Primary Phone (Secretary):</label>
 						<input type="text" name="phone_primary" value="<?php echo esc_attr( $s['phone_primary'] ?? '+91 95874 33001' ); ?>" class="regular-text" />
 					</div>
 					<div class="form-row">
-						<label>Admission Helpline:</label>
+						<label>Secondary Phone (Chairman):</label>
 						<input type="text" name="phone_secondary" value="<?php echo esc_attr( $s['phone_secondary'] ?? '+91 96105 87077' ); ?>" class="regular-text" />
+					</div>
+					<div class="form-row">
+						<label>IT & Admission Desk (Mr. Ramesh Chandra Pargi):</label>
+						<input type="text" name="phone_admission" value="<?php echo esc_attr( $s['phone_admission'] ?? '+91 82092 77580' ); ?>" class="regular-text" />
 					</div>
 					<div class="form-row">
 						<label>General Inquiry Email:</label>
@@ -101,11 +109,40 @@ function gurukapeeth_render_settings_page() {
 					</div>
 					<div class="form-row">
 						<label>Campus Postal Address:</label>
-						<textarea name="address" rows="3" class="large-text"><?php echo esc_textarea( $s['address'] ?? 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India' ); ?></textarea>
+						<textarea name="address" rows="3" class="large-text"><?php echo esc_textarea( $s['address'] ?? 'Gurukripa Shikshan Sansthan College, Rati Ka Fala, Duka Bye Pass, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406, India' ); ?></textarea>
 					</div>
 					<div class="form-row">
 						<label>Marquee Top Alert Ticker Text:</label>
 						<input type="text" name="marquee_announcement" value="<?php echo esc_attr( $s['marquee_announcement'] ?? 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!' ); ?>" class="large-text" />
+					</div>
+				</div>
+
+				<div class="form-section" style="grid-column: 1 / -1; margin-top: 20px; border-top: 2px solid #e2e8f0; padding-top: 20px;">
+					<h3>Online Admission Portal & Razorpay Payment Gateway</h3>
+					<p style="color: #64748b; font-size: 13px; margin-bottom: 16px;">
+						Configure the online admission fee structure and Razorpay API credentials. When keys are ready, paste your Key ID and Secret below to activate live collections.
+					</p>
+					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+						<div class="form-row">
+							<label>Razorpay Key ID (Key ID):</label>
+							<input type="text" name="razorpay_key_id" value="<?php echo esc_attr( $s['razorpay_key_id'] ?? 'rzp_test_5173GURUKRIPA' ); ?>" class="regular-text" style="width: 100%;" placeholder="rzp_live_... or rzp_test_..." />
+							<p class="description" style="font-size: 11px; color: #64748b;">Available in your Razorpay Dashboard &rarr; Settings &rarr; API Keys.</p>
+						</div>
+						<div class="form-row">
+							<label>Razorpay Key Secret:</label>
+							<input type="password" name="razorpay_key_secret" value="<?php echo esc_attr( $s['razorpay_key_secret'] ?? 'PLACEHOLDER_SECRET_TEST' ); ?>" class="regular-text" style="width: 100%;" placeholder="••••••••••••••••" />
+							<p class="description" style="font-size: 11px; color: #64748b;">Never shared with frontend. Kept secure on server for HMAC signature verification.</p>
+						</div>
+						<div class="form-row">
+							<label>B.A. Admission Fee (INR):</label>
+							<input type="number" name="admission_fee_ba" value="<?php echo esc_attr( $s['admission_fee_ba'] ?? '3500' ); ?>" class="regular-text" style="width: 100%;" />
+							<p class="description" style="font-size: 11px; color: #64748b;">Annual / Admission fee charged for B.A. Arts applicants.</p>
+						</div>
+						<div class="form-row">
+							<label>B.Sc. (Bio) Admission Fee (INR):</label>
+							<input type="number" name="admission_fee_bsc" value="<?php echo esc_attr( $s['admission_fee_bsc'] ?? '4500' ); ?>" class="regular-text" style="width: 100%;" />
+							<p class="description" style="font-size: 11px; color: #64748b;">Annual / Admission fee charged for B.Sc. Biology applicants.</p>
+						</div>
 					</div>
 				</div>
 			</div>

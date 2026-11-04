@@ -252,4 +252,26 @@ function gurukapeeth_ajax_delete_inquiry() {
 	wp_send_json_success( array( 'message' => 'Inquiry removed.' ) );
 }
 
+// 8. AJAX Handler: Manage Admission Applications
+add_action( 'wp_ajax_gurukapeeth_update_application_status', 'gurukapeeth_ajax_update_application_status' );
+
+function gurukapeeth_ajax_update_application_status() {
+	check_ajax_referer( 'gurukapeeth_admin_nonce', 'nonce' );
+
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		wp_send_json_error( array( 'message' => 'Unauthorized.' ) );
+	}
+
+	$id     = sanitize_text_field( $_POST['id'] ?? '' );
+	$status = sanitize_text_field( $_POST['status'] ?? 'Documents Verified' );
+
+	if ( empty( $id ) ) {
+		wp_send_json_error( array( 'message' => 'Missing Application ID.' ) );
+	}
+
+	Gurukapeeth_Data::update_application_status( $id, $status );
+	wp_send_json_success( array( 'message' => 'Application status updated to ' . $status ) );
+}
+
+
 

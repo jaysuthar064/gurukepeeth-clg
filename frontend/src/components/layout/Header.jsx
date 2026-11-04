@@ -95,6 +95,9 @@ export default function Header() {
             <span className="statutory-badge-pill">AISHE: {settings.aishe_code}</span>
           </div>
           <div className="topbar-right">
+            <a href="tel:+918209277580" className="topbar-contact-item" title="IT & Admission Desk - Mr. Ramesh Chandra Pargi" style={{ color: '#fbbf24', fontWeight: 700 }}>
+              <Phone size={12} /> Admission: +91 82092 77580
+            </a>
             <a href={`tel:${settings.phone_primary}`} className="topbar-contact-item">
               <Phone size={12} /> {settings.phone_primary}
             </a>
@@ -157,8 +160,8 @@ export default function Header() {
                 <span className="seal-desc">Affiliated</span>
               </div>
               <div className="header-cta-group">
-                <Link to="/admissions" className="btn btn-gold">
-                  Apply Now 2026-27
+                <Link to="/admissions/apply" className="btn btn-gold">
+                  Apply Online 2026-27
                 </Link>
               </div>
             </div>
@@ -220,11 +223,12 @@ export default function Header() {
                 Admissions <ChevronDown size={12} />
               </Link>
               <ul className="dropdown-menu">
+                <li><Link to="/admissions/apply" className="dropdown-link" style={{ fontWeight: 700, color: 'var(--gold-600, #b45309)' }}>★ Apply Online &amp; Pay Fees</Link></li>
+                <li><Link to="/admissions/status" className="dropdown-link">Track Application Status</Link></li>
                 <li><Link to="/admissions" className="dropdown-link">Admission Guidelines 2026-27</Link></li>
-                <li><Link to="/admissions" className="dropdown-link">Eligibility & Seat Matrix</Link></li>
-                <li><Link to="/admissions" className="dropdown-link">Fee Structure & Refund Rules</Link></li>
-                <li><Link to="/admissions" className="dropdown-link">Online Admission Application Form</Link></li>
-                <li><Link to="/admissions" className="dropdown-link">Scholarships (Post-Matric & Chief Minister)</Link></li>
+                <li><Link to="/admissions" className="dropdown-link">Eligibility &amp; Seat Matrix</Link></li>
+                <li><Link to="/admissions" className="dropdown-link">Fee Structure &amp; Refund Rules</Link></li>
+                <li><Link to="/admissions" className="dropdown-link">Scholarships (Post-Matric &amp; CM)</Link></li>
               </ul>
             </li>
 
@@ -406,11 +410,12 @@ export default function Header() {
                 </button>
                 {openDropdown === 'admissions' && (
                   <ul className="mobile-sub-menu">
+                    <li><Link to="/admissions/apply" style={{ fontWeight: 700, color: 'var(--gold-600, #b45309)' }}>★ Apply Online &amp; Pay Fees</Link></li>
+                    <li><Link to="/admissions/status">Track Application Status</Link></li>
                     <li><Link to="/admissions">Admission Guidelines 2026-27</Link></li>
-                    <li><Link to="/admissions">Eligibility & Seat Matrix</Link></li>
-                    <li><Link to="/admissions">Fee Structure & Refund Rules</Link></li>
-                    <li><Link to="/admissions">Online Admission Application Form</Link></li>
-                    <li><Link to="/admissions">Scholarships (Post-Matric & CM)</Link></li>
+                    <li><Link to="/admissions">Eligibility &amp; Seat Matrix</Link></li>
+                    <li><Link to="/admissions">Fee Structure &amp; Refund Rules</Link></li>
+                    <li><Link to="/admissions">Scholarships (Post-Matric &amp; CM)</Link></li>
                   </ul>
                 )}
               </li>

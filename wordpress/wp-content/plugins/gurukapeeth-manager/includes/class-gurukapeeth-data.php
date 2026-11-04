@@ -21,12 +21,18 @@ class Gurukapeeth_Data {
 			'naac_grade'          => 'Accredited B+ (Cycle-1) / SSR in Progress',
 			'phone_primary'       => '+91 95874 33001',
 			'phone_secondary'     => '+91 96105 87077',
+			'phone_admission'     => '+91 82092 77580',
 			'email_info'          => 'gurukripa.peeth@gmail.com',
 			'email_principal'     => 'gurukripa.peeth@gmail.com',
-			'address'             => 'Gurukripa Peeth College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+			'address'             => 'Gurukripa Shikshan Sansthan College, Rati Ka Fala, Duka Bye Pass, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406, India',
 			'marquee_announcement'=> 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!',
 			'logo_url'            => '/images/college-logo.png',
 			'map_embed'           => '',
+			'razorpay_key_id'     => 'rzp_test_5173GURUKRIPA',
+			'razorpay_key_secret' => 'PLACEHOLDER_SECRET_TEST',
+			'razorpay_enabled'    => '1',
+			'admission_fee_ba'    => '3500',
+			'admission_fee_bsc'   => '4500',
 		);
 
 		$saved = get_option( 'gurukapeeth_settings', array() );
@@ -712,7 +718,12 @@ class Gurukapeeth_Data {
 	public static function get_disclosures() {
 		$saved = get_option( 'gurukapeeth_disclosures', null );
 		if ( is_array( $saved ) ) {
-			return $saved;
+			// Filter out any legacy fire_safety
+			$filtered = array_values( array_filter( $saved, function( $item ) {
+				$cat = $item['category'] ?? '';
+				return $cat !== 'fire_safety';
+			} ) );
+			return $filtered;
 		}
 
 		return array(
@@ -752,6 +763,14 @@ class Gurukapeeth_Data {
 				'pdf_url'     => '/documents/affiliation/ggtu-affiliation-2024-25.pdf',
 			),
 			array(
+				'id'          => 45,
+				'category'    => 'affiliation',
+				'title'       => 'GGTU Affiliation Order — Session 2023-24',
+				'description' => 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara for Academic Session 2023-24 for B.A. (80 seats) and B.Sc. (70 seats).',
+				'issued_date' => '18 Jul 2023',
+				'pdf_url'     => '/documents/affiliation/ggtu-affiliation-2023-24.pdf',
+			),
+			array(
 				'id'          => 5,
 				'category'    => 'affiliation',
 				'title'       => 'GGTU Affiliation Order — Session 2022-23',
@@ -786,36 +805,28 @@ class Gurukapeeth_Data {
 				'pdf_url'     => '/documents/society-executive-committee-2023-24.pdf',
 			),
 			array(
-				'id'          => 9,
-				'category'    => 'fire_safety',
-				'title'       => 'Fire Safety & Prevention Certificate — Dungarpur Fire Department',
-				'description' => 'Valid fire safety NOC issued by the Chief Fire Officer, Dungarpur District.',
-				'issued_date' => '10 Jan 2026',
-				'pdf_url'     => '#',
-			),
-			array(
 				'id'          => 10,
 				'category'    => 'building_noc',
-				'title'       => 'Building Safety Certificate & Structural Stability Report',
-				'description' => 'Structural safety certificate issued by a Government-approved civil engineer for all campus buildings.',
-				'issued_date' => '05 Feb 2026',
-				'pdf_url'     => '#',
+				'title'       => 'Building Safety Certificate — P.W.D. Division Simalwara, Distt. Dungarpur',
+				'description' => 'Official Building Safety & Structural Stability Certificate (Order No. 298 dated 04.06.2024) issued by Executive Engineer, P.W.D. Division Simalwara certifying campus structural stability up to June 2027.',
+				'issued_date' => '04 Jun 2024',
+				'pdf_url'     => '/documents/safety/pwd-building-safety-certificate-2024-27.pdf',
 			),
 			array(
 				'id'          => 11,
 				'category'    => 'fee_structure',
 				'title'       => 'Approved Fee Structure & Refund Policy — Session 2026-27',
-				'description' => 'University-approved fee schedule for B.A. and B.Sc. with government scholarship adjustments.',
+				'description' => 'University & Management approved official fee schedule for B.A. and B.Sc. Degree programs with government scholarship adjustments.',
 				'issued_date' => '15 Jun 2026',
-				'pdf_url'     => '#',
+				'pdf_url'     => '/documents/fees/approved-fee-structure-2026-27.pdf',
 			),
 			array(
 				'id'          => 12,
 				'category'    => 'anti_ragging',
 				'title'       => 'Anti-Ragging Committee Constitution & Policy — Session 2026-27',
-				'description' => 'Annual committee constitution as per UGC Regulation 2009 with member details and helpline numbers.',
+				'description' => 'Annual statutory anti-ragging committee constitution as per UGC Regulation 2009 with member details and helpline numbers.',
 				'issued_date' => '01 Aug 2026',
-				'pdf_url'     => '#',
+				'pdf_url'     => '/documents/committees/anti-ragging-committee-order-2026-27.pdf',
 			),
 			array(
 				'id'          => 13,
@@ -985,5 +996,252 @@ class Gurukapeeth_Data {
 		update_option( 'gurukapeeth_grievances', $grievances );
 		return $new_entry;
 	}
+
+	// ============================================================
+	// ADMISSION APPLICATIONS & PAYMENT DATA STORE
+	// ============================================================
+	public static function get_applications() {
+		$saved = get_option( 'gurukapeeth_applications', array() );
+		return is_array( $saved ) ? $saved : array();
+	}
+
+	public static function get_application_by_ref( $ref ) {
+		$apps = self::get_applications();
+		$ref = trim( $ref );
+		foreach ( $apps as $app ) {
+			if ( strcasecmp( $app['ref'] ?? '', $ref ) === 0 || (string)( $app['id'] ?? '' ) === $ref ) {
+				return $app;
+			}
+		}
+		return null;
+	}
+
+	public static function save_application( $data ) {
+		$apps     = self::get_applications();
+		$settings = self::get_settings();
+
+		// Determine program code and fee
+		$program_raw = sanitize_text_field( $data['program'] ?? 'B.A.' );
+		$is_bsc = ( stripos( $program_raw, 'bsc' ) !== false || stripos( $program_raw, 'b.sc' ) !== false || stripos( $program_raw, 'science' ) !== false );
+		$program_code = $is_bsc ? 'BSC' : 'BA';
+		$program_name = $is_bsc ? 'Bachelor of Science (B.Sc. Bio / CBZ)' : 'Bachelor of Arts (B.A.)';
+		$fee_amount   = $is_bsc ? floatval( $settings['admission_fee_bsc'] ?? 4500 ) : floatval( $settings['admission_fee_ba'] ?? 3500 );
+
+		// Unique reference number: GPC-ADM-2026-XXXXX
+		$ref_num = 'GPC-ADM-2026-' . strtoupper( substr( md5( uniqid( rand(), true ) ), 0, 5 ) );
+
+		// Format subjects
+		$subjects = $data['subjects'] ?? '';
+		if ( is_array( $subjects ) ) {
+			$subjects = implode( ', ', array_map( 'sanitize_text_field', $subjects ) );
+		} else {
+			$subjects = sanitize_text_field( $subjects );
+		}
+
+		// Document uploads & checklist processing
+		$docs = $data['documents'] ?? array();
+		$sanitized_docs = array();
+		$doc_keys = array( 'photo', 'signature', 'marksheet_10th', 'marksheet_12th', 'aadhar', 'caste_cert', 'tc_migration' );
+
+		foreach ( $doc_keys as $k ) {
+			if ( isset( $docs[$k] ) ) {
+				$processed = self::process_uploaded_document( $docs[$k], $k, $ref_num );
+				if ( $processed ) {
+					$sanitized_docs[$k] = $processed;
+				}
+			}
+		}
+
+		$new_entry = array(
+			'id'                  => time() . '-' . rand( 1000, 9999 ),
+			'ref'                 => $ref_num,
+			'created_at'          => current_time( 'd M Y, h:i A' ),
+			'timestamp'           => time(),
+			'status'              => 'Pending Payment',
+			
+			// Personal Details
+			'name'                => sanitize_text_field( $data['name'] ?? '' ),
+			'father_name'         => sanitize_text_field( $data['father_name'] ?? '' ),
+			'mother_name'         => sanitize_text_field( $data['mother_name'] ?? '' ),
+			'dob'                 => sanitize_text_field( $data['dob'] ?? '' ),
+			'gender'              => sanitize_text_field( $data['gender'] ?? 'Male' ),
+			'category'            => sanitize_text_field( $data['category'] ?? 'General' ),
+			'aadhar'              => sanitize_text_field( $data['aadhar'] ?? '' ),
+			'phone'               => sanitize_text_field( $data['phone'] ?? '' ),
+			'email'               => sanitize_email( $data['email'] ?? '' ),
+			'address'             => sanitize_textarea_field( $data['address'] ?? '' ),
+			'district'            => sanitize_text_field( $data['district'] ?? '' ),
+			'state'               => sanitize_text_field( $data['state'] ?? 'Rajasthan' ),
+			'pincode'             => sanitize_text_field( $data['pincode'] ?? '' ),
+
+			// Academic Details
+			'program'             => $program_name,
+			'program_code'        => $program_code,
+			'subjects'            => $subjects,
+			'prev_board'          => sanitize_text_field( $data['prev_board'] ?? 'RBSE' ),
+			'prev_school'         => sanitize_text_field( $data['prev_school'] ?? '' ),
+			'prev_roll_no'        => sanitize_text_field( $data['prev_roll_no'] ?? '' ),
+			'prev_passing_year'   => sanitize_text_field( $data['prev_passing_year'] ?? '2026' ),
+			'prev_marks_obtained' => sanitize_text_field( $data['prev_marks_obtained'] ?? '' ),
+			'prev_total_marks'    => sanitize_text_field( $data['prev_total_marks'] ?? '' ),
+			'prev_percentage'     => sanitize_text_field( $data['prev_percentage'] ?? '' ),
+
+			// Document Checklist
+			'documents'           => $sanitized_docs,
+
+			// Fee & Payment
+			'fee_amount'          => $fee_amount,
+			'fee_currency'        => 'INR',
+			'payment_id'          => '',
+			'razorpay_order_id'   => '',
+			'razorpay_signature'  => '',
+			'payment_date'        => '',
+			'payment_method'      => '',
+		);
+
+		array_unshift( $apps, $new_entry );
+		if ( count( $apps ) > 500 ) {
+			$apps = array_slice( $apps, 0, 500 );
+		}
+		update_option( 'gurukapeeth_applications', $apps );
+		return $new_entry;
+	}
+
+	public static function update_application_payment( $id_or_ref, $payment_id, $order_id, $signature, $method = 'Razorpay' ) {
+		$apps = self::get_applications();
+		$updated_app = null;
+
+		foreach ( $apps as &$app ) {
+			if ( (string)( $app['id'] ?? '' ) === (string) $id_or_ref || strcasecmp( $app['ref'] ?? '', $id_or_ref ) === 0 ) {
+				$app['status']             = 'Paid';
+				$app['payment_id']         = sanitize_text_field( $payment_id );
+				$app['razorpay_order_id']  = sanitize_text_field( $order_id );
+				$app['razorpay_signature'] = sanitize_text_field( $signature );
+				$app['payment_date']       = current_time( 'd M Y, h:i A' );
+				$app['payment_method']     = sanitize_text_field( $method );
+				$updated_app = $app;
+				break;
+			}
+		}
+
+		if ( $updated_app ) {
+			update_option( 'gurukapeeth_applications', $apps );
+			// Send confirmation email
+			self::send_admission_email_confirmation( $updated_app );
+		}
+
+		return $updated_app;
+	}
+
+	public static function update_application_status( $id, $status ) {
+		$apps = self::get_applications();
+		foreach ( $apps as &$app ) {
+			if ( (string)( $app['id'] ?? '' ) === (string) $id ) {
+				$app['status'] = sanitize_text_field( $status );
+				break;
+			}
+		}
+		update_option( 'gurukapeeth_applications', $apps );
+		return true;
+	}
+
+	public static function delete_application( $id ) {
+		$apps = self::get_applications();
+		$filtered = array_filter( $apps, function( $app ) use ( $id ) {
+			return (string)( $app['id'] ?? '' ) !== (string) $id;
+		} );
+		update_option( 'gurukapeeth_applications', array_values( $filtered ) );
+		return true;
+	}
+
+	public static function process_uploaded_document( $doc, $doc_key, $ref_num ) {
+		if ( empty( $doc ) ) {
+			return null;
+		}
+
+		// If boolean (legacy checklist format)
+		if ( is_bool( $doc ) || $doc === 1 || $doc === '1' ) {
+			return array(
+				'key'      => $doc_key,
+				'name'     => 'Verified on Checklist',
+				'type'     => '',
+				'size'     => '',
+				'url'      => '',
+				'uploaded' => true,
+			);
+		}
+
+		if ( ! is_array( $doc ) ) {
+			return null;
+		}
+
+		$filename = sanitize_file_name( $doc['name'] ?? ( $ref_num . '-' . $doc_key ) );
+		$filetype = sanitize_mime_type( $doc['type'] ?? 'application/pdf' );
+		$size_str = sanitize_text_field( $doc['size_formatted'] ?? ( $doc['size'] ?? '' ) );
+		$url      = ! empty( $doc['url'] ) ? esc_url_raw( $doc['url'] ) : '';
+
+		// If base64 payload provided, save to WordPress uploads directory
+		if ( ! empty( $doc['data'] ) && is_string( $doc['data'] ) && strpos( $doc['data'], 'base64,' ) !== false ) {
+			$raw_data = explode( 'base64,', $doc['data'] );
+			if ( ! empty( $raw_data[1] ) ) {
+				$decoded = base64_decode( $raw_data[1] );
+				if ( $decoded !== false ) {
+					$ext = pathinfo( $filename, PATHINFO_EXTENSION ) ?: ( strpos( $filetype, 'image' ) !== false ? 'jpg' : 'pdf' );
+					$clean_name = $ref_num . '-' . $doc_key . '.' . $ext;
+					$upload = wp_upload_bits( $clean_name, null, $decoded );
+					if ( empty( $upload['error'] ) && ! empty( $upload['url'] ) ) {
+						$url = $upload['url'];
+					}
+				}
+			}
+		}
+
+		return array(
+			'key'      => $doc_key,
+			'name'     => $filename,
+			'type'     => $filetype,
+			'size'     => $size_str,
+			'url'      => $url,
+			'uploaded' => ! empty( $url ) || ! empty( $doc['name'] ),
+		);
+	}
+
+	private static function send_admission_email_confirmation( $app ) {
+		$settings = self::get_settings();
+		$college_name = $settings['college_name'] ?? 'GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH';
+		$admin_email  = $settings['email_info'] ?? 'gurukripa.peeth@gmail.com';
+
+		$subject = 'Admission Application Confirmed: ' . $app['ref'] . ' - ' . $college_name;
+		$body = "Dear " . $app['name'] . ",\n\n"
+			. "Thank you for applying to " . $college_name . ".\n\n"
+			. "Your admission fee has been successfully received and your application is recorded in our central system.\n\n"
+			. "--- APPLICATION SUMMARY ---\n"
+			. "Application Reference Number: " . $app['ref'] . "\n"
+			. "Student Name: " . $app['name'] . "\n"
+			. "Father's Name: " . $app['father_name'] . "\n"
+			. "Program: " . $app['program'] . "\n"
+			. "Amount Paid: INR " . number_format( $app['fee_amount'], 2 ) . "\n"
+			. "Payment Transaction ID: " . $app['payment_id'] . "\n"
+			. "Date & Time: " . $app['payment_date'] . "\n\n"
+			. "--- NEXT STEPS ---\n"
+			. "1. Preserve this email and reference number for all future correspondence.\n"
+			. "2. Visit the college campus with your original documents (10th/12th marksheets, Aadhaar, caste certificate, 4 passport photos) for physical verification.\n"
+			. "3. Campus Address: " . ($settings['address'] ?? 'Peeth, Simalwara, Dungarpur') . "\n"
+			. "4. Helpline: " . ($settings['phone_primary'] ?? '+91 95874 33001') . "\n\n"
+			. "With warm regards,\n"
+			. "Admission Committee\n"
+			. $college_name;
+
+		$headers = array( 'Content-Type: text/plain; charset=UTF-8' );
+
+		// Send to student if email present
+		if ( ! empty( $app['email'] ) && is_email( $app['email'] ) ) {
+			@wp_mail( $app['email'], $subject, $body, $headers );
+		}
+
+		// Also send copy to college admin
+		@wp_mail( $admin_email, '[NEW ADMISSION PAID] ' . $app['ref'] . ' - ' . $app['name'], $body, $headers );
+	}
 }
+
 

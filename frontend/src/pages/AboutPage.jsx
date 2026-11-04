@@ -16,7 +16,7 @@ export default function AboutPage() {
     affiliating_univ: 'Govind Guru Tribal University (GGTU), Banswara',
     aishe_code: 'C-48902',
     naac_grade: 'Accredited B+ (Cycle-1) / SSR in Progress',
-    address: 'Gurukripa Shikshan Sansthan College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+    address: 'Gurukripa Shikshan Sansthan College, Rati Ka Fala, Duka Bye Pass, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406, India',
   });
 
   const [leadership, setLeadership] = useState([]);
@@ -61,6 +61,7 @@ export default function AboutPage() {
       name: "Chairman & Director's Desk", 
       role_title: 'Director / Chairman', 
       qualifications: 'Mr. Kalu Ram Labana', 
+      photo_url: '/images/leadership/director-kalu-ram-labana.png',
       message: 'Gurukripa Shikshan Sansthan College Peeth is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.' 
     },
     { 
@@ -68,6 +69,7 @@ export default function AboutPage() {
       name: "Secretary's Desk", 
       role_title: 'Secretary', 
       qualifications: 'Mr. Vipin Kumar Labana', 
+      photo_url: '',
       message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Shikshan Sansthan College Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.' 
     },
     { 
@@ -75,6 +77,7 @@ export default function AboutPage() {
       name: "Principal's Desk", 
       role_title: 'Principal & Head of Institution', 
       qualifications: 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)', 
+      photo_url: '/images/leadership/principal-dr-hari-shanker-maru.jpeg',
       message: 'Welcome to Gurukripa Shikshan Sansthan College Peeth. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.' 
     },
   ];
@@ -345,9 +348,18 @@ export default function AboutPage() {
                 return (
                   <div key={lead.id} style={{ background: '#f8fafc', padding: '28px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(15, 23, 42, 0.03)', display: 'flex', flexDirection: 'column' }}>
                     <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '16px' }}>
-                      <div style={{ width: '50px', height: '50px', borderRadius: '10px', background: '#0f172a', color: '#f59e0b', border: '2px solid #b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: badge.length > 1 ? '14px' : '18px', flexShrink: 0 }}>
-                        {badge}
-                      </div>
+                      {lead.photo_url ? (
+                        <img 
+                          src={lead.photo_url} 
+                          alt={lead.name}
+                          style={{ width: '56px', height: '56px', borderRadius: '12px', objectFit: 'cover', border: '2px solid #b45309', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        />
+                      ) : (
+                        <div style={{ width: '50px', height: '50px', borderRadius: '10px', background: '#0f172a', color: '#f59e0b', border: '2px solid #b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: badge.length > 1 ? '14px' : '18px', flexShrink: 0 }}>
+                          {badge}
+                        </div>
+                      )}
                       <div>
                         <h3 style={{ fontSize: '17px', color: '#0f172a', fontWeight: 700, margin: '0 0 4px 0' }}>{lead.name}</h3>
                         <div style={{ fontSize: '12.5px', color: '#b8860b', fontWeight: 600 }}>{lead.role_title} {lead.qualifications ? `• ${lead.qualifications}` : ''}</div>
@@ -415,17 +427,27 @@ export default function AboutPage() {
                   
                   {/* President */}
                   <div style={{ background: '#ffffff', border: '2px solid #fde68a', borderRadius: '14px', padding: '22px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                       <span style={{ background: '#fef3c7', color: '#92400e', fontSize: '11px', fontWeight: 800, padding: '3px 10px', borderRadius: '12px', textTransform: 'uppercase' }}>
                         President / अध्यक्ष
                       </span>
                       <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>DOB: 15/09/1972</span>
                     </div>
-                    <h4 style={{ fontSize: '19px', color: '#0f172a', fontWeight: 800, margin: '0 0 4px 0' }}>
-                      श्री कालूराम लबाना
-                    </h4>
-                    <div style={{ fontSize: '13.5px', color: '#334155', fontWeight: 600, marginBottom: '6px' }}>
-                      Mr. Kalu Ram Labana
+                    <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '10px' }}>
+                      <img 
+                        src="/images/leadership/director-kalu-ram-labana.png" 
+                        alt="Mr. Kalu Ram Labana" 
+                        style={{ width: '54px', height: '54px', borderRadius: '10px', objectFit: 'cover', border: '2px solid #b45309', flexShrink: 0 }}
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                      <div>
+                        <h4 style={{ fontSize: '18px', color: '#0f172a', fontWeight: 800, margin: '0 0 2px 0' }}>
+                          श्री कालूराम लबाना
+                        </h4>
+                        <div style={{ fontSize: '13px', color: '#334155', fontWeight: 600 }}>
+                          Mr. Kalu Ram Labana
+                        </div>
+                      </div>
                     </div>
                     <div style={{ fontSize: '12px', color: '#64748b' }}>
                       पिता: श्री नारायण लबाना • व्यवसाय: कृषि
@@ -459,17 +481,27 @@ export default function AboutPage() {
 
                   {/* Treasurer */}
                   <div style={{ background: '#ffffff', border: '2px solid #bbf7d0', borderRadius: '14px', padding: '22px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                       <span style={{ background: '#dcfce7', color: '#15803d', fontSize: '11px', fontWeight: 800, padding: '3px 10px', borderRadius: '12px', textTransform: 'uppercase' }}>
                         Treasurer / कोषाध्यक्ष
                       </span>
                       <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>DOB: 01/07/1995</span>
                     </div>
-                    <h4 style={{ fontSize: '19px', color: '#0f172a', fontWeight: 800, margin: '0 0 4px 0' }}>
-                      श्रीमती लक्ष्मी लबाना
-                    </h4>
-                    <div style={{ fontSize: '13.5px', color: '#334155', fontWeight: 600, marginBottom: '6px' }}>
-                      Mrs. Laxmi Labana
+                    <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '10px' }}>
+                      <img 
+                        src="/images/leadership/laxmi-labana.jpeg" 
+                        alt="Mrs. Laxmi Labana" 
+                        style={{ width: '54px', height: '54px', borderRadius: '10px', objectFit: 'cover', border: '2px solid #16a34a', flexShrink: 0 }}
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                      <div>
+                        <h4 style={{ fontSize: '18px', color: '#0f172a', fontWeight: 800, margin: '0 0 2px 0' }}>
+                          श्रीमती लक्ष्मी लबाना
+                        </h4>
+                        <div style={{ fontSize: '13px', color: '#334155', fontWeight: 600 }}>
+                          Mrs. Laxmi Labana
+                        </div>
+                      </div>
                     </div>
                     <div style={{ fontSize: '12px', color: '#64748b' }}>
                       पति: श्री विपिन कुमार लबाना • व्यवसाय: गृह कार्य

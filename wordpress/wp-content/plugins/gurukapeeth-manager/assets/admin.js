@@ -1171,6 +1171,37 @@
 			});
 		});
 
+		// 9. ADMISSION APPLICATION STATUS HANDLER
+		$(document).on('change', '.app-status-select', function() {
+			const selectEl = $(this);
+			const appId = selectEl.data('id');
+			const newStatus = selectEl.val();
+			selectEl.prop('disabled', true);
+
+			$.ajax({
+				url: window.gurukapeethAdminData ? window.gurukapeethAdminData.ajaxUrl : ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'gurukapeeth_update_application_status',
+					nonce: window.gurukapeethAdminData ? window.gurukapeethAdminData.nonce : '',
+					id: appId,
+					status: newStatus
+				},
+				success: function(resp) {
+					selectEl.prop('disabled', false);
+					if (resp.success) {
+						showToast('Application status updated to: ' + newStatus);
+					} else {
+						showToast('Failed to update status', true);
+					}
+				},
+				error: function() {
+					selectEl.prop('disabled', false);
+					showToast('Server error while updating application status', true);
+				}
+			});
+		});
+
 		// Helper Functions
 		function getCurrentDate() {
 			const d = new Date();

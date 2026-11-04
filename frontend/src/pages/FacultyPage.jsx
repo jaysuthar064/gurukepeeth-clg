@@ -16,8 +16,12 @@ import { getFaculty } from '../api/wordpress';
 
 // Explicit photo mapping for faculty members who uploaded portrait images
 const FACULTY_PHOTO_MAP = {
+  1: '/images/faculty/dr-hari-shanker-maru.jpeg',
+  2: '/images/faculty/priyanka-pandya.png',
+  3: '/images/faculty/rajesh-kumar-damor.png',
   4: '/images/faculty/ashok-kumar-damor.jpeg',
   6: '/images/faculty/priyanka-rathore.jpeg',
+  7: '/images/faculty/laxmi-labana.jpeg',
   8: '/images/faculty/mithun-kumar-damor.jpeg',
   9: '/images/faculty/bhuralal-damor.jpeg',
   10: '/images/faculty/shilpa-labana.jpeg',
@@ -33,8 +37,12 @@ const resolveFacultyPhoto = (f) => {
   }
 
   const name = (f.name || '').toLowerCase();
+  if (name.includes('hari shanker') || name.includes('maru')) return '/images/faculty/dr-hari-shanker-maru.jpeg';
+  if (name.includes('priyanka pandya')) return '/images/faculty/priyanka-pandya.png';
+  if (name.includes('rajesh')) return '/images/faculty/rajesh-kumar-damor.png';
   if (name.includes('ashok')) return '/images/faculty/ashok-kumar-damor.jpeg';
   if (name.includes('rathore')) return '/images/faculty/priyanka-rathore.jpeg';
+  if (name.includes('laxmi')) return '/images/faculty/laxmi-labana.jpeg';
   if (name.includes('mithun')) return '/images/faculty/mithun-kumar-damor.jpeg';
   if (name.includes('bhura')) return '/images/faculty/bhuralal-damor.jpeg';
   if (name.includes('shilpa')) return '/images/faculty/shilpa-labana.jpeg';
@@ -57,6 +65,10 @@ const resolveFacultyPhoto = (f) => {
 // Reusable avatar component with graceful fallback
 function FacultyAvatar({ photo, name, initials, size = 'card' }) {
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setError(false);
+  }, [photo]);
 
   if (photo && !error) {
     return (
@@ -98,7 +110,7 @@ export default function FacultyPage() {
       qualification: 'Retd. Govt. Principal, Ph.D., M.A. (Hindi)',
       experience: '28+ Years',
       specialization: 'Hindi Literature & Institutional Governance',
-      photo_url: '',
+      photo_url: '/images/faculty/dr-hari-shanker-maru.jpeg',
       initials: 'HM',
     },
     {
@@ -113,7 +125,7 @@ export default function FacultyPage() {
       qualification: 'M.A., B.Ed., M.Lib.',
       experience: '8+ Years',
       specialization: 'Political Science & Library Information Systems',
-      photo_url: '',
+      photo_url: '/images/faculty/priyanka-pandya.png',
       initials: 'PP',
     },
     {
@@ -128,7 +140,7 @@ export default function FacultyPage() {
       qualification: 'M.A., B.Ed.',
       experience: '8+ Years',
       specialization: 'Classical Sanskrit Literature & Vedic Grammar',
-      photo_url: '',
+      photo_url: '/images/faculty/rajesh-kumar-damor.png',
       initials: 'RD',
     },
     {
@@ -150,14 +162,15 @@ export default function FacultyPage() {
       id: 5,
       seniority: 5,
       name: 'Mr. Ramesh Chandra Pargi',
-      designation: 'Assistant Professor',
+      designation: 'Assistant Professor & In-Charge IT / Admission Desk',
       post_category: 'ASST. PROF. - BA',
       subject: 'History',
-      department: 'Faculty of Arts',
+      department: 'Faculty of Arts & Admission Cell',
       stream: 'arts',
       qualification: 'B.A., B.Ed.',
       experience: '7+ Years',
-      specialization: 'Indian History & Tribal Heritage Studies',
+      specialization: 'Indian History, IT Support & Admission In-Charge (+91 82092 77580)',
+      phone: '+91 82092 77580',
       photo_url: '',
       initials: 'RP',
     },
@@ -188,7 +201,7 @@ export default function FacultyPage() {
       qualification: 'M.A., B.Ed.',
       experience: '7+ Years',
       specialization: 'English Literature & Applied Linguistics',
-      photo_url: '',
+      photo_url: '/images/faculty/laxmi-labana.jpeg',
       initials: 'LL',
     },
     {

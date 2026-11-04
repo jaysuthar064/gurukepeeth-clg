@@ -41,9 +41,10 @@ export async function getSettings() {
     naac_grade: 'Accredited B+ (Cycle-1) / SSR in Progress',
     phone_primary: '+91 95874 33001',
     phone_secondary: '+91 96105 87077',
+    phone_admission: '+91 82092 77580',
     email_info: 'gurukripa.peeth@gmail.com',
     email_principal: 'gurukripa.peeth@gmail.com',
-    address: 'Gurukripa Shikshan Sansthan College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+    address: 'Gurukripa Shikshan Sansthan College, Rati Ka Fala, Duka Bye Pass, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406, India',
     marquee_announcement: 'Admissions Open 2026-27 for B.A. and B.Sc. (Bio) Degree Programs — Apply Online Now!',
     logo_url: '/images/college-logo.png',
   };
@@ -134,7 +135,7 @@ export async function getFaculty() {
       qualification: 'Retd. Govt. Principal, Ph.D., M.A. (Hindi)',
       experience: '28+ Years',
       specialization: 'Hindi Literature & Institutional Governance',
-      photo_url: '',
+      photo_url: '/images/faculty/dr-hari-shanker-maru.jpeg',
       initials: 'HM',
     },
     {
@@ -149,7 +150,7 @@ export async function getFaculty() {
       qualification: 'M.A., B.Ed., M.Lib.',
       experience: '8+ Years',
       specialization: 'Political Science & Library Information Systems',
-      photo_url: '',
+      photo_url: '/images/faculty/priyanka-pandya.png',
       initials: 'PP',
     },
     {
@@ -164,7 +165,7 @@ export async function getFaculty() {
       qualification: 'M.A., B.Ed.',
       experience: '8+ Years',
       specialization: 'Classical Sanskrit Literature & Vedic Grammar',
-      photo_url: '',
+      photo_url: '/images/faculty/rajesh-kumar-damor.png',
       initials: 'RD',
     },
     {
@@ -186,14 +187,15 @@ export async function getFaculty() {
       id: 5,
       seniority: 5,
       name: 'Mr. Ramesh Chandra Pargi',
-      designation: 'Assistant Professor',
+      designation: 'Assistant Professor & In-Charge IT / Admission Desk',
       post_category: 'ASST. PROF. - BA',
       subject: 'History',
-      department: 'Faculty of Arts',
+      department: 'Faculty of Arts & Admission Cell',
       stream: 'arts',
       qualification: 'B.A., B.Ed.',
       experience: '7+ Years',
-      specialization: 'Indian History & Tribal Heritage Studies',
+      specialization: 'Indian History, IT Support & Admission In-Charge (+91 82092 77580)',
+      phone: '+91 82092 77580',
       photo_url: '',
       initials: 'RP',
     },
@@ -224,7 +226,7 @@ export async function getFaculty() {
       qualification: 'M.A., B.Ed.',
       experience: '7+ Years',
       specialization: 'English Literature & Applied Linguistics',
-      photo_url: '',
+      photo_url: '/images/faculty/laxmi-labana.jpeg',
       initials: 'LL',
     },
     {
@@ -348,7 +350,7 @@ export async function getLeadership() {
       role_title: 'Director / Chairman',
       qualifications: 'Mr. Kalu Ram Labana',
       message: 'Gurukripa Shikshan Sansthan College Peeth is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.',
-      photo_url: '',
+      photo_url: '/images/leadership/director-kalu-ram-labana.png',
     },
     {
       id: 2,
@@ -366,7 +368,7 @@ export async function getLeadership() {
       role_title: 'Principal & Head of Institution',
       qualifications: 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)',
       message: 'Welcome to Gurukripa Shikshan Sansthan College Peeth. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.',
-      photo_url: '',
+      photo_url: '/images/faculty/dr-hari-shanker-maru.jpeg',
     },
   ]);
 }
@@ -408,6 +410,14 @@ export async function getDisclosures() {
         pdf_url: '/documents/affiliation/ggtu-affiliation-2024-25.pdf',
       },
       {
+        id: 45,
+        category: 'affiliation',
+        title: 'GGTU Affiliation Order — Session 2023-24',
+        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara for Academic Session 2023-24 for B.A. (80 seats) and B.Sc. (70 seats).',
+        issued_date: '18 Jul 2023',
+        pdf_url: '/documents/affiliation/ggtu-affiliation-2023-24.pdf',
+      },
+      {
         id: 5,
         category: 'affiliation',
         title: 'GGTU Affiliation Order — Session 2022-23',
@@ -440,44 +450,36 @@ export async function getDisclosures() {
         pdf_url: '/documents/society-executive-committee-2023-24.pdf',
       },
       {
-        id: 9,
-        category: 'fire_safety',
-        title: 'Fire Safety & Prevention Certificate — Dungarpur Fire Department',
-        description: 'Valid fire safety NOC issued by the Chief Fire Officer, Dungarpur District.',
-        issued_date: '10 Jan 2026',
-        pdf_url: '#',
-      },
-      {
         id: 10,
         category: 'building_noc',
-        title: 'Building Safety Certificate & Structural Stability Report',
-        description: 'Structural safety certificate issued by a Government-approved civil engineer for all campus buildings.',
-        issued_date: '05 Feb 2026',
-        pdf_url: '#',
+        title: 'Building Safety Certificate — P.W.D. Division Simalwara, Distt. Dungarpur',
+        description: 'Official Building Safety & Structural Stability Certificate (Order No. 298 dated 04.06.2024) issued by Executive Engineer, P.W.D. Division Simalwara, certifying campus structural stability up to June 2027.',
+        issued_date: '04 Jun 2024',
+        pdf_url: '/documents/safety/pwd-building-safety-certificate-2024-27.pdf',
       },
       {
         id: 11,
         category: 'fee_structure',
         title: 'Approved Fee Structure & Refund Policy — Session 2026-27',
-        description: 'University-approved fee schedule for B.A. and B.Sc. with government scholarship adjustments.',
+        description: 'University & Management approved official fee schedule for B.A. and B.Sc. Degree programs with government scholarship adjustments.',
         issued_date: '15 Jun 2026',
-        pdf_url: '#',
+        pdf_url: '/documents/fees/approved-fee-structure-2026-27.pdf',
       },
       {
         id: 12,
         category: 'anti_ragging',
         title: 'Anti-Ragging Committee Constitution & Policy — Session 2026-27',
-        description: 'Annual committee constitution as per UGC Regulation 2009 with member details and helpline numbers.',
+        description: 'Annual statutory anti-ragging committee constitution as per UGC Regulation 2009 with member details and helpline numbers.',
         issued_date: '01 Aug 2026',
-        pdf_url: '#',
+        pdf_url: '/documents/committees/anti-ragging-committee-order-2026-27.pdf',
       },
       {
         id: 13,
         category: 'icc',
-        title: 'Internal Complaints Committee (ICC) — As per Vishakha Guidelines',
-        description: 'Constituted ICC for prevention of sexual harassment at workplace as mandated by UGC.',
+        title: 'Internal Complaints & Women Grievance Committee — As per Vishakha Guidelines',
+        description: 'Constituted statutory committee for prevention of harassment and student grievance redressal as mandated by UGC & GGTU Banswara.',
         issued_date: '01 Aug 2026',
-        pdf_url: '#',
+        pdf_url: '/documents/committees/anti-ragging-committee-order-2026-27.pdf',
       },
       {
         id: 14,
@@ -615,4 +617,90 @@ export async function submitInquiry(payload) {
     throw err;
   }
 }
+
+// 16. Submit Full Online Admission Application
+export async function submitAdmissionApplication(payload) {
+  try {
+    const res = await fetch(`${API_BASE}/wp-json/gurukapeeth/v1/admission/apply`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || `Server error: ${res.status}`);
+    }
+    return data;
+  } catch (err) {
+    console.error('Admission application submission error:', err);
+    throw err;
+  }
+}
+
+// 17. Create Razorpay Payment Order
+export async function createAdmissionOrder(applicationIdOrRef) {
+  try {
+    const res = await fetch(`${API_BASE}/wp-json/gurukapeeth/v1/admission/create-order`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ application_id: applicationIdOrRef }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || `Server error: ${res.status}`);
+    }
+    return data;
+  } catch (err) {
+    console.error('Create admission order error:', err);
+    throw err;
+  }
+}
+
+// 18. Verify Razorpay Payment Signature
+export async function verifyAdmissionPayment(payload) {
+  try {
+    const res = await fetch(`${API_BASE}/wp-json/gurukapeeth/v1/admission/verify-payment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || `Server error: ${res.status}`);
+    }
+    return data;
+  } catch (err) {
+    console.error('Verify payment error:', err);
+    throw err;
+  }
+}
+
+// 19. Get Admission Status by Reference Number
+export async function getAdmissionStatus(ref) {
+  try {
+    const res = await fetchJson(`/wp-json/gurukapeeth/v1/admission/status/${encodeURIComponent(ref)}`, null);
+    return res;
+  } catch (err) {
+    console.error('Get admission status error:', err);
+    return null;
+  }
+}
+
+// 20. Get All Admission Applications (Admin)
+export async function getAdmissionApplications() {
+  return await fetchJson('/wp-json/gurukapeeth/v1/admission/applications', { success: true, applications: [] });
+}
+
 

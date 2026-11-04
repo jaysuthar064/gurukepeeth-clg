@@ -21,9 +21,10 @@ export default function ContactPage() {
     trust_name: 'Shree Narayan Shiksha Seva Samiti Peeth',
     phone_primary: '+91 95874 33001',
     phone_secondary: '+91 96105 87077',
+    phone_admission: '+91 82092 77580',
     email_info: 'gurukripa.peeth@gmail.com',
     email_principal: 'gurukripa.peeth@gmail.com',
-    address: 'Gurukripa Shikshan Sansthan College, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314001, India',
+    address: 'Gurukripa Shikshan Sansthan College, Rati Ka Fala, Duka Bye Pass, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406, India',
   });
 
   useEffect(() => {
@@ -137,6 +138,9 @@ export default function ContactPage() {
                     <h4 style={{ fontSize: '16px', color: '#0f172a', marginBottom: '4px' }}>Phone & Administrative Helpline</h4>
                     <p style={{ fontSize: '14px', color: '#64748b' }}>Secretary: <a href="tel:+919587433001" style={{ color: '#2563eb', fontWeight: 600 }}>+91 95874 33001</a> (Mr. Vipin Kumar Labana)</p>
                     <p style={{ fontSize: '14px', color: '#64748b' }}>Director / Chairman: <a href="tel:+919610587077" style={{ color: '#2563eb', fontWeight: 600 }}>+91 96105 87077</a> (Mr. Kalu Ram Labana)</p>
+                    <p style={{ fontSize: '14px', color: '#64748b', marginTop: '4px' }}>
+                      <strong style={{ color: '#b45309' }}>IT & Admission Desk:</strong> <a href="tel:+918209277580" style={{ color: '#2563eb', fontWeight: 600 }}>+91 82092 77580</a> (Mr. Ramesh Chandra Pargi)
+                    </p>
                   </div>
                 </div>
 
