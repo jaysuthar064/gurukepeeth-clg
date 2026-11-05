@@ -94,8 +94,34 @@ export async function getHomepageData() {
           };
         });
     }
+    if (Array.isArray(data.leadership)) {
+      data.leadership = sanitizeLeadershipList(data.leadership);
+    }
   }
   return data;
+}
+
+export function sanitizeLeadershipList(list) {
+  if (!Array.isArray(list)) return [];
+  return list.map(l => {
+    const key = `${l.role_key || ''} ${l.role_title || ''} ${l.name || ''} ${l.qualifications || ''}`.toLowerCase();
+    let photo = (l.photo_url || '').trim();
+    if (!photo) {
+      if (key.includes('director') || key.includes('chairman') || key.includes('kalu ram') || key.includes('k r labana')) {
+        photo = '/images/leadership/director-kalu-ram-labana.png';
+      } else if (key.includes('principal') || key.includes('hari shanker') || key.includes('maru')) {
+        photo = '/images/leadership/principal-dr-hari-shanker-maru.jpeg';
+      }
+    }
+    const msg = (l.message || '')
+      .replace(/Gurukripa Peeth College/g, 'Gurukripa Shikshan Sansthan College Peeth')
+      .replace(/Gurukripa Peeth/g, 'Gurukripa Shikshan Sansthan College');
+    return {
+      ...l,
+      photo_url: photo,
+      message: msg,
+    };
+  });
 }
 
 // 3. Marquee Ticker & Recent Announcements
@@ -340,7 +366,7 @@ export async function getAdmissions() {
 
 // 11. Leadership Messages
 export async function getLeadership() {
-  return await fetchJson('/wp-json/gurukapeeth/v1/leadership', [
+  const defaults = [
     {
       id: 1,
       role_key: 'director',
@@ -366,9 +392,11 @@ export async function getLeadership() {
       role_title: 'Principal & Head of Institution',
       qualifications: 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)',
       message: 'Welcome to Gurukripa Shikshan Sansthan College Peeth. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.',
-      photo_url: '/images/faculty/dr-hari-shanker-maru.jpeg',
+      photo_url: '/images/leadership/principal-dr-hari-shanker-maru.jpeg',
     },
-  ]);
+  ];
+  const res = await fetchJson('/wp-json/gurukapeeth/v1/leadership', defaults);
+  return sanitizeLeadershipList(res || defaults);
 }
 
 // 12. Mandatory Statutory Disclosures

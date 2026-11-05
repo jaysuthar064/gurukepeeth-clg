@@ -7,6 +7,21 @@ import {
 } from 'lucide-react';
 import { getHomepageData } from '../api/wordpress';
 
+const resolveLeaderPhoto = (lead) => {
+  if (!lead) return '';
+  const raw = (lead.photo_url || lead.image || lead.image_url || '').trim();
+  if (raw && !raw.endsWith('/')) return raw;
+
+  const key = `${lead.role_key || ''} ${lead.role_title || ''} ${lead.name || ''} ${lead.qualifications || ''}`.toLowerCase();
+  if (key.includes('director') || key.includes('chairman') || key.includes('kalu ram') || key.includes('k r labana')) {
+    return '/images/leadership/director-kalu-ram-labana.png';
+  }
+  if (key.includes('principal') || key.includes('hari shanker') || key.includes('maru')) {
+    return '/images/leadership/principal-dr-hari-shanker-maru.jpeg';
+  }
+  return '';
+};
+
 function LeaderAvatar({ photoUrl, name, initials }) {
   const [error, setError] = useState(false);
 
@@ -150,9 +165,10 @@ export default function HomePage() {
       };
     });
 
-  const leaders = data?.leadership && data.leadership.length >= 3 ? data.leadership : [
+  const defaultLeaders = [
     { 
       id: 1, 
+      role_key: 'director',
       name: "Chairman & Director's Desk", 
       role_title: 'Director / Chairman', 
       qualifications: 'Mr. Kalu Ram Labana', 
@@ -161,6 +177,7 @@ export default function HomePage() {
     },
     { 
       id: 2, 
+      role_key: 'secretary',
       name: "Secretary's Desk", 
       role_title: 'Secretary', 
       qualifications: 'Mr. Vipin Kumar Labana', 
@@ -169,6 +186,7 @@ export default function HomePage() {
     },
     { 
       id: 3, 
+      role_key: 'principal',
       name: "Principal's Desk", 
       role_title: 'Principal & Head of Institution', 
       qualifications: 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)', 
@@ -176,6 +194,18 @@ export default function HomePage() {
       message: 'Welcome to Gurukripa Shikshan Sansthan College Peeth. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.' 
     },
   ];
+
+  const rawLeaders = data?.leadership && Array.isArray(data.leadership) && data.leadership.length >= 3 
+    ? data.leadership 
+    : defaultLeaders;
+
+  const leaders = rawLeaders.map(lead => ({
+    ...lead,
+    photo_url: resolveLeaderPhoto(lead),
+    message: (lead.message || '')
+      .replace(/Gurukripa Peeth College/g, 'Gurukripa Shikshan Sansthan College Peeth')
+      .replace(/Gurukripa Peeth/g, 'Gurukripa Shikshan Sansthan College'),
+  }));
 
   const filteredNotices = notices.filter(n => {
     if (activeNoticeTab === 'All') return true;

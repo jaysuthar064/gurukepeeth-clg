@@ -82,7 +82,25 @@ export default function AboutPage() {
     },
   ];
 
-  const displayLeaders = leadership.length >= 3 ? leadership : fallbackLeadership;
+  const rawDisplayLeaders = leadership.length >= 3 ? leadership : fallbackLeadership;
+  const displayLeaders = rawDisplayLeaders.map(lead => {
+    const key = `${lead.role_key || ''} ${lead.role_title || ''} ${lead.name || ''} ${lead.qualifications || ''}`.toLowerCase();
+    let photo = (lead.photo_url || '').trim();
+    if (!photo) {
+      if (key.includes('director') || key.includes('chairman') || key.includes('kalu ram') || key.includes('k r labana')) {
+        photo = '/images/leadership/director-kalu-ram-labana.png';
+      } else if (key.includes('principal') || key.includes('hari shanker') || key.includes('maru')) {
+        photo = '/images/leadership/principal-dr-hari-shanker-maru.jpeg';
+      }
+    }
+    return {
+      ...lead,
+      photo_url: photo,
+      message: (lead.message || '')
+        .replace(/Gurukripa Peeth College/g, 'Gurukripa Shikshan Sansthan College Peeth')
+        .replace(/Gurukripa Peeth/g, 'Gurukripa Shikshan Sansthan College'),
+    };
+  });
 
   const societyMembers = [
     { sn: 1, name: 'श्री कालूराम लबाना', nameEn: 'Mr. Kalu Ram Labana', relation: 'श्री नारायण लबाना', role: 'अध्यक्ष (President)', isOfficer: true, dob: '15/09/1972', occ: 'कृषि (Agriculture)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर' },

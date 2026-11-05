@@ -564,17 +564,31 @@ class Gurukapeeth_Data {
 		if ( is_array( $saved ) && ! empty( $saved ) ) {
 			$dirty = false;
 			foreach ( $saved as &$item ) {
+				$rk   = strtolower( $item['role_key'] ?? '' );
+				$name = strtolower( $item['name'] ?? '' );
+				if ( ( $rk === 'director' || strpos( $name, 'director' ) !== false || strpos( $name, 'chairman' ) !== false ) && empty( $item['photo_url'] ) ) {
+					$item['photo_url'] = '/images/leadership/director-kalu-ram-labana.png';
+					$dirty = true;
+				}
+				if ( ( $rk === 'principal' || strpos( $name, 'principal' ) !== false ) && empty( $item['photo_url'] ) ) {
+					$item['photo_url'] = '/images/leadership/principal-dr-hari-shanker-maru.jpeg';
+					$dirty = true;
+				}
 				if ( ! empty( $item['message'] ) ) {
-					if ( stripos( $item['message'], 'teacher training' ) !== false ) {
-						$item['message'] = 'Gurukripa Peeth College is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.';
-						$dirty = true;
+					$old_msg = $item['message'];
+					$new_msg = str_replace( 'Gurukripa Peeth College', 'Gurukripa Shikshan Sansthan College Peeth', $old_msg );
+					$new_msg = str_replace( 'Gurukripa Peeth', 'Gurukripa Shikshan Sansthan College', $new_msg );
+					if ( stripos( $new_msg, 'teacher training' ) !== false ) {
+						$new_msg = 'Gurukripa Shikshan Sansthan College Peeth is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.';
 					}
-					if ( stripos( $item['message'], 'pedagogical' ) !== false ) {
-						$item['message'] = 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.';
-						$dirty = true;
+					if ( stripos( $new_msg, 'pedagogical' ) !== false ) {
+						$new_msg = 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Shikshan Sansthan College stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.';
 					}
-					if ( stripos( $item['message'], 'NCTE' ) !== false ) {
-						$item['message'] = 'Welcome to Gurukripa Peeth College. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.';
+					if ( stripos( $new_msg, 'NCTE' ) !== false ) {
+						$new_msg = 'Welcome to Gurukripa Shikshan Sansthan College Peeth. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.';
+					}
+					if ( $new_msg !== $old_msg ) {
+						$item['message'] = $new_msg;
 						$dirty = true;
 					}
 				}
@@ -593,8 +607,8 @@ class Gurukapeeth_Data {
 				'name'           => "Chairman & Director's Desk",
 				'role_title'     => 'Director / Chairman',
 				'qualifications' => 'Mr. Kalu Ram Labana',
-				'message'        => 'Gurukripa Peeth College is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.',
-				'photo_url'      => '',
+				'message'        => 'Gurukripa Shikshan Sansthan College Peeth is committed to delivering quality higher education in Arts and Science to the youth of Southern Rajasthan. Our mission is to combine academic excellence, moral integrity, and regional development to shape empowered leaders for the nation.',
+				'photo_url'      => '/images/leadership/director-kalu-ram-labana.png',
 			),
 			array(
 				'id'             => 2,
@@ -602,7 +616,7 @@ class Gurukapeeth_Data {
 				'name'           => "Secretary's Desk",
 				'role_title'     => 'Secretary',
 				'qualifications' => 'Mr. Vipin Kumar Labana',
-				'message'        => 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Peeth stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.',
+				'message'        => 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Shikshan Sansthan College stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.',
 				'photo_url'      => '',
 			),
 			array(
@@ -611,8 +625,8 @@ class Gurukapeeth_Data {
 				'name'           => "Principal's Desk",
 				'role_title'     => 'Principal & Head of Institution',
 				'qualifications' => 'Dr. Hari Shanker Maru, Ph.D., M.A. (Hindi)',
-				'message'        => 'Welcome to Gurukripa Peeth College. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.',
-				'photo_url'      => '',
+				'message'        => 'Welcome to Gurukripa Shikshan Sansthan College Peeth. Our academic framework integrates curricular rigor with ethical character building, experiential learning, and community engagement under GGTU and UGC standards.',
+				'photo_url'      => '/images/leadership/principal-dr-hari-shanker-maru.jpeg',
 			),
 		);
 		update_option( 'gurukapeeth_leadership', $defaults );
