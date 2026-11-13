@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   ChevronRight,
   Info,
+  Award,
 } from 'lucide-react';
 import { getExamHub, getPrograms } from '../api/wordpress';
 
