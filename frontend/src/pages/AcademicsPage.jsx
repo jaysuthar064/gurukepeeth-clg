@@ -177,7 +177,7 @@ export default function AcademicsPage() {
                       </a>
                     )}
                   </div>
-                  <h3 className="program-title" dangerouslySetInnerHTML={{ __html: title }} />
+                  <h3 className="program-title">{title}</h3>
                   <p className="program-desc">{cleanDesc}</p>
                   
                   <div className="program-meta-list" style={{ marginTop: 'auto', marginBottom: '20px' }}>
