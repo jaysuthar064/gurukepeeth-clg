@@ -3,7 +3,7 @@
  * Plugin Name: Gurukripa Peeth College Manager (Headless CMS)
  * Plugin URI:  https://gurukripapeeth.in
  * Description: Dedicated Higher Education CMS & Management Dashboard for Gurukripa Peeth. Provides a 100% dynamic, unified admin dashboard with zero Gutenberg / default WP post editor screens, direct WordPress Media library integration, open CORS engine, and real-time REST API synchronization to the React frontend.
- * Version:     2.0.0
+ * Version:     2.1.2
  * Author:      Gurukripa Peeth Dev Team
  * Author URI:  https://gurukripapeeth.in
  * Text Domain: gurukapeeth-manager
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'GURUKAPEETH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GURUKAPEETH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'GURUKAPEETH_VERSION', '2.0.0' );
+define( 'GURUKAPEETH_VERSION', '2.1.2' );
 
 // 1. Load Data Architecture & REST API
 require_once GURUKAPEETH_PLUGIN_DIR . 'includes/class-gurukapeeth-data.php';
@@ -83,18 +83,21 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 	// Native WP Media library for image & PDF uploads
 	wp_enqueue_media();
 
+	$css_ver = GURUKAPEETH_VERSION . '.' . ( file_exists( GURUKAPEETH_PLUGIN_DIR . 'assets/admin.css' ) ? filemtime( GURUKAPEETH_PLUGIN_DIR . 'assets/admin.css' ) : time() );
+	$js_ver  = GURUKAPEETH_VERSION . '.' . ( file_exists( GURUKAPEETH_PLUGIN_DIR . 'assets/admin.js' ) ? filemtime( GURUKAPEETH_PLUGIN_DIR . 'assets/admin.js' ) : time() );
+
 	wp_enqueue_style(
 		'gurukapeeth-admin-style',
 		GURUKAPEETH_PLUGIN_URL . 'assets/admin.css',
 		array(),
-		GURUKAPEETH_VERSION
+		$css_ver
 	);
 
 	wp_enqueue_script(
 		'gurukapeeth-admin-script',
 		GURUKAPEETH_PLUGIN_URL . 'assets/admin.js',
 		array( 'jquery' ),
-		GURUKAPEETH_VERSION,
+		$js_ver,
 		true
 	);
 

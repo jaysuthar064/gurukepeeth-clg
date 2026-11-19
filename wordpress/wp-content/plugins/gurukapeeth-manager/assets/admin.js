@@ -1251,6 +1251,11 @@
 								$('#app-empty-state').fadeIn();
 							}
 						});
+						if (window.gurukapeethApplications && Array.isArray(window.gurukapeethApplications)) {
+							window.gurukapeethApplications = window.gurukapeethApplications.filter(function(a) {
+								return a && String(a.id) !== String(appId);
+							});
+						}
 						showToast(`Candidate ${appRef} and uploaded files deleted.`);
 					} else {
 						btn.prop('disabled', false).text('🗑️ Delete');
@@ -1290,6 +1295,7 @@
 				success: function(resp) {
 					btn.prop('disabled', false).html('<span class="dashicons dashicons-trash"></span> Clear All / Free Space');
 					if (resp.success) {
+						window.gurukapeethApplications = [];
 						$('#applications-tbody').empty();
 						$('#app-table-wrapper').hide();
 						$('#app-empty-state').fadeIn();
@@ -1313,11 +1319,44 @@
 		// 13. VIEW FULL CANDIDATE DETAILS MODAL
 		$(document).on('click', '.btn-view-app', function(e) {
 			e.preventDefault();
-			let app = $(this).data('app');
-			if (typeof app === 'string') {
-				try { app = JSON.parse(app); } catch(_e) { app = {}; }
+			const appId = String($(this).data('id') || $(this).attr('data-id') || '');
+			const appRef = String($(this).data('ref') || $(this).attr('data-ref') || '');
+
+			let app = null;
+
+			// Priority 1: Match from window.gurukapeethApplications array in memory
+			const appsList = window.gurukapeethApplications || (window.gurukapeethInitialState && window.gurukapeethInitialState.applications) || [];
+			if (Array.isArray(appsList) && appsList.length > 0) {
+				app = appsList.find(function(item) {
+					if (!item) return false;
+					return (appId && String(item.id) === appId) || (appRef && String(item.ref) === appRef);
+				});
 			}
-			if (!app || !app.id) return;
+
+			// Priority 2: Fallback to reading data-app attribute safely
+			if (!app) {
+				let raw = $(this).attr('data-app') || $(this).data('app');
+				if (typeof raw === 'string') {
+					try {
+						const txt = document.createElement('textarea');
+						txt.innerHTML = raw;
+						app = JSON.parse(txt.value);
+					} catch(_e) {
+						try {
+							app = JSON.parse(raw);
+						} catch(_e2) {
+							app = null;
+						}
+					}
+				} else if (typeof raw === 'object' && raw !== null) {
+					app = raw;
+				}
+			}
+
+			if (!app || (!app.id && !app.ref)) {
+				alert('Candidate details could not be loaded. Please refresh the page.');
+				return;
+			}
 
 			$('#candidate-modal-title').html(`Candidate Profile: <strong>${escapeHtml(app.ref || '')}</strong> — ${escapeHtml(app.name || '')}`);
 
@@ -1404,17 +1443,29 @@
 			`;
 
 			$('#candidate-modal-body').html(modalHtml);
-			$('#cms-candidate-modal').css('display', 'flex');
+			$('#cms-candidate-modal').css({
+				'display': 'flex',
+				'z-index': '999999'
+			}).show();
 		});
 
 		// Close Candidate modal handlers
-		$(document).on('click', '#candidate-modal-close, #candidate-modal-close-btn', function() {
-			$('#cms-candidate-modal').hide();
+		$(document).on('click', '#candidate-modal-close, #candidate-modal-close-btn', function(e) {
+			e.preventDefault();
+			$('#cms-candidate-modal').css('display', 'none').hide();
 		});
 
 		$(document).on('click', '#cms-candidate-modal', function(e) {
 			if ($(e.target).is('#cms-candidate-modal')) {
-				$('#cms-candidate-modal').hide();
+				$('#cms-candidate-modal').css('display', 'none').hide();
+			}
+		});
+
+		$(document).on('keydown', function(e) {
+			if (e.key === 'Escape' || e.keyCode === 27) {
+				if ($('#cms-candidate-modal').is(':visible')) {
+					$('#cms-candidate-modal').css('display', 'none').hide();
+				}
 			}
 		});
 

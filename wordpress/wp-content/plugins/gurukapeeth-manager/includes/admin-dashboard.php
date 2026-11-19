@@ -786,7 +786,7 @@ function gurukapeeth_render_unified_cms() {
 									</select>
 								</td>
 								<td style="padding: 10px; text-align: center; white-space: nowrap;">
-									<button type="button" class="button button-small btn-view-app" data-app="<?php echo esc_attr( wp_json_encode( $app ) ); ?>" title="View Complete Candidate Form" style="margin-right: 4px;">
+									<button type="button" class="button button-small btn-view-app" data-id="<?php echo esc_attr( $app['id'] ?? '' ); ?>" data-ref="<?php echo esc_attr( $app['ref'] ?? '' ); ?>" data-app="<?php echo esc_attr( wp_json_encode( $app ) ); ?>" title="View Complete Candidate Form" style="margin-right: 4px;">
 										👁️ Details
 									</button>
 									<button type="button" class="button button-small button-link-delete btn-delete-app" data-id="<?php echo esc_attr( $app['id'] ); ?>" data-ref="<?php echo esc_attr( $app['ref'] ); ?>" data-name="<?php echo esc_attr( $app['name'] ); ?>" title="Delete Candidate & Purge Uploaded Files" style="color: #dc2626;">
@@ -803,8 +803,8 @@ function gurukapeeth_render_unified_cms() {
 		</div>
 
 		<!-- Candidate Full Details Modal -->
-		<div class="cms-modal-overlay" id="cms-candidate-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.7); z-index: 100000; align-items: center; justify-content: center; padding: 20px;">
-			<div class="cms-modal-box" style="background: #ffffff; border-radius: 12px; max-width: 750px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+		<div class="cms-modal-overlay" id="cms-candidate-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.75); backdrop-filter: blur(4px); z-index: 999999; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
+			<div class="cms-modal-box" style="background: #ffffff; border-radius: 12px; max-width: 780px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.35); margin: auto;">
 				<div class="cms-modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: #0f172a; color: #ffffff; border-radius: 12px 12px 0 0;">
 					<h3 id="candidate-modal-title" style="margin: 0; color: #f59e0b; font-size: 16px;">Candidate Profile</h3>
 					<button type="button" class="modal-close-btn" id="candidate-modal-close" style="background: transparent; border: none; color: #fff; font-size: 24px; cursor: pointer;">&times;</button>
@@ -839,6 +839,7 @@ function gurukapeeth_render_unified_cms() {
 
 	<!-- Pass Initial Data directly to JavaScript -->
 	<script>
+		window.gurukapeethApplications = <?php echo wp_json_encode( array_values( $applications ) ); ?>;
 		window.gurukapeethInitialState = {
 			notices:      <?php echo wp_json_encode( $notices ); ?>,
 			programs:     <?php echo wp_json_encode( $programs ); ?>,
@@ -848,7 +849,8 @@ function gurukapeeth_render_unified_cms() {
 			iqac:         <?php echo wp_json_encode( $iqac ); ?>,
 			leadership:   <?php echo wp_json_encode( $leadership ); ?>,
 			disclosures:  <?php echo wp_json_encode( $disclosures ); ?>,
-			examhub:      <?php echo wp_json_encode( $examhub ); ?>
+			examhub:      <?php echo wp_json_encode( $examhub ); ?>,
+			applications: window.gurukapeethApplications
 		};
 	</script>
 	<?php
