@@ -994,7 +994,8 @@
 				email_info: $('#set_email_info').val() || '',
 				email_principal: $('#set_email_principal').val() || '',
 				address: $('#set_address').val() || '',
-				marquee_announcement: $('#set_marquee_announcement').val() || ''
+				marquee_announcement: $('#set_marquee_announcement').val() || '',
+				frontend_url: $('#set_frontend_url').val() || 'https://gurukepeeth-clg.vercel.app'
 			};
 
 			// 2. Collect Homepage
@@ -1200,6 +1201,221 @@
 					showToast('Server error while updating application status', true);
 				}
 			});
+		});
+
+		// 10. ADMISSION APPLICATION LIVE SEARCH FILTER
+		$(document).on('input', '#app-search-input', function() {
+			const query = $(this).val().toLowerCase().trim();
+			$('#applications-tbody tr.app-row').each(function() {
+				const text = $(this).text().toLowerCase();
+				if (text.indexOf(query) !== -1) {
+					$(this).show();
+				} else {
+					$(this).hide();
+				}
+			});
+		});
+
+		// 11. DELETE SINGLE CANDIDATE APPLICATION (with server file cleanup)
+		$(document).on('click', '.btn-delete-app', function(e) {
+			e.preventDefault();
+			const btn = $(this);
+			const appId = btn.data('id');
+			const appRef = btn.data('ref') || 'N/A';
+			const appName = btn.data('name') || 'Candidate';
+
+			if (!confirm(`Are you sure you want to delete application "${appRef} - ${appName}"?\n\nThis will permanently delete the application record and any uploaded student documents from the server disk to free up space.`)) {
+				return;
+			}
+
+			btn.prop('disabled', true).text('Deleting...');
+
+			$.ajax({
+				url: window.gurukapeethAdminData ? window.gurukapeethAdminData.ajaxUrl : ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'gurukapeeth_delete_application',
+					nonce: window.gurukapeethAdminData ? window.gurukapeethAdminData.nonce : '',
+					id: appId
+				},
+				success: function(resp) {
+					if (resp.success) {
+						$(`#app-row-${appId}`).fadeOut(300, function() {
+							$(this).remove();
+							// Update counter badge
+							const count = $('#applications-tbody tr.app-row').length;
+							$('#stat-total-apps').text(count);
+							$('.tab-btn[data-target="tab-applications"]').text(`🎓 Applications (${count})`);
+							if (count === 0) {
+								$('#app-table-wrapper').hide();
+								$('#app-empty-state').fadeIn();
+							}
+						});
+						showToast(`Candidate ${appRef} and uploaded files deleted.`);
+					} else {
+						btn.prop('disabled', false).text('🗑️ Delete');
+						showToast(resp.data && resp.data.message ? resp.data.message : 'Could not delete application', true);
+					}
+				},
+				error: function() {
+					btn.prop('disabled', false).text('🗑️ Delete');
+					showToast('Server error while deleting candidate application', true);
+				}
+			});
+		});
+
+		// 12. PURGE ALL CANDIDATE APPLICATIONS (bulk cleanup & disk space recovery)
+		$(document).on('click', '#btn-purge-apps', function(e) {
+			e.preventDefault();
+			const total = $('#applications-tbody tr.app-row').length;
+			if (total === 0) {
+				alert('No applications found to delete.');
+				return;
+			}
+
+			if (!confirm(`⚠️ ARE YOU SURE YOU WANT TO DELETE ALL ${total} CANDIDATE APPLICATIONS?\n\nAll student records and their uploaded marksheets/certificates will be PERMANENTLY REMOVED from the server disk to free space.\n\nThis action CANNOT be undone.`)) {
+				return;
+			}
+
+			const btn = $(this);
+			btn.prop('disabled', true).text('Purging records & files...');
+
+			$.ajax({
+				url: window.gurukapeethAdminData ? window.gurukapeethAdminData.ajaxUrl : ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'gurukapeeth_delete_all_applications',
+					nonce: window.gurukapeethAdminData ? window.gurukapeethAdminData.nonce : ''
+				},
+				success: function(resp) {
+					btn.prop('disabled', false).html('<span class="dashicons dashicons-trash"></span> Clear All / Free Space');
+					if (resp.success) {
+						$('#applications-tbody').empty();
+						$('#app-table-wrapper').hide();
+						$('#app-empty-state').fadeIn();
+						$('#stat-total-apps').text('0');
+						$('#stat-paid-apps').text('0');
+						$('#stat-total-fee').text('₹ 0');
+						$('#stat-pending-apps').text('0');
+						$('.tab-btn[data-target="tab-applications"]').text('🎓 Applications (0)');
+						showToast('All candidate applications and uploaded files have been purged.');
+					} else {
+						showToast('Failed to purge applications', true);
+					}
+				},
+				error: function() {
+					btn.prop('disabled', false).html('<span class="dashicons dashicons-trash"></span> Clear All / Free Space');
+					showToast('Server error while purging applications', true);
+				}
+			});
+		});
+
+		// 13. VIEW FULL CANDIDATE DETAILS MODAL
+		$(document).on('click', '.btn-view-app', function(e) {
+			e.preventDefault();
+			let app = $(this).data('app');
+			if (typeof app === 'string') {
+				try { app = JSON.parse(app); } catch(_e) { app = {}; }
+			}
+			if (!app || !app.id) return;
+
+			$('#candidate-modal-title').html(`Candidate Profile: <strong>${escapeHtml(app.ref || '')}</strong> — ${escapeHtml(app.name || '')}`);
+
+			let docsHtml = '';
+			if (app.documents && typeof app.documents === 'object') {
+				for (const [key, val] of Object.entries(app.documents)) {
+					if (!val) continue;
+					const docUrl = typeof val === 'object' ? (val.url || '') : '';
+					const docName = typeof val === 'object' ? (val.name || key) : key;
+					const docSize = typeof val === 'object' ? (val.size || '') : '';
+					if (docUrl) {
+						docsHtml += `<div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; border:1px solid #e2e8f0; padding:8px 12px; border-radius:6px; margin-bottom:6px;">
+							<div>
+								<strong>📎 ${escapeHtml(key.replace(/_/g, ' ').toUpperCase())}</strong>
+								<div style="font-size:11px; color:#64748b;">${escapeHtml(docName)} ${docSize ? '• ' + escapeHtml(docSize) : ''}</div>
+							</div>
+							<a href="${escapeHtml(docUrl)}" target="_blank" class="button button-small" style="text-decoration:none;">Open Document ↗</a>
+						</div>`;
+					} else {
+						docsHtml += `<div style="background:#f8fafc; border:1px solid #e2e8f0; padding:8px 12px; border-radius:6px; margin-bottom:6px; font-size:12px; color:#475569;">
+							✓ <strong>${escapeHtml(key.replace(/_/g, ' ').toUpperCase())}</strong>: Uploaded & Verified
+						</div>`;
+					}
+				}
+			}
+			if (!docsHtml) {
+				docsHtml = '<p style="color:#94a3b8; font-style:italic; margin:0;">No documents attached to this application.</p>';
+			}
+
+			const modalHtml = `
+				<div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px;">
+					<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px;">
+						<h4 style="margin:0 0 10px 0; color:#1e3a8a; border-bottom:1px solid #cbd5e1; padding-bottom:6px;">👤 Personal Details</h4>
+						<p style="margin:4px 0; font-size:13px;"><strong>Full Name:</strong> ${escapeHtml(app.name || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Father\'s Name:</strong> ${escapeHtml(app.father_name || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Mother\'s Name:</strong> ${escapeHtml(app.mother_name || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Date of Birth:</strong> ${escapeHtml(app.dob || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Gender:</strong> ${escapeHtml(app.gender || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Category:</strong> ${escapeHtml(app.category || 'General')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Caste / Sub-caste:</strong> <span style="background:#fef3c7; color:#92400e; padding:2px 6px; border-radius:4px; font-weight:700;">${escapeHtml(app.caste || 'N/A')}</span></p>
+						<p style="margin:4px 0; font-size:13px;"><strong>APAAR / ABC ID:</strong> <code style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700;">${escapeHtml(app.apaar_id || 'N/A')}</code></p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Aadhar Number:</strong> ${escapeHtml(app.aadhar ? '•••• •••• ' + app.aadhar.slice(-4) : 'N/A')}</p>
+					</div>
+
+					<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px;">
+						<h4 style="margin:0 0 10px 0; color:#1e3a8a; border-bottom:1px solid #cbd5e1; padding-bottom:6px;">📞 Contact & Address</h4>
+						<p style="margin:4px 0; font-size:13px;"><strong>Mobile Phone:</strong> <a href="tel:${escapeHtml(app.phone || '')}">${escapeHtml(app.phone || 'N/A')}</a></p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Email Address:</strong> ${escapeHtml(app.email || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Address:</strong> ${escapeHtml(app.address || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>District:</strong> ${escapeHtml(app.district || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>State:</strong> ${escapeHtml(app.state || 'Rajasthan')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>PIN Code:</strong> ${escapeHtml(app.pincode || '314406')}</p>
+					</div>
+				</div>
+
+				<div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px;">
+					<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px;">
+						<h4 style="margin:0 0 10px 0; color:#1e3a8a; border-bottom:1px solid #cbd5e1; padding-bottom:6px;">🎓 Academic Admission Choices</h4>
+						<p style="margin:4px 0; font-size:13px;"><strong>Program:</strong> <span style="font-weight:700; color:#1e40af;">${escapeHtml(app.program || 'N/A')}</span></p>
+						<p style="margin:4px 0; font-size:13px;"><strong>General / Compulsory (AECC):</strong> <span style="background:#ecfdf5; color:#065f46; padding:2px 6px; border-radius:4px; font-weight:700;">${escapeHtml(app.aecc_subject || 'N/A')}</span></p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Elective Subjects:</strong> ${escapeHtml(Array.isArray(app.subjects) ? app.subjects.join(', ') : (app.subjects || 'N/A'))}</p>
+						<hr style="border:0; border-top:1px dashed #cbd5e1; margin:8px 0;" />
+						<p style="margin:4px 0; font-size:13px;"><strong>Secondary (10th):</strong> ${escapeHtml(app.sec_board || 'RBSE')} (${escapeHtml(app.sec_passing_year || '')}) • Roll: ${escapeHtml(app.sec_roll_no || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>10th Score:</strong> ${escapeHtml(app.sec_marks_obtained || '')} / ${escapeHtml(app.sec_total_marks || '')} (<strong>${escapeHtml(app.sec_percentage ? app.sec_percentage + '%' : 'N/A')}</strong>)</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Sr. Secondary (12th):</strong> ${escapeHtml(app.prev_board || 'RBSE')} (${escapeHtml(app.prev_passing_year || '')}) • Roll: ${escapeHtml(app.prev_roll_no || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>12th Score:</strong> ${escapeHtml(app.prev_marks_obtained || '')} / ${escapeHtml(app.prev_total_marks || '')} (<strong>${escapeHtml(app.prev_percentage ? app.prev_percentage + '%' : 'N/A')}</strong>)</p>
+					</div>
+
+					<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px;">
+						<h4 style="margin:0 0 10px 0; color:#1e3a8a; border-bottom:1px solid #cbd5e1; padding-bottom:6px;">💳 Fee & Payment Details</h4>
+						<p style="margin:4px 0; font-size:13px;"><strong>Fee Payable:</strong> ₹ ${Number(app.fee_amount || 0).toLocaleString()}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Payment Status:</strong> <span style="font-weight:700; color:${app.status === 'Paid' || app.status === 'Admitted' ? '#059669' : '#dc2626'};">${escapeHtml(app.status || 'Pending Payment')}</span></p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Razorpay Payment ID:</strong> <code>${escapeHtml(app.payment_id || 'N/A')}</code></p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Razorpay Order ID:</strong> <code>${escapeHtml(app.razorpay_order_id || 'N/A')}</code></p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Payment Timestamp:</strong> ${escapeHtml(app.payment_date || 'N/A')}</p>
+						<p style="margin:4px 0; font-size:13px;"><strong>Application Submitted:</strong> ${escapeHtml(app.created_at || 'N/A')}</p>
+					</div>
+				</div>
+
+				<div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:14px;">
+					<h4 style="margin:0 0 10px 0; color:#1e3a8a; border-bottom:1px solid #cbd5e1; padding-bottom:6px;">📁 Uploaded Certificates & Marksheets</h4>
+					${docsHtml}
+				</div>
+			`;
+
+			$('#candidate-modal-body').html(modalHtml);
+			$('#cms-candidate-modal').css('display', 'flex');
+		});
+
+		// Close Candidate modal handlers
+		$(document).on('click', '#candidate-modal-close, #candidate-modal-close-btn', function() {
+			$('#cms-candidate-modal').hide();
+		});
+
+		$(document).on('click', '#cms-candidate-modal', function(e) {
+			if ($(e.target).is('#cms-candidate-modal')) {
+				$('#cms-candidate-modal').hide();
+			}
 		});
 
 		// Helper Functions

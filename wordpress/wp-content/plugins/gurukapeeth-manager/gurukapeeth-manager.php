@@ -52,6 +52,7 @@ function gurukapeeth_register_headless_menus() {
 		'programs'     => 'Academic Programs',
 		'faculty'      => 'Faculty & Staff',
 		'admissions'   => 'Admissions & Cutoffs',
+		'applications' => '🎓 Candidate Applications',
 		'naac'         => 'NAAC 7 Criteria (SSR)',
 		'iqac'         => 'IQAC Cell & AQAR',
 		'leadership'   => 'Leadership Desks',
@@ -97,11 +98,14 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 		true
 	);
 
+	$settings = Gurukapeeth_Data::get_settings();
+	$react_url = ! empty( $settings['frontend_url'] ) ? esc_url( $settings['frontend_url'] ) : 'https://gurukepeeth-clg.vercel.app';
+
 	wp_localize_script( 'gurukapeeth-admin-script', 'gurukapeethAdminData', array(
 		'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
 		'nonce'    => wp_create_nonce( 'gurukapeeth_admin_nonce' ),
 		'restUrl'  => rest_url( 'gurukapeeth/v1/' ),
-		'reactUrl' => 'http://localhost:5173',
+		'reactUrl' => $react_url,
 	) );
 } );
 
@@ -271,6 +275,43 @@ function gurukapeeth_ajax_update_application_status() {
 
 	Gurukapeeth_Data::update_application_status( $id, $status );
 	wp_send_json_success( array( 'message' => 'Application status updated to ' . $status ) );
+}
+
+// 9. AJAX Handler: Delete Single Candidate Application (and free server disk space)
+add_action( 'wp_ajax_gurukapeeth_delete_application', 'gurukapeeth_ajax_delete_application' );
+
+function gurukapeeth_ajax_delete_application() {
+	check_ajax_referer( 'gurukapeeth_admin_nonce', 'nonce' );
+
+	if ( ! current_user_can( 'delete_posts' ) ) {
+		wp_send_json_error( array( 'message' => 'Unauthorized user.' ) );
+	}
+
+	$id = sanitize_text_field( $_POST['id'] ?? '' );
+	if ( empty( $id ) ) {
+		wp_send_json_error( array( 'message' => 'Application ID or Ref is required.' ) );
+	}
+
+	$deleted = Gurukapeeth_Data::delete_application( $id, true );
+	if ( $deleted ) {
+		wp_send_json_success( array( 'message' => 'Candidate application and uploaded documents deleted successfully.' ) );
+	} else {
+		wp_send_json_error( array( 'message' => 'Application not found or could not be removed.' ) );
+	}
+}
+
+// 10. AJAX Handler: Bulk Purge All Candidate Applications (free all upload space)
+add_action( 'wp_ajax_gurukapeeth_delete_all_applications', 'gurukapeeth_ajax_delete_all_applications' );
+
+function gurukapeeth_ajax_delete_all_applications() {
+	check_ajax_referer( 'gurukapeeth_admin_nonce', 'nonce' );
+
+	if ( ! current_user_can( 'delete_posts' ) ) {
+		wp_send_json_error( array( 'message' => 'Unauthorized user.' ) );
+	}
+
+	Gurukapeeth_Data::delete_all_applications( true );
+	wp_send_json_success( array( 'message' => 'All candidate applications and uploaded files have been purged successfully.' ) );
 }
 
 

@@ -39,8 +39,11 @@ function gurukapeeth_render_unified_cms() {
 			</div>
 
 			<div class="gurukapeeth-topbar-actions">
-				<a href="http://localhost:5173" target="_blank" class="button btn-preview">
-					<span class="dashicons dashicons-external"></span> View Frontend (localhost:5173)
+				<?php
+				$live_frontend_url = ! empty( $settings['frontend_url'] ) ? esc_url( $settings['frontend_url'] ) : 'https://gurukepeeth-clg.vercel.app';
+				?>
+				<a href="<?php echo $live_frontend_url; ?>" target="_blank" class="button btn-preview" id="topbar-preview-btn">
+					<span class="dashicons dashicons-external"></span> View Live Frontend
 				</a>
 				<button type="button" class="button btn-restore" id="btn-restore-defaults">
 					<span class="dashicons dashicons-backup"></span> Restore Sample Data
@@ -171,6 +174,13 @@ function gurukapeeth_render_unified_cms() {
 						<div class="form-group span-2">
 							<label>Top Marquee Announcement (Always visible ticker):</label>
 							<input type="text" id="set_marquee_announcement" value="<?php echo esc_attr( $settings['marquee_announcement'] ); ?>" class="input-text font-bold" />
+						</div>
+						<div class="form-group span-2">
+							<label>Frontend Website URL (Vercel Production or Localhost):</label>
+							<input type="url" id="set_frontend_url" value="<?php echo esc_attr( $settings['frontend_url'] ?? 'https://gurukepeeth-clg.vercel.app' ); ?>" class="input-text" placeholder="https://gurukepeeth-clg.vercel.app or http://localhost:5173" />
+							<p style="font-size: 11px; color: #64748b; margin-top: 4px;">
+								Used by the "View Live Frontend" preview button and decoupled CORS origins. Defaults to: <code>https://gurukepeeth-clg.vercel.app</code>
+							</p>
 						</div>
 					</div>
 				</div>
@@ -619,10 +629,16 @@ function gurukapeeth_render_unified_cms() {
 			<!-- TAB: Admission Applications & Fee Payments -->
 			<div class="tab-pane <?php echo ( $current_tab === 'applications' ) ? 'active' : ''; ?>" id="tab-applications">
 				<div class="panel-card">
-					<div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+					<div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
 						<div>
 							<h2>Online Admission Applications & Fee Payments</h2>
 							<span class="api-tag">Syncs with: <code>/wp-json/gurukapeeth/v1/admission/applications</code></span>
+						</div>
+						<div style="display: flex; gap: 10px; align-items: center;">
+							<input type="text" id="app-search-input" placeholder="🔍 Search candidates..." style="padding: 5px 10px; font-size: 13px; border-radius: 4px; border: 1px solid #cbd5e1; width: 220px;" />
+							<button type="button" class="button" id="btn-purge-apps" style="color: #b91c1c; border-color: #fca5a5; background: #fef2f2;">
+								<span class="dashicons dashicons-trash" style="font-size: 16px; width: 16px; height: 16px; vertical-align: text-top;"></span> Clear All / Free Space
+							</button>
 						</div>
 					</div>
 
@@ -644,48 +660,49 @@ function gurukapeeth_render_unified_cms() {
 
 					<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 16px 0 24px 0;">
 						<div style="background: #eff6ff; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #bfdbfe;">
-							<strong style="font-size: 26px; color: #1e40af;"><?php echo $total_apps; ?></strong>
+							<strong style="font-size: 26px; color: #1e40af;" id="stat-total-apps"><?php echo $total_apps; ?></strong>
 							<div style="font-size: 12px; color: #64748b; margin-top: 4px; font-weight: 600;">Total Registrations</div>
 						</div>
 						<div style="background: #ecfdf5; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #a7f3d0;">
-							<strong style="font-size: 26px; color: #065f46;"><?php echo $paid_apps; ?></strong>
+							<strong style="font-size: 26px; color: #065f46;" id="stat-paid-apps"><?php echo $paid_apps; ?></strong>
 							<div style="font-size: 12px; color: #64748b; margin-top: 4px; font-weight: 600;">Fee Paid Applications</div>
 						</div>
 						<div style="background: #fefce8; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #fde047;">
-							<strong style="font-size: 26px; color: #854d0e;">₹ <?php echo number_format( $total_fee ); ?></strong>
+							<strong style="font-size: 26px; color: #854d0e;" id="stat-total-fee">₹ <?php echo number_format( $total_fee ); ?></strong>
 							<div style="font-size: 12px; color: #64748b; margin-top: 4px; font-weight: 600;">Total Fees Collected</div>
 						</div>
 						<div style="background: #fff7ed; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #fed7aa;">
-							<strong style="font-size: 26px; color: #9a3412;"><?php echo $pending_apps; ?></strong>
+							<strong style="font-size: 26px; color: #9a3412;" id="stat-pending-apps"><?php echo $pending_apps; ?></strong>
 							<div style="font-size: 12px; color: #64748b; margin-top: 4px; font-weight: 600;">Pending Payment</div>
 						</div>
 					</div>
 
-					<?php if ( empty( $applications ) ) : ?>
-						<div style="text-align: center; padding: 48px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
-							<span class="dashicons dashicons-welcome-learn-more" style="font-size: 48px; width: 48px; height: 48px; color: #94a3b8; margin-bottom: 12px;"></span>
-							<h3 style="color: #334155; margin-bottom: 6px;">No Online Applications Yet</h3>
-							<p style="color: #64748b; font-size: 14px; max-width: 500px; margin: 0 auto;">
-								When students submit their forms on the frontend Admission Portal (<code>/admissions/apply</code>) and pay fees, their full admission records and payment IDs will appear here.
-							</p>
-						</div>
-					<?php else : ?>
-					<table class="cms-data-table" style="width:100%; border-collapse:collapse;">
+					<div id="app-empty-state" style="<?php echo empty( $applications ) ? '' : 'display: none;'; ?> text-align: center; padding: 48px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+						<span class="dashicons dashicons-welcome-learn-more" style="font-size: 48px; width: 48px; height: 48px; color: #94a3b8; margin-bottom: 12px;"></span>
+						<h3 style="color: #334155; margin-bottom: 6px;">No Online Applications Yet</h3>
+						<p style="color: #64748b; font-size: 14px; max-width: 500px; margin: 0 auto;">
+							When students submit their forms on the frontend Admission Portal (<code>/admissions/apply</code>) and pay fees, their full admission records and payment IDs will appear here.
+						</p>
+					</div>
+
+					<div id="app-table-wrapper" style="<?php echo empty( $applications ) ? 'display: none;' : ''; ?> overflow-x: auto;">
+					<table class="cms-data-table" style="width:100%; border-collapse:collapse;" id="applications-table">
 						<thead>
 							<tr style="background: #0f172a; color: #fff;">
 								<th style="padding: 10px; text-align: left;">Ref #</th>
 								<th style="padding: 10px; text-align: left;">Student / Father</th>
-								<th style="padding: 10px; text-align: left;">Program</th>
-								<th style="padding: 10px; text-align: left;">12th Marks</th>
+								<th style="padding: 10px; text-align: left;">Program & AECC</th>
+								<th style="padding: 10px; text-align: left;">10th / 12th Marks</th>
 								<th style="padding: 10px; text-align: left;">Contact</th>
 								<th style="padding: 10px; text-align: left;">Documents</th>
 								<th style="padding: 10px; text-align: left;">Fee & Payment ID</th>
 								<th style="padding: 10px; text-align: left;">Status</th>
+								<th style="padding: 10px; text-align: center; width: 140px;">Actions</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="applications-tbody">
 							<?php foreach ( $applications as $app ) : ?>
-							<tr style="border-bottom: 1px solid #e2e8f0;">
+							<tr class="app-row" id="app-row-<?php echo esc_attr( $app['id'] ); ?>" style="border-bottom: 1px solid #e2e8f0;">
 								<td style="padding: 10px;">
 									<strong style="color: #b45309; font-size: 13px;"><?php echo esc_html( $app['ref'] ?? 'N/A' ); ?></strong>
 									<div style="font-size: 11px; color: #64748b;"><?php echo esc_html( $app['created_at'] ?? '' ); ?></div>
@@ -693,17 +710,31 @@ function gurukapeeth_render_unified_cms() {
 								<td style="padding: 10px;">
 									<div style="font-weight: 700; color: #0f172a;"><?php echo esc_html( $app['name'] ?? '' ); ?></div>
 									<div style="font-size: 12px; color: #475569;">S/D of: <?php echo esc_html( $app['father_name'] ?? 'N/A' ); ?></div>
-									<div style="font-size: 11px; color: #64748b;">Category: <?php echo esc_html( $app['category'] ?? 'General' ); ?> • <?php echo esc_html( $app['gender'] ?? '' ); ?></div>
+									<div style="font-size: 11px; color: #64748b;">
+										Cat: <?php echo esc_html( $app['category'] ?? 'General' ); ?>
+										<?php if ( ! empty( $app['caste'] ) ) : ?>
+											• Caste: <strong><?php echo esc_html( $app['caste'] ); ?></strong>
+										<?php endif; ?>
+										<?php if ( ! empty( $app['apaar_id'] ) ) : ?>
+											• APAAR: <code><?php echo esc_html( $app['apaar_id'] ); ?></code>
+										<?php endif; ?>
+									</div>
 								</td>
 								<td style="padding: 10px;">
 									<span style="font-weight: 600; color: #1e3a8a;"><?php echo esc_html( $app['program'] ?? '' ); ?></span>
+									<?php if ( ! empty( $app['aecc_subject'] ) ) : ?>
+										<div style="font-size: 11px; color: #047857; font-weight: 600;">AECC: <?php echo esc_html( $app['aecc_subject'] ); ?></div>
+									<?php endif; ?>
 									<?php if ( ! empty( $app['subjects'] ) ) : ?>
-										<div style="font-size: 11px; color: #64748b;"><?php echo esc_html( $app['subjects'] ); ?></div>
+										<div style="font-size: 11px; color: #64748b;"><?php echo esc_html( is_array( $app['subjects'] ) ? implode(', ', $app['subjects']) : $app['subjects'] ); ?></div>
 									<?php endif; ?>
 								</td>
 								<td style="padding: 10px;">
-									<div style="font-weight: 700; color: #059669; font-size: 14px;"><?php echo esc_html( $app['prev_percentage'] ? $app['prev_percentage'] . '%' : 'N/A' ); ?></div>
-									<div style="font-size: 11px; color: #64748b;"><?php echo esc_html( $app['prev_board'] ?? 'RBSE' ); ?> (<?php echo esc_html( $app['prev_passing_year'] ?? '2026' ); ?>)</div>
+									<div style="font-weight: 700; color: #059669; font-size: 13px;">12th: <?php echo esc_html( $app['prev_percentage'] ? $app['prev_percentage'] . '%' : 'N/A' ); ?></div>
+									<?php if ( ! empty( $app['sec_percentage'] ) ) : ?>
+										<div style="font-size: 12px; color: #475569;">10th: <strong><?php echo esc_html( $app['sec_percentage'] ); ?>%</strong></div>
+									<?php endif; ?>
+									<div style="font-size: 11px; color: #64748b;"><?php echo esc_html( $app['prev_board'] ?? 'RBSE' ); ?></div>
 								</td>
 								<td style="padding: 10px;">
 									<div style="font-size: 13px; font-weight: 600;">
@@ -742,7 +773,7 @@ function gurukapeeth_render_unified_cms() {
 										<code style="font-size: 11px; background: #f1f5f9; padding: 2px 4px; border-radius: 3px;"><?php echo esc_html( $app['payment_id'] ); ?></code>
 										<div style="font-size: 10px; color: #64748b;"><?php echo esc_html( $app['payment_date'] ?? '' ); ?></div>
 									<?php else : ?>
-										<span style="font-size: 11px; color: #dc2626;">Unpaid</span>
+										<span style="font-size: 11px; color: #dc2626; font-weight: 600;">Unpaid</span>
 									<?php endif; ?>
 								</td>
 								<td style="padding: 10px;">
@@ -754,11 +785,35 @@ function gurukapeeth_render_unified_cms() {
 										<option value="Rejected" <?php selected( $app['status'] ?? '', 'Rejected' ); ?>>🔴 Rejected</option>
 									</select>
 								</td>
+								<td style="padding: 10px; text-align: center; white-space: nowrap;">
+									<button type="button" class="button button-small btn-view-app" data-app="<?php echo esc_attr( wp_json_encode( $app ) ); ?>" title="View Complete Candidate Form" style="margin-right: 4px;">
+										👁️ Details
+									</button>
+									<button type="button" class="button button-small button-link-delete btn-delete-app" data-id="<?php echo esc_attr( $app['id'] ); ?>" data-ref="<?php echo esc_attr( $app['ref'] ); ?>" data-name="<?php echo esc_attr( $app['name'] ); ?>" title="Delete Candidate & Purge Uploaded Files" style="color: #dc2626;">
+										🗑️ Delete
+									</button>
+								</td>
 							</tr>
 							<?php endforeach; ?>
 						</tbody>
 					</table>
-					<?php endif; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Candidate Full Details Modal -->
+		<div class="cms-modal-overlay" id="cms-candidate-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.7); z-index: 100000; align-items: center; justify-content: center; padding: 20px;">
+			<div class="cms-modal-box" style="background: #ffffff; border-radius: 12px; max-width: 750px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+				<div class="cms-modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: #0f172a; color: #ffffff; border-radius: 12px 12px 0 0;">
+					<h3 id="candidate-modal-title" style="margin: 0; color: #f59e0b; font-size: 16px;">Candidate Profile</h3>
+					<button type="button" class="modal-close-btn" id="candidate-modal-close" style="background: transparent; border: none; color: #fff; font-size: 24px; cursor: pointer;">&times;</button>
+				</div>
+				<div class="cms-modal-body" id="candidate-modal-body" style="padding: 20px;">
+					<!-- Injected dynamically -->
+				</div>
+				<div class="cms-modal-footer" style="padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; text-align: right; border-radius: 0 0 12px 12px;">
+					<button type="button" class="button" id="candidate-modal-close-btn">Close</button>
 				</div>
 			</div>
 		</div>

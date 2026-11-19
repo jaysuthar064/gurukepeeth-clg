@@ -33,6 +33,7 @@ class Gurukapeeth_Data {
 			'razorpay_enabled'    => '1',
 			'admission_fee_ba'    => '4000',
 			'admission_fee_bsc'   => '6000',
+			'frontend_url'        => 'https://gurukepeeth-clg.vercel.app',
 		);
 
 		$saved = get_option( 'gurukapeeth_settings', array() );
@@ -75,6 +76,10 @@ class Gurukapeeth_Data {
 		}
 		if ( ! empty( $merged['marquee_announcement'] ) && ( stripos( $merged['marquee_announcement'], 'b.ed' ) !== false || stripos( $merged['marquee_announcement'], 'integrated' ) !== false || stripos( $merged['marquee_announcement'], 'ncte' ) !== false ) ) {
 			$merged['marquee_announcement'] = 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!';
+			$dirty = true;
+		}
+		if ( empty( $merged['frontend_url'] ) || $merged['frontend_url'] === 'http://localhost:5173' ) {
+			$merged['frontend_url'] = 'https://gurukepeeth-clg.vercel.app';
 			$dirty = true;
 		}
 		if ( $dirty ) {
@@ -1201,12 +1206,66 @@ class Gurukapeeth_Data {
 		return true;
 	}
 
-	public static function delete_application( $id ) {
+	public static function delete_application( $id, $delete_files = true ) {
 		$apps = self::get_applications();
-		$filtered = array_filter( $apps, function( $app ) use ( $id ) {
-			return (string)( $app['id'] ?? '' ) !== (string) $id;
-		} );
-		update_option( 'gurukapeeth_applications', array_values( $filtered ) );
+		$deleted_app = null;
+		$remaining = array();
+
+		$upload_dir = wp_upload_dir();
+		$base_url   = $upload_dir['baseurl'];
+		$base_dir   = $upload_dir['basedir'];
+
+		foreach ( $apps as $app ) {
+			if ( (string)( $app['id'] ?? '' ) === (string) $id || (string)( $app['ref'] ?? '' ) === (string) $id ) {
+				$deleted_app = $app;
+				// Delete uploaded documents from server disk to free space
+				if ( $delete_files && ! empty( $app['documents'] ) && is_array( $app['documents'] ) ) {
+					foreach ( $app['documents'] as $doc ) {
+						if ( is_array( $doc ) && ! empty( $doc['url'] ) ) {
+							$doc_url = $doc['url'];
+							if ( strpos( $doc_url, $base_url ) === 0 ) {
+								$file_path = str_replace( $base_url, $base_dir, $doc_url );
+								if ( file_exists( $file_path ) && is_file( $file_path ) ) {
+									@unlink( $file_path );
+								}
+							}
+						}
+					}
+				}
+			} else {
+				$remaining[] = $app;
+			}
+		}
+
+		update_option( 'gurukapeeth_applications', array_values( $remaining ) );
+		return $deleted_app ? true : false;
+	}
+
+	public static function delete_all_applications( $delete_files = true ) {
+		$apps = self::get_applications();
+		if ( $delete_files ) {
+			$upload_dir = wp_upload_dir();
+			$base_url   = $upload_dir['baseurl'];
+			$base_dir   = $upload_dir['basedir'];
+
+			foreach ( $apps as $app ) {
+				if ( ! empty( $app['documents'] ) && is_array( $app['documents'] ) ) {
+					foreach ( $app['documents'] as $doc ) {
+						if ( is_array( $doc ) && ! empty( $doc['url'] ) ) {
+							$doc_url = $doc['url'];
+							if ( strpos( $doc_url, $base_url ) === 0 ) {
+								$file_path = str_replace( $base_url, $base_dir, $doc_url );
+								if ( file_exists( $file_path ) && is_file( $file_path ) ) {
+									@unlink( $file_path );
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		update_option( 'gurukapeeth_applications', array() );
 		return true;
 	}
 

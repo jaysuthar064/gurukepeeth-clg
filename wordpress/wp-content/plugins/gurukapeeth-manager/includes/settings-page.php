@@ -30,6 +30,7 @@ function gurukapeeth_render_settings_page() {
 			'razorpay_key_secret' => sanitize_text_field( $_POST['razorpay_key_secret'] ?? '' ),
 			'admission_fee_ba'    => sanitize_text_field( $_POST['admission_fee_ba'] ?? '4000' ),
 			'admission_fee_bsc'   => sanitize_text_field( $_POST['admission_fee_bsc'] ?? '6000' ),
+			'frontend_url'        => esc_url_raw( $_POST['frontend_url'] ?? 'https://gurukepeeth-clg.vercel.app' ),
 		);
 
 		update_option( 'gurukapeeth_settings', $settings );
@@ -142,6 +143,11 @@ function gurukapeeth_render_settings_page() {
 							<label>B.Sc. (Bio) Admission Fee (INR):</label>
 							<input type="number" name="admission_fee_bsc" value="<?php echo esc_attr( $s['admission_fee_bsc'] ?? '6000' ); ?>" class="regular-text" style="width: 100%;" />
 							<p class="description" style="font-size: 11px; color: #64748b;">Annual / Admission fee charged for B.Sc. Biology applicants.</p>
+						</div>
+						<div class="form-row" style="grid-column: 1 / -1;">
+							<label>Decoupled Frontend Website URL:</label>
+							<input type="url" name="frontend_url" value="<?php echo esc_attr( $s['frontend_url'] ?? 'https://gurukepeeth-clg.vercel.app' ); ?>" class="regular-text" style="width: 100%;" placeholder="https://gurukepeeth-clg.vercel.app or http://localhost:5173" />
+							<p class="description" style="font-size: 11px; color: #64748b;">The live frontend address for topbar previews and cross-origin CORS verification.</p>
 						</div>
 					</div>
 				</div>

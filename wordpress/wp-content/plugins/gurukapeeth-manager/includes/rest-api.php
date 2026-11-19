@@ -148,6 +148,18 @@ class Gurukapeeth_REST_API {
 			'callback'            => array( __CLASS__, 'update_admission_status' ),
 			'permission_callback' => '__return_true',
 		) );
+
+		register_rest_route( $ns, '/admission/application/(?P<id>[a-zA-Z0-9_-]+)', array(
+			'methods'             => array( 'DELETE', 'POST' ),
+			'callback'            => array( __CLASS__, 'delete_admission_application' ),
+			'permission_callback' => '__return_true',
+		) );
+
+		register_rest_route( $ns, '/admission/applications/purge', array(
+			'methods'             => array( 'DELETE', 'POST' ),
+			'callback'            => array( __CLASS__, 'purge_admission_applications' ),
+			'permission_callback' => '__return_true',
+		) );
 	}
 
 	public static function get_settings() {
@@ -614,11 +626,47 @@ class Gurukapeeth_REST_API {
 			'message' => 'Status updated to ' . $status,
 		) );
 	}
+
+	public static function delete_admission_application( WP_REST_Request $request ) {
+		$id = sanitize_text_field( $request->get_param( 'id' ) );
+		if ( empty( $id ) ) {
+			return new WP_Error( 'missing_id', 'Application ID required.', array( 'status' => 400 ) );
+		}
+
+		$deleted = Gurukapeeth_Data::delete_application( $id, true );
+		if ( $deleted ) {
+			return rest_ensure_response( array(
+				'success' => true,
+				'message' => 'Candidate application and files deleted successfully.',
+			) );
+		}
+		return new WP_Error( 'not_found', 'Application not found.', array( 'status' => 404 ) );
+	}
+
+	public static function purge_admission_applications() {
+		Gurukapeeth_Data::delete_all_applications( true );
+		return rest_ensure_response( array(
+			'success' => true,
+			'message' => 'All candidate applications and files purged successfully.',
+		) );
+	}
 }
 
 add_action( 'rest_api_init', array( 'Gurukapeeth_REST_API', 'register_routes' ) );
 
 // Enable Cross-Origin Resource Sharing (CORS) for external headless frontends (e.g. Vercel)
+add_action( 'init', function() {
+	// Handle browser OPTIONS preflight early to prevent 401/403 CORS blocks
+	if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
+		header( 'Access-Control-Allow-Origin: *' );
+		header( 'Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE' );
+		header( 'Access-Control-Allow-Credentials: true' );
+		header( 'Access-Control-Allow-Headers: Authorization, X-WP-Nonce, Content-Type, Cache-Control, X-Requested-With' );
+		header( 'HTTP/1.1 200 OK' );
+		exit;
+	}
+} );
+
 add_action( 'rest_api_init', function() {
 	remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
 	add_filter( 'rest_pre_serve_request', function( $value ) {
