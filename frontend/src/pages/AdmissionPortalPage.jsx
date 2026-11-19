@@ -63,8 +63,8 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
     phone_admission: '+91 82092 77580',
     email_info: 'gurukripa.peeth@gmail.com',
     address: 'Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406',
-    admission_fee_ba: '3500',
-    admission_fee_bsc: '4500',
+    admission_fee_ba: '4000',
+    admission_fee_bsc: '6000',
     razorpay_key_id: 'rzp_test_5173GURUKRIPA',
   });
 
@@ -77,7 +77,9 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
     dob: '',
     gender: 'Male',
     category: 'General',
+    caste: '',
     aadhar: '',
+    apaar_id: '',
     phone: '',
     email: '',
     address: '',
@@ -88,6 +90,18 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
     // Step 2: Academic
     program: 'B.A.',
     subjects: ['Hindi Literature', 'Political Science', 'History'],
+    aecc_subject: 'General Hindi',
+
+    // Secondary (10th) Examination
+    sec_board: 'RBSE',
+    sec_school: '',
+    sec_roll_no: '',
+    sec_passing_year: '2024',
+    sec_marks_obtained: '',
+    sec_total_marks: '600',
+    sec_percentage: '',
+
+    // Senior Secondary (12th) Examination
     prev_board: 'RBSE',
     prev_school: '',
     prev_roll_no: '',
@@ -127,15 +141,15 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
         setSettings(prev => ({
           ...prev,
           ...s,
-          admission_fee_ba: s.admission_fee_ba || '3500',
-          admission_fee_bsc: s.admission_fee_bsc || '4500',
+          admission_fee_ba: s.admission_fee_ba || '4000',
+          admission_fee_bsc: s.admission_fee_bsc || '6000',
           razorpay_key_id: s.razorpay_key_id || 'rzp_test_5173GURUKRIPA',
         }));
       }
     });
   }, []);
 
-  // Update percentage automatically when marks change
+  // Update 12th percentage automatically when marks change
   useEffect(() => {
     const obt = parseFloat(formData.prev_marks_obtained);
     const tot = parseFloat(formData.prev_total_marks);
@@ -147,6 +161,19 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
       }
     }
   }, [formData.prev_marks_obtained, formData.prev_total_marks]);
+
+  // Update 10th percentage automatically when marks change
+  useEffect(() => {
+    const obt = parseFloat(formData.sec_marks_obtained);
+    const tot = parseFloat(formData.sec_total_marks);
+    if (!isNaN(obt) && !isNaN(tot) && tot > 0) {
+      const pct = ((obt / tot) * 100).toFixed(2);
+      setFormData(prev => ({ ...prev, sec_percentage: pct }));
+      if (fieldErrors.sec_marks_obtained) {
+        setFieldErrors(prev => ({ ...prev, sec_marks_obtained: '' }));
+      }
+    }
+  }, [formData.sec_marks_obtained, formData.sec_total_marks]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -257,7 +284,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
   // Fee calculation helper
   const getFeeAmount = () => {
     const isBsc = formData.program.includes('B.Sc');
-    return isBsc ? parseFloat(settings.admission_fee_bsc || 4500) : parseFloat(settings.admission_fee_ba || 3500);
+    return isBsc ? parseFloat(settings.admission_fee_bsc || 6000) : parseFloat(settings.admission_fee_ba || 4000);
   };
 
   // Step 1 Validation (Field-by-field, no alert)
@@ -267,6 +294,10 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
     if (!formData.father_name.trim()) errors.father_name = "Father's Name is required.";
     if (!formData.mother_name.trim()) errors.mother_name = "Mother's Name is required.";
     if (!formData.dob) errors.dob = 'Date of Birth is required.';
+
+    if (!formData.caste.trim()) {
+      errors.caste = 'Caste / Sub-Caste name is required.';
+    }
 
     const phoneClean = formData.phone.trim();
     if (!phoneClean) {
@@ -282,6 +313,11 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
       errors.aadhar = 'Aadhaar number must contain exactly 12 digits.';
     }
 
+    const apaarClean = (formData.apaar_id || '').trim();
+    if (apaarClean && !/^\d{12}$/.test(apaarClean)) {
+      errors.apaar_id = 'APAAR / ABC ID must contain 12 digits.';
+    }
+
     if (!formData.address.trim()) errors.address = 'Residential permanent address is required.';
     if (!formData.pincode.trim() || !/^\d{6}$/.test(formData.pincode.trim())) {
       errors.pincode = 'Please enter a valid 6-digit PIN code.';
@@ -293,7 +329,20 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
   // Step 2 Validation (Field-by-field, no alert)
   const validateStep2 = () => {
     const errors = {};
-    if (!formData.prev_school.trim()) errors.prev_school = 'School / Junior college name is required.';
+
+    // 10th Secondary validation
+    if (!formData.sec_school.trim()) errors.sec_school = 'Secondary (10th) school name is required.';
+    if (!formData.sec_roll_no.trim()) errors.sec_roll_no = '10th Roll Number is required.';
+    const secObt = parseFloat(formData.sec_marks_obtained);
+    const secTot = parseFloat(formData.sec_total_marks);
+    if (isNaN(secObt) || secObt <= 0) {
+      errors.sec_marks_obtained = 'Enter valid marks obtained in 10th.';
+    } else if (secObt > secTot) {
+      errors.sec_marks_obtained = 'Marks obtained cannot exceed total marks.';
+    }
+
+    // 12th Senior Secondary validation
+    if (!formData.prev_school.trim()) errors.prev_school = 'Senior Secondary (12th) school / college name is required.';
     if (!formData.prev_roll_no.trim()) errors.prev_roll_no = '12th Roll Number is required.';
 
     const obt = parseFloat(formData.prev_marks_obtained);
@@ -306,6 +355,10 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
     if (formData.program === 'B.A.' && formData.subjects.length !== 3) {
       errors.subjects = 'Please choose exactly 3 elective subjects for B.A.';
+    }
+
+    if (!formData.aecc_subject) {
+      errors.aecc_subject = 'Please choose a General/Compulsory (AECC) subject.';
     }
 
     return errors;
@@ -999,6 +1052,46 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       </select>
                     </div>
 
+                    <div id="field-caste">
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: fieldErrors.caste ? '#dc2626' : '#334155', marginBottom: '6px' }}>
+                        Caste / Sub-Caste (जाति) *
+                      </label>
+                      <input
+                        type="text"
+                        name="caste"
+                        value={formData.caste}
+                        onChange={handleInputChange}
+                        placeholder="e.g. Labana, Damor, Meena, Kalal, Patidar..."
+                        list="caste-suggestions"
+                        style={{
+                          width: '100%',
+                          padding: '12px 14px',
+                          borderRadius: '8px',
+                          border: fieldErrors.caste ? '1.5px solid #ef4444' : '1px solid #cbd5e1',
+                          fontSize: '14px',
+                        }}
+                      />
+                      <datalist id="caste-suggestions">
+                        <option value="Labana" />
+                        <option value="Damor" />
+                        <option value="Meena" />
+                        <option value="Kalal" />
+                        <option value="Patidar" />
+                        <option value="Brahmin" />
+                        <option value="Rajput" />
+                        <option value="Jain" />
+                        <option value="Ahir / Yadav" />
+                        <option value="Chaudhary" />
+                        <option value="Meghwal" />
+                        <option value="Bhil" />
+                      </datalist>
+                      {fieldErrors.caste && (
+                        <span style={{ display: 'block', color: '#dc2626', fontSize: '12px', marginTop: '4px' }}>
+                          {fieldErrors.caste}
+                        </span>
+                      )}
+                    </div>
+
                     <div id="field-aadhar">
                       <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: fieldErrors.aadhar ? '#dc2626' : '#334155', marginBottom: '6px' }}>
                         12-Digit Aadhaar Number (आधार कार्ड संख्या) *
@@ -1021,6 +1114,35 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       {fieldErrors.aadhar && (
                         <span style={{ display: 'block', color: '#dc2626', fontSize: '12px', marginTop: '4px' }}>
                           {fieldErrors.aadhar}
+                        </span>
+                      )}
+                    </div>
+
+                    <div id="field-apaar_id">
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: fieldErrors.apaar_id ? '#dc2626' : '#334155', marginBottom: '6px' }}>
+                        APAAR / ABC ID (अपार / एकेडेमिक बैंक ऑफ क्रेडिट्स आईडी)
+                      </label>
+                      <input
+                        type="text"
+                        name="apaar_id"
+                        maxLength={12}
+                        value={formData.apaar_id}
+                        onChange={handleInputChange}
+                        placeholder="12-digit APAAR / ABC ID (e.g. 123456789012)"
+                        style={{
+                          width: '100%',
+                          padding: '12px 14px',
+                          borderRadius: '8px',
+                          border: fieldErrors.apaar_id ? '1.5px solid #ef4444' : '1px solid #cbd5e1',
+                          fontSize: '14px',
+                        }}
+                      />
+                      <span style={{ display: 'block', fontSize: '11px', color: '#64748b', marginTop: '4px' }}>
+                        Automated Permanent Academic Account Registry (One Nation, One Student ID) / DigiLocker ABC ID.
+                      </span>
+                      {fieldErrors.apaar_id && (
+                        <span style={{ display: 'block', color: '#dc2626', fontSize: '12px', marginTop: '4px' }}>
+                          {fieldErrors.apaar_id}
                         </span>
                       )}
                     </div>
@@ -1246,7 +1368,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
                   {/* Subject Combination Selection */}
                   {formData.program === 'B.A.' ? (
-                    <div id="field-subjects" style={{ background: '#f8fafc', padding: '18px', borderRadius: '10px', border: fieldErrors.subjects ? '1.5px solid #ef4444' : '1px solid #e2e8f0', marginBottom: '28px' }}>
+                    <div id="field-subjects" style={{ background: '#f8fafc', padding: '18px', borderRadius: '10px', border: fieldErrors.subjects ? '1.5px solid #ef4444' : '1px solid #e2e8f0', marginBottom: '24px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                         <strong style={{ fontSize: '13px', color: '#0f172a' }}>Select 3 Elective Subjects (ऐच्छिक विषय): *</strong>
                         <span style={{ fontSize: '12px', color: formData.subjects.length === 3 ? '#059669' : '#b45309', fontWeight: 600 }}>
@@ -1256,11 +1378,13 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px' }}>
                         {[
                           'Hindi Literature',
+                          'English Literature',
+                          'Sanskrit Literature',
                           'Political Science',
                           'History',
                           'Economics',
                           'Geography',
-                          'Sanskrit Literature'
+                          'Sociology'
                         ].map(subj => {
                           const checked = formData.subjects.includes(subj);
                           return (
@@ -1295,13 +1419,220 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       )}
                     </div>
                   ) : (
-                    <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '28px' }}>
+                    <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '24px' }}>
                       <strong style={{ fontSize: '13px', color: '#0f172a' }}>Fixed CBZ Subject Combination:</strong>
                       <p style={{ margin: '4px 0 0 0', fontSize: '13px', color: '#059669', fontWeight: 600 }}>
                         ✓ Chemistry (रसायन शास्त्र) • Botany (वनस्पति विज्ञान) • Zoology (प्राणी विज्ञान)
                       </p>
                     </div>
                   )}
+
+                  {/* General / Compulsory (AECC) Subject */}
+                  <div id="field-aecc_subject" style={{ background: '#f8fafc', padding: '18px', borderRadius: '10px', border: fieldErrors.aecc_subject ? '1.5px solid #ef4444' : '1px solid #e2e8f0', marginBottom: '28px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <strong style={{ fontSize: '13px', color: '#0f172a' }}>
+                        General / Compulsory (AECC) Subject (अनिवार्य विषय): *
+                      </strong>
+                      <span style={{ fontSize: '11px', color: '#059669', fontWeight: 700, background: '#ecfdf5', padding: '2px 8px', borderRadius: '4px' }}>
+                        GGTU NEP Curriculum
+                      </span>
+                    </div>
+                    <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#64748b' }}>
+                      As per university guidelines, all undergraduate students (B.A. &amp; B.Sc.) must choose any ONE compulsory subject:
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
+                      {[
+                        { key: 'General Hindi', label: 'A. General Hindi (सामान्य हिन्दी)' },
+                        { key: 'General English', label: 'B. General English (सामान्य अंग्रेजी)' },
+                        { key: 'Environmental Studies (EVS)', label: 'C. Environmental Studies / EVS (पर्यावरण अध्ययन)' },
+                      ].map(aecc => {
+                        const selected = formData.aecc_subject === aecc.key;
+                        return (
+                          <label
+                            key={aecc.key}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '10px',
+                              padding: '10px 14px',
+                              borderRadius: '8px',
+                              background: selected ? '#eff6ff' : '#ffffff',
+                              border: selected ? '2px solid #2563eb' : '1px solid #cbd5e1',
+                              fontSize: '13px',
+                              fontWeight: selected ? 600 : 500,
+                              color: selected ? '#1e40af' : '#334155',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease',
+                            }}
+                          >
+                            <input
+                              type="radio"
+                              name="aecc_subject"
+                              value={aecc.key}
+                              checked={selected}
+                              onChange={(e) => {
+                                setFormData(prev => ({ ...prev, aecc_subject: e.target.value }));
+                                if (fieldErrors.aecc_subject) {
+                                  setFieldErrors(prev => ({ ...prev, aecc_subject: '' }));
+                                }
+                              }}
+                              style={{ accentColor: '#2563eb', transform: 'scale(1.15)' }}
+                            />
+                            {aecc.label}
+                          </label>
+                        );
+                      })}
+                    </div>
+                    {fieldErrors.aecc_subject && (
+                      <span style={{ display: 'block', color: '#dc2626', fontSize: '12px', marginTop: '8px' }}>
+                        {fieldErrors.aecc_subject}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Secondary (10th) Exam Scores */}
+                  <h3 style={{ fontSize: '15px', color: '#0f172a', marginBottom: '14px', borderTop: '1px solid #f1f5f9', paddingTop: '16px' }}>
+                    Secondary (10th / 10वीं) Examination Record
+                  </h3>
+
+                  <div className="responsive-form-grid-2" style={{ gap: '16px', marginBottom: '24px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+                        10th Board of Examination (शिक्षा बोर्ड) *
+                      </label>
+                      <select
+                        name="sec_board"
+                        value={formData.sec_board}
+                        onChange={handleInputChange}
+                        style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px' }}
+                      >
+                        <option value="RBSE">Board of Secondary Education Rajasthan (RBSE, Ajmer)</option>
+                        <option value="CBSE">Central Board of Secondary Education (CBSE)</option>
+                        <option value="RSOS">Rajasthan State Open School (RSOS)</option>
+                        <option value="Other">Other State Board</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+                        10th Passing Year (उत्तीर्ण वर्ष) *
+                      </label>
+                      <select
+                        name="sec_passing_year"
+                        value={formData.sec_passing_year}
+                        onChange={handleInputChange}
+                        style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px' }}
+                      >
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021 or Earlier</option>
+                      </select>
+                    </div>
+
+                    <div id="field-sec_school" style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: fieldErrors.sec_school ? '#dc2626' : '#334155', marginBottom: '6px' }}>
+                        Secondary (10th) School Name (विद्यालय का नाम) *
+                      </label>
+                      <input
+                        type="text"
+                        name="sec_school"
+                        value={formData.sec_school}
+                        onChange={handleInputChange}
+                        placeholder="e.g. Govt. Secondary School, Peeth"
+                        style={{
+                          width: '100%',
+                          padding: '10px 14px',
+                          borderRadius: '8px',
+                          border: fieldErrors.sec_school ? '1.5px solid #ef4444' : '1px solid #cbd5e1',
+                          fontSize: '14px',
+                        }}
+                      />
+                      {fieldErrors.sec_school && (
+                        <span style={{ display: 'block', color: '#dc2626', fontSize: '12px', marginTop: '4px' }}>
+                          {fieldErrors.sec_school}
+                        </span>
+                      )}
+                    </div>
+
+                    <div id="field-sec_roll_no">
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: fieldErrors.sec_roll_no ? '#dc2626' : '#334155', marginBottom: '6px' }}>
+                        10th Roll Number (अनुक्रमांक) *
+                      </label>
+                      <input
+                        type="text"
+                        name="sec_roll_no"
+                        value={formData.sec_roll_no}
+                        onChange={handleInputChange}
+                        placeholder="e.g. 1892301"
+                        style={{
+                          width: '100%',
+                          padding: '10px 14px',
+                          borderRadius: '8px',
+                          border: fieldErrors.sec_roll_no ? '1.5px solid #ef4444' : '1px solid #cbd5e1',
+                          fontSize: '14px',
+                        }}
+                      />
+                      {fieldErrors.sec_roll_no && (
+                        <span style={{ display: 'block', color: '#dc2626', fontSize: '12px', marginTop: '4px' }}>
+                          {fieldErrors.sec_roll_no}
+                        </span>
+                      )}
+                    </div>
+
+                    <div id="field-sec_marks_obtained" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '10px' }}>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: fieldErrors.sec_marks_obtained ? '#dc2626' : '#334155', marginBottom: '6px' }}>
+                          Marks Obtained *
+                        </label>
+                        <input
+                          type="number"
+                          name="sec_marks_obtained"
+                          value={formData.sec_marks_obtained}
+                          onChange={handleInputChange}
+                          placeholder="e.g. 420"
+                          style={{
+                            width: '100%',
+                            padding: '10px 10px',
+                            borderRadius: '8px',
+                            border: fieldErrors.sec_marks_obtained ? '1.5px solid #ef4444' : '1px solid #cbd5e1',
+                            fontSize: '14px',
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+                          Total Marks *
+                        </label>
+                        <input
+                          type="number"
+                          name="sec_total_marks"
+                          value={formData.sec_total_marks}
+                          onChange={handleInputChange}
+                          placeholder="600"
+                          style={{ width: '100%', padding: '10px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px' }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#059669', marginBottom: '6px' }}>
+                          Percentage (%)
+                        </label>
+                        <input
+                          type="text"
+                          name="sec_percentage"
+                          readOnly
+                          value={formData.sec_percentage ? `${formData.sec_percentage}%` : 'Auto'}
+                          style={{ width: '100%', padding: '10px 10px', borderRadius: '8px', border: '1px solid #bbf7d0', background: '#f0fdf4', color: '#166534', fontWeight: 700, fontSize: '14px' }}
+                        />
+                      </div>
+                      {fieldErrors.sec_marks_obtained && (
+                        <div style={{ gridColumn: '1 / -1', color: '#dc2626', fontSize: '12px', marginTop: '2px' }}>
+                          {fieldErrors.sec_marks_obtained}
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
                   {/* 10+2 Exam Scores */}
                   <h3 style={{ fontSize: '15px', color: '#0f172a', marginBottom: '14px', borderTop: '1px solid #f1f5f9', paddingTop: '16px' }}>
@@ -1632,11 +1963,11 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                             </p>
                           </div>
                           <span style={{ fontSize: '12px', fontWeight: 700, background: '#eff6ff', color: '#1e40af', padding: '4px 12px', borderRadius: '20px' }}>
-                            {formData.category} ({formData.gender})
+                            {formData.category} {formData.caste ? `• ${formData.caste}` : ''} ({formData.gender})
                           </span>
                         </div>
                         <div style={{ marginTop: '8px', fontSize: '13px', color: '#334155' }}>
-                          <strong>Program:</strong> {formData.program === 'B.A.' ? 'Bachelor of Arts (B.A.)' : 'B.Sc. Biology (CBZ)'} • <strong>12th Marks:</strong> {formData.prev_percentage}%
+                          <strong>Program:</strong> {formData.program === 'B.A.' ? 'Bachelor of Arts (B.A.)' : 'B.Sc. Biology (CBZ)'} • <strong>10th:</strong> {formData.sec_percentage}% • <strong>12th:</strong> {formData.prev_percentage}%
                         </div>
                       </div>
                     </div>
@@ -1644,6 +1975,11 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     <div className="receipt-meta-grid" style={{ borderTop: '1px solid #e2e8f0', paddingTop: '14px' }}>
                       <div><span style={{ color: '#64748b' }}>Contact Mobile:</span> <strong>+91 {formData.phone}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Aadhaar Number:</span> <strong>{formData.aadhar}</strong></div>
+                      <div><span style={{ color: '#64748b' }}>APAAR / ABC ID:</span> <strong>{formData.apaar_id || 'Not Provided'}</strong></div>
+                      <div><span style={{ color: '#64748b' }}>Caste:</span> <strong>{formData.caste || formData.category}</strong></div>
+                      <div><span style={{ color: '#64748b' }}>10th (Secondary):</span> <strong>{formData.sec_percentage}% ({formData.sec_roll_no})</strong></div>
+                      <div><span style={{ color: '#64748b' }}>12th (Sr. Sec):</span> <strong>{formData.prev_percentage}% ({formData.prev_roll_no})</strong></div>
+                      <div style={{ gridColumn: '1 / -1' }}><span style={{ color: '#64748b' }}>Compulsory (AECC):</span> <strong style={{ color: '#2563eb' }}>{formData.aecc_subject}</strong></div>
                       <div style={{ gridColumn: '1 / -1' }}><span style={{ color: '#64748b' }}>Address:</span> <strong>{formData.address}, {formData.district}, PIN {formData.pincode}</strong></div>
                       {formData.program === 'B.A.' && (
                         <div style={{ gridColumn: '1 / -1' }}><span style={{ color: '#64748b' }}>Elective Subjects:</span> <strong style={{ color: '#b45309' }}>{formData.subjects.join(', ')}</strong></div>
@@ -1825,9 +2161,14 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       <div><span style={{ color: '#64748b' }}>Mother's Name:</span> <strong>{formData.mother_name}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Date of Birth:</span> <strong>{formData.dob}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Program Admitted:</span> <strong style={{ color: '#1e40af' }}>{formData.program === 'B.A.' ? 'Bachelor of Arts (B.A.)' : 'B.Sc. Biology (CBZ)'}</strong></div>
-                      <div><span style={{ color: '#64748b' }}>Category / Gender:</span> <strong>{formData.category} / {formData.gender}</strong></div>
-                      <div><span style={{ color: '#64748b' }}>12th Percentage:</span> <strong>{formData.prev_percentage}% ({formData.prev_roll_no})</strong></div>
+                      <div><span style={{ color: '#64748b' }}>Category / Caste:</span> <strong>{formData.category} {formData.caste ? `(${formData.caste})` : ''} / {formData.gender}</strong></div>
+                      {formData.apaar_id && (
+                        <div><span style={{ color: '#64748b' }}>APAAR / ABC ID:</span> <strong>{formData.apaar_id}</strong></div>
+                      )}
+                      <div><span style={{ color: '#64748b' }}>10th Score:</span> <strong>{formData.sec_percentage}% ({formData.sec_roll_no})</strong></div>
+                      <div><span style={{ color: '#64748b' }}>12th Score:</span> <strong>{formData.prev_percentage}% ({formData.prev_roll_no})</strong></div>
                       <div><span style={{ color: '#64748b' }}>Contact Mobile:</span> <strong>+91 {formData.phone}</strong></div>
+                      <div style={{ gridColumn: '1 / -1' }}><span style={{ color: '#64748b' }}>Compulsory (AECC):</span> <strong style={{ color: '#2563eb' }}>{formData.aecc_subject}</strong></div>
                       <div style={{ gridColumn: '1 / -1' }}><span style={{ color: '#64748b' }}>Address:</span> <strong>{formData.address}, {formData.district}, PIN {formData.pincode}</strong></div>
                       {formData.program === 'B.A.' && (
                         <div style={{ gridColumn: '1 / -1' }}><span style={{ color: '#64748b' }}>Elective Subjects:</span> <strong>{formData.subjects.join(', ')}</strong></div>

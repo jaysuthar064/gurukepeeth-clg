@@ -20,6 +20,7 @@ const FACULTY_PHOTO_MAP = {
   2: '/images/faculty/priyanka-pandya.png',
   3: '/images/faculty/rajesh-kumar-damor.png',
   4: '/images/faculty/ashok-kumar-damor.jpeg',
+  5: '/images/faculty/ramesh-chandra-pargi.jpeg',
   6: '/images/faculty/priyanka-rathore.jpeg',
   7: '/images/faculty/laxmi-labana.jpeg',
   8: '/images/faculty/mithun-kumar-damor.jpeg',
@@ -41,6 +42,7 @@ const resolveFacultyPhoto = (f) => {
   if (name.includes('priyanka pandya')) return '/images/faculty/priyanka-pandya.png';
   if (name.includes('rajesh')) return '/images/faculty/rajesh-kumar-damor.png';
   if (name.includes('ashok')) return '/images/faculty/ashok-kumar-damor.jpeg';
+  if (name.includes('ramesh') || name.includes('pargi')) return '/images/faculty/ramesh-chandra-pargi.jpeg';
   if (name.includes('rathore')) return '/images/faculty/priyanka-rathore.jpeg';
   if (name.includes('laxmi')) return '/images/faculty/laxmi-labana.jpeg';
   if (name.includes('mithun')) return '/images/faculty/mithun-kumar-damor.jpeg';
@@ -171,7 +173,7 @@ export default function FacultyPage() {
       experience: '7+ Years',
       specialization: 'Indian History, IT Support & Admission In-Charge (+91 82092 77580)',
       phone: '+91 82092 77580',
-      photo_url: '',
+      photo_url: '/images/faculty/ramesh-chandra-pargi.jpeg',
       initials: 'RP',
     },
     {

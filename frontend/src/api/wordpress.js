@@ -111,6 +111,8 @@ export function sanitizeLeadershipList(list) {
         photo = '/images/leadership/director-kalu-ram-labana.png';
       } else if (key.includes('principal') || key.includes('hari shanker') || key.includes('maru')) {
         photo = '/images/leadership/principal-dr-hari-shanker-maru.jpeg';
+      } else if (key.includes('secretary') || key.includes('vipin') || key.includes('vipin kumar')) {
+        photo = '/images/leadership/secretary-vipin-kumar-labana.jpeg';
       }
     }
     const msg = (l.message || '')
@@ -220,7 +222,7 @@ export async function getFaculty() {
       experience: '7+ Years',
       specialization: 'Indian History, IT Support & Admission In-Charge (+91 82092 77580)',
       phone: '+91 82092 77580',
-      photo_url: '',
+      photo_url: '/images/faculty/ramesh-chandra-pargi.jpeg',
       initials: 'RP',
     },
     {
@@ -383,7 +385,7 @@ export async function getLeadership() {
       role_title: 'Secretary',
       qualifications: 'Mr. Vipin Kumar Labana',
       message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Shikshan Sansthan College stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.',
-      photo_url: '',
+      photo_url: '/images/leadership/secretary-vipin-kumar-labana.jpeg',
     },
     {
       id: 3,
@@ -418,6 +420,14 @@ export async function getDisclosures() {
         description: 'Permanent No Objection Certificate (स्थायी अनापत्ति प्रमाण पत्र) granted by Commissionerate of College Education, Govt. of Rajasthan, Jaipur (Order: एफ4 (54)आकाशि/नि.सं./2014/20) for B.Sc. Biology Group (Chemistry, Zoology, Botany).',
         issued_date: '06 Aug 2021',
         pdf_url: '/documents/noc/rajasthan-govt-permanent-noc-bsc-biology.pdf',
+      },
+      {
+        id: 13,
+        category: 'affiliation',
+        title: 'GGTU Affiliation Extension Order — Session 2026-27 (Current Academic Year)',
+        description: 'Provisional Affiliation Extension Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2026/2926 Dt. 18-08-2026, College Code: 603) for B.A. (8 Subjects) and B.Sc. (CBZ).',
+        issued_date: '18 Aug 2026',
+        pdf_url: '/documents/affiliation/ggtu-affiliation-2026-27.pdf',
       },
       {
         id: 3,

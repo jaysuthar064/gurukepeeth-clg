@@ -28,8 +28,8 @@ function gurukapeeth_render_settings_page() {
 			'marquee_announcement'=> sanitize_text_field( $_POST['marquee_announcement'] ?? '' ),
 			'razorpay_key_id'     => sanitize_text_field( $_POST['razorpay_key_id'] ?? '' ),
 			'razorpay_key_secret' => sanitize_text_field( $_POST['razorpay_key_secret'] ?? '' ),
-			'admission_fee_ba'    => sanitize_text_field( $_POST['admission_fee_ba'] ?? '3500' ),
-			'admission_fee_bsc'   => sanitize_text_field( $_POST['admission_fee_bsc'] ?? '4500' ),
+			'admission_fee_ba'    => sanitize_text_field( $_POST['admission_fee_ba'] ?? '4000' ),
+			'admission_fee_bsc'   => sanitize_text_field( $_POST['admission_fee_bsc'] ?? '6000' ),
 		);
 
 		update_option( 'gurukapeeth_settings', $settings );
@@ -135,12 +135,12 @@ function gurukapeeth_render_settings_page() {
 						</div>
 						<div class="form-row">
 							<label>B.A. Admission Fee (INR):</label>
-							<input type="number" name="admission_fee_ba" value="<?php echo esc_attr( $s['admission_fee_ba'] ?? '3500' ); ?>" class="regular-text" style="width: 100%;" />
+							<input type="number" name="admission_fee_ba" value="<?php echo esc_attr( $s['admission_fee_ba'] ?? '4000' ); ?>" class="regular-text" style="width: 100%;" />
 							<p class="description" style="font-size: 11px; color: #64748b;">Annual / Admission fee charged for B.A. Arts applicants.</p>
 						</div>
 						<div class="form-row">
 							<label>B.Sc. (Bio) Admission Fee (INR):</label>
-							<input type="number" name="admission_fee_bsc" value="<?php echo esc_attr( $s['admission_fee_bsc'] ?? '4500' ); ?>" class="regular-text" style="width: 100%;" />
+							<input type="number" name="admission_fee_bsc" value="<?php echo esc_attr( $s['admission_fee_bsc'] ?? '6000' ); ?>" class="regular-text" style="width: 100%;" />
 							<p class="description" style="font-size: 11px; color: #64748b;">Annual / Admission fee charged for B.Sc. Biology applicants.</p>
 						</div>
 					</div>

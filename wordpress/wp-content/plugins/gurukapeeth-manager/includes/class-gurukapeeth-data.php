@@ -31,8 +31,8 @@ class Gurukapeeth_Data {
 			'razorpay_key_id'     => 'rzp_test_5173GURUKRIPA',
 			'razorpay_key_secret' => 'PLACEHOLDER_SECRET_TEST',
 			'razorpay_enabled'    => '1',
-			'admission_fee_ba'    => '3500',
-			'admission_fee_bsc'   => '4500',
+			'admission_fee_ba'    => '4000',
+			'admission_fee_bsc'   => '6000',
 		);
 
 		$saved = get_option( 'gurukapeeth_settings', array() );
@@ -291,7 +291,7 @@ class Gurukapeeth_Data {
 				'qualification'  => 'B.A., B.Ed.',
 				'experience'     => '7+ Years',
 				'specialization' => 'Indian History & Tribal Heritage Studies',
-				'photo_url'      => '',
+				'photo_url'      => '/images/faculty/ramesh-chandra-pargi.jpeg',
 			),
 			array(
 				'id'             => 6,
@@ -574,6 +574,10 @@ class Gurukapeeth_Data {
 					$item['photo_url'] = '/images/leadership/principal-dr-hari-shanker-maru.jpeg';
 					$dirty = true;
 				}
+				if ( ( $rk === 'secretary' || strpos( $name, 'secretary' ) !== false || strpos( $name, 'vipin' ) !== false ) && empty( $item['photo_url'] ) ) {
+					$item['photo_url'] = '/images/leadership/secretary-vipin-kumar-labana.jpeg';
+					$dirty = true;
+				}
 				if ( ! empty( $item['message'] ) ) {
 					$old_msg = $item['message'];
 					$new_msg = str_replace( 'Gurukripa Peeth College', 'Gurukripa Shikshan Sansthan College Peeth', $old_msg );
@@ -617,7 +621,7 @@ class Gurukapeeth_Data {
 				'role_title'     => 'Secretary',
 				'qualifications' => 'Mr. Vipin Kumar Labana',
 				'message'        => 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Shikshan Sansthan College stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.',
-				'photo_url'      => '',
+				'photo_url'      => '/images/leadership/secretary-vipin-kumar-labana.jpeg',
 			),
 			array(
 				'id'             => 3,
@@ -750,6 +754,14 @@ class Gurukapeeth_Data {
 			),
 
 			// 2. GGTU Affiliations across All Sessions
+			array(
+				'id'          => 13,
+				'category'    => 'affiliation',
+				'title'       => 'GGTU Affiliation Extension Order — Session 2026-27 (Current Academic Year)',
+				'description' => 'Provisional Affiliation Extension Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2026/2926 Dt. 18-08-2026, College Code: 603) for B.A. (8 Subjects) and B.Sc. (CBZ).',
+				'issued_date' => '18 Aug 2026',
+				'pdf_url'     => '/documents/affiliation/ggtu-affiliation-2026-27.pdf',
+			),
 			array(
 				'id'          => 3,
 				'category'    => 'affiliation',
@@ -1050,7 +1062,7 @@ class Gurukapeeth_Data {
 		$is_bsc = ( stripos( $program_raw, 'bsc' ) !== false || stripos( $program_raw, 'b.sc' ) !== false || stripos( $program_raw, 'science' ) !== false );
 		$program_code = $is_bsc ? 'BSC' : 'BA';
 		$program_name = $is_bsc ? 'Bachelor of Science (B.Sc. Bio / CBZ)' : 'Bachelor of Arts (B.A.)';
-		$fee_amount   = $is_bsc ? floatval( $settings['admission_fee_bsc'] ?? 4500 ) : floatval( $settings['admission_fee_ba'] ?? 3500 );
+		$fee_amount   = $is_bsc ? floatval( $settings['admission_fee_bsc'] ?? 6000 ) : floatval( $settings['admission_fee_ba'] ?? 4000 );
 
 		// Unique reference number: GPC-ADM-2026-XXXXX
 		$ref_num = 'GPC-ADM-2026-' . strtoupper( substr( md5( uniqid( rand(), true ) ), 0, 5 ) );
@@ -1091,7 +1103,9 @@ class Gurukapeeth_Data {
 			'dob'                 => sanitize_text_field( $data['dob'] ?? '' ),
 			'gender'              => sanitize_text_field( $data['gender'] ?? 'Male' ),
 			'category'            => sanitize_text_field( $data['category'] ?? 'General' ),
+			'caste'               => sanitize_text_field( $data['caste'] ?? '' ),
 			'aadhar'              => sanitize_text_field( $data['aadhar'] ?? '' ),
+			'apaar_id'            => sanitize_text_field( $data['apaar_id'] ?? '' ),
 			'phone'               => sanitize_text_field( $data['phone'] ?? '' ),
 			'email'               => sanitize_email( $data['email'] ?? '' ),
 			'address'             => sanitize_textarea_field( $data['address'] ?? '' ),
@@ -1103,6 +1117,18 @@ class Gurukapeeth_Data {
 			'program'             => $program_name,
 			'program_code'        => $program_code,
 			'subjects'            => $subjects,
+			'aecc_subject'        => sanitize_text_field( $data['aecc_subject'] ?? 'General Hindi' ),
+
+			// Secondary (10th) Examination Record
+			'sec_board'           => sanitize_text_field( $data['sec_board'] ?? 'RBSE' ),
+			'sec_school'          => sanitize_text_field( $data['sec_school'] ?? '' ),
+			'sec_roll_no'         => sanitize_text_field( $data['sec_roll_no'] ?? '' ),
+			'sec_passing_year'    => sanitize_text_field( $data['sec_passing_year'] ?? '2024' ),
+			'sec_marks_obtained'  => sanitize_text_field( $data['sec_marks_obtained'] ?? '' ),
+			'sec_total_marks'     => sanitize_text_field( $data['sec_total_marks'] ?? '600' ),
+			'sec_percentage'      => sanitize_text_field( $data['sec_percentage'] ?? '' ),
+
+			// Senior Secondary (12th) Examination Record
 			'prev_board'          => sanitize_text_field( $data['prev_board'] ?? 'RBSE' ),
 			'prev_school'         => sanitize_text_field( $data['prev_school'] ?? '' ),
 			'prev_roll_no'        => sanitize_text_field( $data['prev_roll_no'] ?? '' ),

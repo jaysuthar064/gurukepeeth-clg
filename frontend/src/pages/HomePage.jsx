@@ -19,6 +19,9 @@ const resolveLeaderPhoto = (lead) => {
   if (key.includes('principal') || key.includes('hari shanker') || key.includes('maru')) {
     return '/images/leadership/principal-dr-hari-shanker-maru.jpeg';
   }
+  if (key.includes('secretary') || key.includes('vipin') || key.includes('vipin kumar')) {
+    return '/images/leadership/secretary-vipin-kumar-labana.jpeg';
+  }
   return '';
 };
 
@@ -181,7 +184,7 @@ export default function HomePage() {
       name: "Secretary's Desk", 
       role_title: 'Secretary', 
       qualifications: 'Mr. Vipin Kumar Labana', 
-      photo_url: '',
+      photo_url: '/images/leadership/secretary-vipin-kumar-labana.jpeg',
       message: 'We prioritize learner-centric infrastructure, transparent administration, and comprehensive student support. Gurukripa Shikshan Sansthan College stands as a beacon of opportunity for tribal and rural scholars to achieve excellence in higher education and academic careers.' 
     },
     { 
