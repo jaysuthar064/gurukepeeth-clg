@@ -105,22 +105,22 @@ export default function AboutPage() {
   });
 
   const societyMembers = [
-    { sn: 1, name: 'श्री कालूराम लबाना', nameEn: 'Mr. Kalu Ram Labana', relation: 'श्री नारायण लबाना (पिता)', role: 'अध्यक्ष (President)', isOfficer: true, dob: '15/09/1972', occ: 'कृषि (Agriculture)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 2, name: 'श्री विपिन कुमार लबाना', nameEn: 'Mr. Vipin Kumar Labana', relation: 'श्री कालूराम लबाना (पिता)', role: 'सचिव / मंत्री (Secretary)', isOfficer: true, dob: '01/06/1990', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 3, name: 'श्रीमती लक्ष्मी लबाना', nameEn: 'Mrs. Laxmi Labana', relation: 'श्री विपिन कुमार लबाना (पति)', role: 'कोषाध्यक्ष (Treasurer)', isOfficer: true, dob: '01/07/1995', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 4, name: 'श्री अमुल कुमार लबाना', nameEn: 'Mr. Amul Kumar Labana', relation: 'श्री कालूराम लबाना (पिता)', role: 'सदस्य (Member)', isOfficer: false, dob: '07/01/1993', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 5, name: 'श्रीमती बबली बेन लबाना', nameEn: 'Mrs. Babli Ben Labana', relation: 'श्री कालूराम लबाना (पति)', role: 'सदस्य (Member)', isOfficer: false, dob: '12/09/1984', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 6, name: 'श्री ईश्वरलाल लबाना', nameEn: 'Mr. Ishwarlal Labana', relation: 'श्री नाथा लबाना (पिता)', role: 'सदस्य (Member)', isOfficer: false, dob: '01/05/1959', occ: 'कृषि (Agriculture)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 7, name: 'सुश्री खुशबू कुमारी लबाना', nameEn: 'Ms. Khushbu Kumari Labana', relation: 'श्री कालूराम लबाना (पिता)', role: 'सदस्य (Member)', isOfficer: false, dob: '02/01/2002', occ: 'अध्ययन (Student)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 8, name: 'श्रीमती माया लबाना', nameEn: 'Mrs. Maya Labana', relation: 'श्री ईश्वरलाल लबाना (पिता)', role: 'सदस्य (Member)', isOfficer: false, dob: '07/07/1999', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 9, name: 'श्रीमती नीता देवी मिश्रा', nameEn: 'Mrs. Nita Devi Mishra', relation: 'श्री मुकेश कुमार शर्मा (पति)', role: 'सदस्य (Member)', isOfficer: false, dob: '01/01/1964', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 10, name: 'श्री पंकज लबाना', nameEn: 'Mr. Pankaj Labana', relation: 'श्री ईश्वरलाल लबाना (पिता)', role: 'सदस्य (Member)', isOfficer: false, dob: '04/01/1974', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 11, name: 'श्री प्रकाश चन्द्र लबाना', nameEn: 'Mr. Prakash Chandra Labana', relation: 'श्री शंकरलाल लबाना (पिता)', role: 'सदस्य (Member)', isOfficer: false, dob: '05/01/1979', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 12, name: 'श्रीमती सावित्री लबाना', nameEn: 'Mrs. Savitri Labana', relation: 'श्री शंकरलाल लबाना (पति)', role: 'सदस्य (Member)', isOfficer: false, dob: '01/01/1974', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 13, name: 'श्री सुशील कुमार पंड्या', nameEn: 'Mr. Sushil Kumar Pandya', relation: 'श्री कांतिलाल पंड्या (पिता)', role: 'सदस्य (Member)', isOfficer: false, dob: '01/06/1965', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 14, name: 'सुश्री टिंकल लबाना', nameEn: 'Ms. Tinkal Labana', relation: 'श्री कालूराम लबाना (पिता)', role: 'सदस्य (Member)', isOfficer: false, dob: '06/06/2000', occ: 'अध्ययन (Student)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 15, name: 'श्रीमती विद्या लबाना', nameEn: 'Mrs. Vidhya Labana', relation: 'श्री प्रकाशचन्द्र लबाना (पति)', role: 'सदस्य (Member)', isOfficer: false, dob: '22/01/1998', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
-    { sn: 16, name: 'श्री विवेक लबाना', nameEn: 'Mr. Vivek Labana', relation: 'श्री प्रकाशचन्द्र लबाना (पिता)', role: 'सदस्य (Member)', isOfficer: false, dob: '01/08/1996', occ: 'अध्ययन (Student)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 1, name: 'श्री कालूराम लबाना', nameEn: 'Mr. Kalu Ram Labana', role: 'अध्यक्ष (President)', isOfficer: true, dob: '15/09/1972', occ: 'कृषि (Agriculture)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 2, name: 'श्री विपिन कुमार लबाना', nameEn: 'Mr. Vipin Kumar Labana', role: 'सचिव / मंत्री (Secretary)', isOfficer: true, dob: '01/06/1990', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 3, name: 'श्रीमती लक्ष्मी लबाना', nameEn: 'Mrs. Laxmi Labana', role: 'कोषाध्यक्ष (Treasurer)', isOfficer: true, dob: '01/07/1995', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 4, name: 'श्री अमुल कुमार लबाना', nameEn: 'Mr. Amul Kumar Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '07/01/1993', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 5, name: 'श्रीमती बबली बेन लबाना', nameEn: 'Mrs. Babli Ben Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '12/09/1984', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 6, name: 'श्री ईश्वरलाल लबाना', nameEn: 'Mr. Ishwarlal Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '01/05/1959', occ: 'कृषि (Agriculture)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 7, name: 'सुश्री खुशबू कुमारी लबाना', nameEn: 'Ms. Khushbu Kumari Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '02/01/2002', occ: 'अध्ययन (Student)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 8, name: 'श्रीमती माया लबाना', nameEn: 'Mrs. Maya Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '07/07/1999', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 9, name: 'श्रीमती नीता देवी मिश्रा', nameEn: 'Mrs. Nita Devi Mishra', role: 'सदस्य (Member)', isOfficer: false, dob: '01/01/1964', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 10, name: 'श्री पंकज लबाना', nameEn: 'Mr. Pankaj Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '04/01/1974', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 11, name: 'श्री प्रकाश चन्द्र लबाना', nameEn: 'Mr. Prakash Chandra Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '05/01/1979', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 12, name: 'श्रीमती सावित्री लबाना', nameEn: 'Mrs. Savitri Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '01/01/1974', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 13, name: 'श्री सुशील कुमार पंड्या', nameEn: 'Mr. Sushil Kumar Pandya', role: 'सदस्य (Member)', isOfficer: false, dob: '01/06/1965', occ: 'व्यापार (Business)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 14, name: 'सुश्री टिंकल लबाना', nameEn: 'Ms. Tinkal Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '06/06/2000', occ: 'अध्ययन (Student)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 15, name: 'श्रीमती विद्या लबाना', nameEn: 'Mrs. Vidhya Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '22/01/1998', occ: 'गृह कार्य (Household)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
+    { sn: 16, name: 'श्री विवेक लबाना', nameEn: 'Mr. Vivek Labana', role: 'सदस्य (Member)', isOfficer: false, dob: '01/08/1996', occ: 'अध्ययन (Student)', address: 'मु.पो. पीठ, तहसील सीमलवाड़ा, जिला डूंगरपुर (राज.) - 314406' },
   ];
 
   const filteredSociety = societyMembers.filter(m => {
@@ -128,7 +128,6 @@ export default function AboutPage() {
     const q = societySearch.toLowerCase();
     return m.name.toLowerCase().includes(q) ||
            m.nameEn.toLowerCase().includes(q) ||
-           m.relation.toLowerCase().includes(q) ||
            m.role.toLowerCase().includes(q) ||
            m.occ.toLowerCase().includes(q);
   });
@@ -641,7 +640,6 @@ export default function AboutPage() {
                       <tr style={{ background: '#0f172a', color: '#ffffff', borderBottom: '2px solid #b45309' }}>
                         <th style={{ padding: '12px 14px', fontWeight: 700, width: '40px' }}>#</th>
                         <th style={{ padding: '12px 14px', fontWeight: 700 }}>सदस्य का नाम (Member Name)</th>
-                        <th style={{ padding: '12px 14px', fontWeight: 700 }}>पिता / पति का नाम</th>
                         <th style={{ padding: '12px 14px', fontWeight: 700 }}>पद (Designation)</th>
                         <th style={{ padding: '12px 14px', fontWeight: 700 }}>जन्म तिथि</th>
                         <th style={{ padding: '12px 14px', fontWeight: 700 }}>व्यवसाय</th>
@@ -663,9 +661,6 @@ export default function AboutPage() {
                           <td style={{ padding: '12px 14px' }}>
                             <strong style={{ color: '#0f172a', display: 'block' }}>{member.name}</strong>
                             <span style={{ fontSize: '11.5px', color: '#64748b' }}>{member.nameEn}</span>
-                          </td>
-                          <td style={{ padding: '12px 14px', color: '#334155' }}>
-                            {member.relation}
                           </td>
                           <td style={{ padding: '12px 14px' }}>
                             <span 
