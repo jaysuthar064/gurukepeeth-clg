@@ -765,7 +765,7 @@ class Gurukapeeth_Data {
 
 			// 2. GGTU Affiliations across All Sessions
 			array(
-				'id'          => 13,
+				'id'          => 426,
 				'category'    => 'affiliation',
 				'title'       => 'GGTU Affiliation Extension Order — Session 2026-27 (Current Academic Year)',
 				'description' => 'Provisional Affiliation Extension Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2026/2926 Dt. 18-08-2026, College Code: 603) for B.A. (8 Subjects) and B.Sc. (CBZ).',
@@ -789,7 +789,7 @@ class Gurukapeeth_Data {
 				'pdf_url'     => '/documents/affiliation/ggtu-affiliation-2024-25.pdf',
 			),
 			array(
-				'id'          => 14,
+				'id'          => 423,
 				'category'    => 'affiliation',
 				'title'       => 'GGTU Affiliation Order — Session 2023-24',
 				'description' => 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F./GGTU/Affi./2023-24/1150 Dt. 07-08-2023, College Code: 603) for B.A. (8 Subjects) and B.Sc. (CBZ).',
@@ -876,12 +876,20 @@ class Gurukapeeth_Data {
 		}
 
 		$merged = array();
+		$seen_sessions = array();
+
 		foreach ( $saved as $item ) {
 			$cat = $item['category'] ?? '';
 			if ( $cat === 'fire_safety' ) {
 				continue;
 			}
 			$id = $item['id'] ?? 0;
+
+			// Repair UGC 2(f) item if previously misassigned
+			if ( (int) $id === 14 && $cat === 'ugc_approval' && strpos( $item['pdf_url'] ?? '', 'ggtu-affiliation' ) !== false ) {
+				$item['pdf_url'] = '/documents/compliance/ugc-2f-recognition-application-status.pdf';
+			}
+
 			if ( isset( $default_map[ $id ] ) ) {
 				if ( empty( $item['pdf_url'] ) || $item['pdf_url'] === '#' ) {
 					$item['pdf_url'] = $default_map[ $id ]['pdf_url'];
@@ -890,16 +898,45 @@ class Gurukapeeth_Data {
 			} else {
 				$merged[ $id ] = $item;
 			}
-		}
 
-		// Ensure any missing default items are included
-		foreach ( $defaults as $def ) {
-			if ( ! isset( $merged[ $def['id'] ] ) ) {
-				$merged[ $def['id'] ] = $def;
+			if ( $cat === 'affiliation' && preg_match( '/20\d\d[-–]\d\d/', $item['title'] ?? '', $m ) ) {
+				$seen_sessions[ $m[0] ] = true;
 			}
 		}
 
-		return array_values( $merged );
+		// Ensure all default statutory items and affiliation sessions are included
+		foreach ( $defaults as $def ) {
+			$def_id = $def['id'];
+			$is_aff = ( $def['category'] ?? '' ) === 'affiliation';
+
+			if ( $is_aff && preg_match( '/20\d\d[-–]\d\d/', $def['title'] ?? '', $m ) ) {
+				$sess = $m[0];
+				if ( ! isset( $seen_sessions[ $sess ] ) ) {
+					$merged[ $def_id ] = $def;
+					$seen_sessions[ $sess ] = true;
+				}
+			} elseif ( ! isset( $merged[ $def_id ] ) ) {
+				$merged[ $def_id ] = $def;
+			}
+		}
+
+		$result = array_values( $merged );
+
+		// Sort affiliation items chronologically descending
+		usort( $result, function( $a, $b ) {
+			$cat_a = $a['category'] ?? '';
+			$cat_b = $b['category'] ?? '';
+			if ( $cat_a === 'affiliation' && $cat_b === 'affiliation' ) {
+				preg_match( '/20(\d\d)/', $a['title'] ?? '', $ma );
+				preg_match( '/20(\d\d)/', $b['title'] ?? '', $mb );
+				$ya = isset( $ma[1] ) ? (int) $ma[1] : 0;
+				$yb = isset( $mb[1] ) ? (int) $mb[1] : 0;
+				return $yb - $ya;
+			}
+			return 0;
+		} );
+
+		return $result;
 	}
 
 	// ============================================================

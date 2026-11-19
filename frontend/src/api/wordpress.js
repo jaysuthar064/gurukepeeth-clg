@@ -409,122 +409,162 @@ export async function getLeadership() {
 
 // 12. Mandatory Statutory Disclosures
 export async function getDisclosures() {
-  return await fetchJson('/wp-json/gurukapeeth/v1/disclosures', {
-    documents: [
-      {
-        id: 1,
-        category: 'govt_noc',
-        title: 'Rajasthan Govt. Permanent NOC — Faculty of Arts (B.A.)',
-        description: 'Permanent No Objection Certificate (स्थायी अनापत्ति प्रमाण पत्र) granted by Commissionerate of College Education, Govt. of Rajasthan, Jaipur (Order: एफ4 (54)आकाशि/नि.सं./2014/1128) for B.A. Arts subjects.',
-        issued_date: '05 Mar 2021',
-        pdf_url: '/documents/noc/rajasthan-govt-permanent-noc-ba-arts.pdf',
-      },
-      {
-        id: 2,
-        category: 'govt_noc',
-        title: 'Rajasthan Govt. Permanent NOC — Faculty of Science (B.Sc. Biology)',
-        description: 'Permanent No Objection Certificate (स्थायी अनापत्ति प्रमाण पत्र) granted by Commissionerate of College Education, Govt. of Rajasthan, Jaipur (Order: एफ4 (54)आकाशि/नि.सं./2014/20) for B.Sc. Biology Group (Chemistry, Zoology, Botany).',
-        issued_date: '06 Aug 2021',
-        pdf_url: '/documents/noc/rajasthan-govt-permanent-noc-bsc-biology.pdf',
-      },
-      {
-        id: 13,
-        category: 'affiliation',
-        title: 'GGTU Affiliation Extension Order — Session 2026-27 (Current Academic Year)',
-        description: 'Provisional Affiliation Extension Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2026/2926 Dt. 18-08-2026, College Code: 603) for B.A. (8 Subjects) and B.Sc. (CBZ).',
-        issued_date: '18 Aug 2026',
-        pdf_url: '/documents/affiliation/ggtu-affiliation-2026-27.pdf',
-      },
-      {
-        id: 3,
-        category: 'affiliation',
-        title: 'GGTU Affiliation Order — Session 2025-26',
-        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2025/1992) for B.A. (80 seats) and B.Sc. (70 seats).',
-        issued_date: '11 Jul 2025',
-        pdf_url: '/documents/affiliation/ggtu-affiliation-2025-26.pdf',
-      },
-      {
-        id: 4,
-        category: 'affiliation',
-        title: 'GGTU Affiliation Order — Session 2024-25',
-        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2024/1731-39 Dt. 07-12-2024, College Code: 603) for B.A. (80 seats) and B.Sc. (70 seats).',
-        issued_date: '07 Dec 2024',
-        pdf_url: '/documents/affiliation/ggtu-affiliation-2024-25.pdf',
-      },
-      {
-        id: 14,
-        category: 'affiliation',
-        title: 'GGTU Affiliation Order — Session 2023-24',
-        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F./GGTU/Affi./2023-24/1150 Dt. 07-08-2023, College Code: 603) for B.A. (8 Subjects) and B.Sc. (CBZ).',
-        issued_date: '07 Aug 2023',
-        pdf_url: '/documents/affiliation/ggtu-affiliation-2023-24.pdf',
-      },
-      {
-        id: 5,
-        category: 'affiliation',
-        title: 'GGTU Affiliation Order — Session 2022-23',
-        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F.1/GGTU/Affiliation/BSW/2022/626) for B.A. and B.Sc. courses.',
-        issued_date: '13 Sep 2022',
-        pdf_url: '/documents/affiliation/ggtu-affiliation-2022-23.pdf',
-      },
-      {
-        id: 6,
-        category: 'affiliation',
-        title: 'GGTU Affiliation Order — Session 2021-22',
-        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affi./2021/230-236) for B.A. and B.Sc. courses.',
-        issued_date: '27 Nov 2021',
-        pdf_url: '/documents/affiliation/ggtu-affiliation-2021-22.pdf',
-      },
-      {
-        id: 8,
-        category: 'registration',
-        title: 'Society Registration Certificate — Shree Narayan Shiksha Seva Samiti Peeth',
-        description: 'Official Registration Certificate granted under the Rajasthan Societies Registration Act, 1958 (Registration No: 55/DUNGARPUR/2013-14) by the Registrar of Societies, Dungarpur.',
-        issued_date: '26 Jan 2024',
-        pdf_url: '/documents/society-registration-certificate.pdf',
-      },
-      {
-        id: 81,
-        category: 'registration',
-        title: 'Executive Committee Order (नवीन कार्यकारिणी 2023-24) — Office of Assistant Registrar, Dungarpur',
-        description: 'Official certified list of 16 Executive Committee members (अध्यक्ष: श्री कालूराम लबाना, सचिव: श्री विपिन कुमार लबाना, कोषाध्यक्ष: श्रीमती लक्ष्मी लबाना) approved by Office of Assistant Registrar, Cooperative Societies, Dungarpur.',
-        issued_date: '26 Jan 2024',
-        pdf_url: '/documents/society-executive-committee-2023-24.pdf',
-      },
-      {
-        id: 10,
-        category: 'building_noc',
-        title: 'Building Safety Certificate — P.W.D. Division Simalwara, Distt. Dungarpur',
-        description: 'Official Building Safety & Structural Stability Certificate (Order No. 298 dated 04.06.2024) issued by Executive Engineer, P.W.D. Division Simalwara, certifying campus structural stability up to June 2027.',
-        issued_date: '04 Jun 2024',
-        pdf_url: '/documents/safety/pwd-building-safety-certificate-2024-27.pdf',
-      },
-      {
-        id: 11,
-        category: 'fee_structure',
-        title: 'Approved Fee Structure & Refund Policy — Session 2026-27',
-        description: 'University & Management approved official fee schedule for B.A. and B.Sc. Degree programs with government scholarship adjustments.',
-        issued_date: '15 Jun 2026',
-        pdf_url: '/documents/fees/approved-fee-structure-2026-27.pdf',
-      },
-      {
-        id: 12,
-        category: 'anti_ragging',
-        title: 'Anti-Ragging Committee Constitution & Policy — Session 2026-27',
-        description: 'Annual statutory anti-ragging committee constitution as per UGC Regulation 2009 with member details and helpline numbers.',
-        issued_date: '01 Aug 2026',
-        pdf_url: '/documents/committees/anti-ragging-committee-order-2026-27.pdf',
-      },
-      {
-        id: 13,
-        category: 'anti_ragging',
-        title: 'Internal Complaints & Women Grievance Committee — As per Vishakha Guidelines',
-        description: 'Constituted statutory committee for prevention of harassment and student grievance redressal as mandated by UGC & GGTU Banswara.',
-        issued_date: '01 Aug 2026',
-        pdf_url: '/documents/committees/internal-complaints-committee-order-2026-27.pdf',
-      },
-    ]
+  const defaultDocs = [
+    {
+      id: 1,
+      category: 'govt_noc',
+      title: 'Rajasthan Govt. Permanent NOC — Faculty of Arts (B.A.)',
+      description: 'Permanent No Objection Certificate (स्थायी अनापत्ति प्रमाण पत्र) granted by Commissionerate of College Education, Govt. of Rajasthan, Jaipur (Order: एफ4 (54)आकाशि/नि.सं./2014/1128) for B.A. Arts subjects.',
+      issued_date: '05 Mar 2021',
+      pdf_url: '/documents/noc/rajasthan-govt-permanent-noc-ba-arts.pdf',
+    },
+    {
+      id: 2,
+      category: 'govt_noc',
+      title: 'Rajasthan Govt. Permanent NOC — Faculty of Science (B.Sc. Biology)',
+      description: 'Permanent No Objection Certificate (स्थायी अनापत्ति प्रमाण पत्र) granted by Commissionerate of College Education, Govt. of Rajasthan, Jaipur (Order: एफ4 (54)आकाशि/नि.सं./2014/20) for B.Sc. Biology Group (Chemistry, Zoology, Botany).',
+      issued_date: '06 Aug 2021',
+      pdf_url: '/documents/noc/rajasthan-govt-permanent-noc-bsc-biology.pdf',
+    },
+    {
+      id: 426,
+      category: 'affiliation',
+      title: 'GGTU Affiliation Extension Order — Session 2026-27 (Current Academic Year)',
+      description: 'Provisional Affiliation Extension Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2026/2926 Dt. 18-08-2026, College Code: 603) for B.A. (8 Subjects) and B.Sc. (CBZ).',
+      issued_date: '18 Aug 2026',
+      pdf_url: '/documents/affiliation/ggtu-affiliation-2026-27.pdf',
+    },
+    {
+      id: 3,
+      category: 'affiliation',
+      title: 'GGTU Affiliation Order — Session 2025-26',
+      description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2025/1992) for B.A. (80 seats) and B.Sc. (70 seats).',
+      issued_date: '11 Jul 2025',
+      pdf_url: '/documents/affiliation/ggtu-affiliation-2025-26.pdf',
+    },
+    {
+      id: 4,
+      category: 'affiliation',
+      title: 'GGTU Affiliation Order — Session 2024-25',
+      description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2024/1731-39 Dt. 07-12-2024, College Code: 603) for B.A. (80 seats) and B.Sc. (70 seats).',
+      issued_date: '07 Dec 2024',
+      pdf_url: '/documents/affiliation/ggtu-affiliation-2024-25.pdf',
+    },
+    {
+      id: 423,
+      category: 'affiliation',
+      title: 'GGTU Affiliation Order — Session 2023-24',
+      description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F./GGTU/Affi./2023-24/1150 Dt. 07-08-2023, College Code: 603) for B.A. (8 Subjects) and B.Sc. (CBZ).',
+      issued_date: '07 Aug 2023',
+      pdf_url: '/documents/affiliation/ggtu-affiliation-2023-24.pdf',
+    },
+    {
+      id: 5,
+      category: 'affiliation',
+      title: 'GGTU Affiliation Order — Session 2022-23',
+      description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F.1/GGTU/Affiliation/BSW/2022/626) for B.A. and B.Sc. courses.',
+      issued_date: '13 Sep 2022',
+      pdf_url: '/documents/affiliation/ggtu-affiliation-2022-23.pdf',
+    },
+    {
+      id: 6,
+      category: 'affiliation',
+      title: 'GGTU Affiliation Order — Session 2021-22',
+      description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affi./2021/230-236) for B.A. and B.Sc. courses.',
+      issued_date: '27 Nov 2021',
+      pdf_url: '/documents/affiliation/ggtu-affiliation-2021-22.pdf',
+    },
+    {
+      id: 8,
+      category: 'registration',
+      title: 'Society Registration Certificate — Shree Narayan Shiksha Seva Samiti Peeth',
+      description: 'Official Registration Certificate granted under the Rajasthan Societies Registration Act, 1958 (Registration No: 55/DUNGARPUR/2013-14) by the Registrar of Societies, Dungarpur.',
+      issued_date: '26 Jan 2024',
+      pdf_url: '/documents/society-registration-certificate.pdf',
+    },
+    {
+      id: 81,
+      category: 'registration',
+      title: 'Executive Committee Order (नवीन कार्यकारिणी 2023-24) — Office of Assistant Registrar, Dungarpur',
+      description: 'Official certified list of 16 Executive Committee members (अध्यक्ष: श्री कालूराम लबाना, सचिव: श्री विपिन कुमार लबाना, कोषाध्यक्ष: श्रीमती लक्ष्मी लबाना) approved by Office of Assistant Registrar, Cooperative Societies, Dungarpur.',
+      issued_date: '26 Jan 2024',
+      pdf_url: '/documents/society-executive-committee-2023-24.pdf',
+    },
+    {
+      id: 10,
+      category: 'building_noc',
+      title: 'Building Safety Certificate — P.W.D. Division Simalwara, Distt. Dungarpur',
+      description: 'Official Building Safety & Structural Stability Certificate (Order No. 298 dated 04.06.2024) issued by Executive Engineer, P.W.D. Division Simalwara, certifying campus structural stability up to June 2027.',
+      issued_date: '04 Jun 2024',
+      pdf_url: '/documents/safety/pwd-building-safety-certificate-2024-27.pdf',
+    },
+    {
+      id: 11,
+      category: 'fee_structure',
+      title: 'Approved Fee Structure & Refund Policy — Session 2026-27',
+      description: 'University & Management approved official fee schedule for B.A. and B.Sc. Degree programs with government scholarship adjustments.',
+      issued_date: '15 Jun 2026',
+      pdf_url: '/documents/fees/approved-fee-structure-2026-27.pdf',
+    },
+    {
+      id: 12,
+      category: 'anti_ragging',
+      title: 'Anti-Ragging Committee Constitution & Policy — Session 2026-27',
+      description: 'Annual statutory anti-ragging committee constitution as per UGC Regulation 2009 with member details and helpline numbers.',
+      issued_date: '01 Aug 2026',
+      pdf_url: '/documents/committees/anti-ragging-committee-order-2026-27.pdf',
+    },
+    {
+      id: 13,
+      category: 'anti_ragging',
+      title: 'Internal Complaints & Women Grievance Committee — As per Vishakha Guidelines',
+      description: 'Constituted statutory committee for prevention of harassment and student grievance redressal as mandated by UGC & GGTU Banswara.',
+      issued_date: '01 Aug 2026',
+      pdf_url: '/documents/committees/internal-complaints-committee-order-2026-27.pdf',
+    },
+  ];
+
+  const res = await fetchJson('/wp-json/gurukapeeth/v1/disclosures', { documents: defaultDocs });
+  const remoteDocs = (res && Array.isArray(res.documents)) ? res.documents : defaultDocs;
+
+  // Merge any missing affiliation or statutory documents from defaults into remoteDocs
+  const merged = [...remoteDocs];
+
+  // Normalize ICC category if needed
+  merged.forEach(item => {
+    if (item.category === 'icc') {
+      item.category = 'anti_ragging';
+    }
   });
+
+  for (const def of defaultDocs) {
+    const hasMatch = merged.some(item => {
+      if (item.category === 'affiliation' && def.category === 'affiliation') {
+        const itemSession = (item.title || '').match(/20\d\d[-–]\d\d/);
+        const defSession = (def.title || '').match(/20\d\d[-–]\d\d/);
+        if (itemSession && defSession && itemSession[0] === defSession[0]) {
+          return true;
+        }
+      }
+      return String(item.id) === String(def.id) || (item.title && item.title.trim().toLowerCase() === def.title.trim().toLowerCase());
+    });
+
+    if (!hasMatch) {
+      merged.push(def);
+    }
+  }
+
+  // Sort affiliation orders chronologically by session year descending
+  const affiliations = merged
+    .filter(item => item.category === 'affiliation')
+    .sort((a, b) => {
+      const yearA = parseInt((a.title.match(/20(\d\d)/) || [0, 0])[1], 10);
+      const yearB = parseInt((b.title.match(/20(\d\d)/) || [0, 0])[1], 10);
+      return yearB - yearA;
+    });
+  const others = merged.filter(item => item.category !== 'affiliation');
+
+  return { documents: [...affiliations, ...others] };
 }
 
 // 13. Syllabus Hub & Exam Portal
