@@ -65,7 +65,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
     address: 'Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406',
     admission_fee_ba: '4000',
     admission_fee_bsc: '6000',
-    razorpay_key_id: 'rzp_test_5173GURUKRIPA',
+    razorpay_key_id: 'rzp_test_U20wtdVhNmd2T2',
   });
 
   // Form State
@@ -143,10 +143,17 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
           ...s,
           admission_fee_ba: s.admission_fee_ba || '4000',
           admission_fee_bsc: s.admission_fee_bsc || '6000',
-          razorpay_key_id: s.razorpay_key_id || 'rzp_test_5173GURUKRIPA',
+          razorpay_key_id: s.razorpay_key_id && !s.razorpay_key_id.includes('5173') ? s.razorpay_key_id : 'rzp_test_U20wtdVhNmd2T2',
         }));
       }
     });
+
+    if (!window.Razorpay) {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      document.body.appendChild(script);
+    }
   }, []);
 
   // Update 12th percentage automatically when marks change
@@ -468,11 +475,12 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
       setPendingOrderData(orderRes);
 
-      const isMock = orderRes.is_mock;
-      const keyId = orderRes.key_id;
+      const keyId = (orderRes.key_id && !orderRes.key_id.includes('5173'))
+        ? orderRes.key_id
+        : (settings.razorpay_key_id && !settings.razorpay_key_id.includes('5173') ? settings.razorpay_key_id : 'rzp_test_U20wtdVhNmd2T2');
 
-      if (isMock || !window.Razorpay) {
-        // Open interactive Sandbox modal so user can test seamlessly with zero friction
+      if (!window.Razorpay) {
+        // Open interactive Sandbox modal if Razorpay script could not be loaded
         setShowSandboxModal(true);
         setLoading(false);
         return;
@@ -481,12 +489,12 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
       // 3. Launch Real Razorpay Checkout Popup
       const options = {
         key: keyId,
-        amount: orderRes.amount_paise,
+        amount: orderRes.amount_paise || (getFeeAmount() * 100),
         currency: orderRes.currency || 'INR',
         name: settings.college_name,
-        description: `Admission Fee 2026-27 (${orderRes.program})`,
+        description: `Admission Fee 2026-27 (${orderRes.program || formData.program})`,
         image: '/images/college-logo.png',
-        order_id: orderRes.order_id,
+        order_id: (orderRes.order_id && !orderRes.order_id.startsWith('order_mock_')) ? orderRes.order_id : undefined,
         handler: async function (response) {
           try {
             setLoading(true);

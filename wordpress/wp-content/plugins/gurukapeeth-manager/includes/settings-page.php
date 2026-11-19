@@ -125,12 +125,12 @@ function gurukapeeth_render_settings_page() {
 					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
 						<div class="form-row">
 							<label>Razorpay Key ID (Key ID):</label>
-							<input type="text" name="razorpay_key_id" value="<?php echo esc_attr( $s['razorpay_key_id'] ?? 'rzp_test_5173GURUKRIPA' ); ?>" class="regular-text" style="width: 100%;" placeholder="rzp_live_... or rzp_test_..." />
+							<input type="text" name="razorpay_key_id" value="<?php echo esc_attr( $s['razorpay_key_id'] ?? 'rzp_test_U20wtdVhNmd2T2' ); ?>" class="regular-text" style="width: 100%;" placeholder="rzp_live_... or rzp_test_..." />
 							<p class="description" style="font-size: 11px; color: #64748b;">Available in your Razorpay Dashboard &rarr; Settings &rarr; API Keys.</p>
 						</div>
 						<div class="form-row">
 							<label>Razorpay Key Secret:</label>
-							<input type="password" name="razorpay_key_secret" value="<?php echo esc_attr( $s['razorpay_key_secret'] ?? 'PLACEHOLDER_SECRET_TEST' ); ?>" class="regular-text" style="width: 100%;" placeholder="••••••••••••••••" />
+							<input type="password" name="razorpay_key_secret" value="<?php echo esc_attr( $s['razorpay_key_secret'] ?? 'q2VjlgPRx4S8XTtFIHRlhDRi' ); ?>" class="regular-text" style="width: 100%;" placeholder="••••••••••••••••" />
 							<p class="description" style="font-size: 11px; color: #64748b;">Never shared with frontend. Kept secure on server for HMAC signature verification.</p>
 						</div>
 						<div class="form-row">

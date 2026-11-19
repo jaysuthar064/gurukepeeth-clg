@@ -28,8 +28,8 @@ class Gurukapeeth_Data {
 			'marquee_announcement'=> 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!',
 			'logo_url'            => '/images/college-logo.png',
 			'map_embed'           => '',
-			'razorpay_key_id'     => 'rzp_test_5173GURUKRIPA',
-			'razorpay_key_secret' => 'PLACEHOLDER_SECRET_TEST',
+			'razorpay_key_id'     => 'rzp_test_U20wtdVhNmd2T2',
+			'razorpay_key_secret' => 'q2VjlgPRx4S8XTtFIHRlhDRi',
 			'razorpay_enabled'    => '1',
 			'admission_fee_ba'    => '4000',
 			'admission_fee_bsc'   => '6000',
@@ -62,6 +62,11 @@ class Gurukapeeth_Data {
 		}
 		if ( isset( $merged['ncte_code'] ) ) {
 			unset( $merged['ncte_code'] );
+			$dirty = true;
+		}
+		if ( empty( $merged['razorpay_key_id'] ) || $merged['razorpay_key_id'] === 'rzp_test_5173GURUKRIPA' ) {
+			$merged['razorpay_key_id'] = 'rzp_test_U20wtdVhNmd2T2';
+			$merged['razorpay_key_secret'] = 'q2VjlgPRx4S8XTtFIHRlhDRi';
 			$dirty = true;
 		}
 		if ( ! empty( $merged['college_subtitle'] ) && ( stripos( $merged['college_subtitle'], 'teacher' ) !== false || stripos( $merged['college_subtitle'], 'ncte' ) !== false ) ) {
