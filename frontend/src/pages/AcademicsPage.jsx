@@ -305,8 +305,8 @@ export default function AcademicsPage() {
               <div style={{ background: '#fff', borderRadius: '8px', padding: '16px', border: '1px solid #e2e8f0' }}>
                 <div style={{ fontSize: '12px', fontWeight: 700, color: '#1d4679', textTransform: 'uppercase' }}>GGTU Affiliation</div>
                 <div style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a', margin: '4px 0' }}>Session 2025-26 &amp; 2024-25</div>
-                <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '10px' }}>Affiliation Orders: 1992 &amp; 731-39</div>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '10px' }}>Affiliation Orders: 1992 &amp; 1731-39</div>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   <a href="/documents/affiliation/ggtu-affiliation-2025-26.pdf" target="_blank" rel="noopener noreferrer" className="btn-outline-sm" style={{ fontSize: '11px' }}>
                     2025-26 PDF
                   </a>
@@ -318,9 +318,12 @@ export default function AcademicsPage() {
 
               <div style={{ background: '#fff', borderRadius: '8px', padding: '16px', border: '1px solid #e2e8f0' }}>
                 <div style={{ fontSize: '12px', fontWeight: 700, color: '#1d4679', textTransform: 'uppercase' }}>GGTU Affiliation</div>
-                <div style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a', margin: '4px 0' }}>Session 2022-23 &amp; 2021-22</div>
-                <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '10px' }}>Affiliation Orders: 626 &amp; 230-236</div>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a', margin: '4px 0' }}>Session 2023-24, 2022-23 &amp; 2021-22</div>
+                <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '10px' }}>Affiliation Orders: 1150, 626 &amp; 230-236</div>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <a href="/documents/affiliation/ggtu-affiliation-2023-24.pdf" target="_blank" rel="noopener noreferrer" className="btn-outline-sm" style={{ fontSize: '11px' }}>
+                    2023-24 PDF
+                  </a>
                   <a href="/documents/affiliation/ggtu-affiliation-2022-23.pdf" target="_blank" rel="noopener noreferrer" className="btn-outline-sm" style={{ fontSize: '11px' }}>
                     2022-23 PDF
                   </a>

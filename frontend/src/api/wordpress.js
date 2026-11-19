@@ -447,9 +447,17 @@ export async function getDisclosures() {
         id: 4,
         category: 'affiliation',
         title: 'GGTU Affiliation Order — Session 2024-25',
-        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2024/731-39) for B.A. (80 seats) and B.Sc. (70 seats).',
+        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F/GGTU/Affiliation/2024/1731-39 Dt. 07-12-2024, College Code: 603) for B.A. (80 seats) and B.Sc. (70 seats).',
         issued_date: '07 Dec 2024',
         pdf_url: '/documents/affiliation/ggtu-affiliation-2024-25.pdf',
+      },
+      {
+        id: 14,
+        category: 'affiliation',
+        title: 'GGTU Affiliation Order — Session 2023-24',
+        description: 'Provisional Affiliation Order from Govind Guru Tribal University, Banswara (Order No. F./GGTU/Affi./2023-24/1150 Dt. 07-08-2023, College Code: 603) for B.A. (8 Subjects) and B.Sc. (CBZ).',
+        issued_date: '07 Aug 2023',
+        pdf_url: '/documents/affiliation/ggtu-affiliation-2023-24.pdf',
       },
       {
         id: 5,
