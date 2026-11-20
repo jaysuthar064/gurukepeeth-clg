@@ -65,6 +65,9 @@ export async function getSettings() {
     if (res.marquee_announcement && (res.marquee_announcement.toLowerCase().includes('b.ed') || res.marquee_announcement.toLowerCase().includes('integrated') || res.marquee_announcement.toLowerCase().includes('ncte'))) {
       res.marquee_announcement = 'Admissions Open 2026-27 for B.A. and B.Sc. (Bio) Degree Programs — Apply Online Now!';
     }
+    if (!res.address || res.address.includes('314001') || !res.address.includes('314406') || !res.address.includes('Rati Ka Fala')) {
+      res.address = 'Gurukripa Shikshan Sansthan College, Rati Ka Fala, Duka Bye Pass, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406, India';
+    }
   }
   return res || fallback;
 }

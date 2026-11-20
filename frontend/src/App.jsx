@@ -32,10 +32,37 @@ function ScrollHandler() {
   return null;
 }
 
+function ThemeHandler() {
+  const { search } = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(search);
+    const themeParam = params.get('theme');
+    if (themeParam && ['purple', 'orange', 'crimson', 'navy'].includes(themeParam.toLowerCase())) {
+      const t = themeParam.toLowerCase();
+      if (t === 'navy') {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.removeItem('gurukapeeth_theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('gurukapeeth_theme', t);
+      }
+    } else {
+      const saved = localStorage.getItem('gurukapeeth_theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      }
+    }
+  }, [search]);
+
+  return null;
+}
+
 function App() {
   return (
     <Router>
       <ScrollHandler />
+      <ThemeHandler />
       <div className="site-wrapper">
         <Header />
         <main className="site-main">

@@ -78,6 +78,10 @@ class Gurukapeeth_Data {
 			$merged['marquee_announcement'] = 'Admissions Open 2026-27 for B.A. and B.Sc. Degree Programs — Apply Online Now!';
 			$dirty = true;
 		}
+		if ( empty( $merged['address'] ) || strpos( $merged['address'], '314001' ) !== false || strpos( $merged['address'], 'Rati Ka Fala' ) === false ) {
+			$merged['address'] = 'Gurukripa Shikshan Sansthan College, Rati Ka Fala, Duka Bye Pass, Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406, India';
+			$dirty = true;
+		}
 		if ( empty( $merged['frontend_url'] ) || $merged['frontend_url'] === 'http://localhost:5173' ) {
 			$merged['frontend_url'] = 'https://gurukepeeth-clg.vercel.app';
 			$dirty = true;
