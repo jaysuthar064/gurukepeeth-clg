@@ -28,9 +28,10 @@ export default async function handler(req, res) {
     const program = String(body.program || '').trim();
 
     // 1. Server-side authoritative fee calculation (Prevents client price tampering)
-    // B.Sc. = Rs 6,000 (600,000 paise), B.A. = Rs 4,000 (400,000 paise)
-    const isBsc = program.toUpperCase().includes('B.SC') || program.toUpperCase().includes('BSC');
-    const feeAmountRupees = isBsc ? 6000 : 4000;
+    // B.Sc. = Rs 6,000 (600,000 paise), B.A. = Rs 4,000 (400,000 paise), Live Test = Rs 1 (100 paise)
+    const isTest = program.toUpperCase().includes('TEST') || program.includes('1') || body.is_test === true;
+    const isBsc = !isTest && (program.toUpperCase().includes('B.SC') || program.toUpperCase().includes('BSC'));
+    const feeAmountRupees = isTest ? 1 : (isBsc ? 6000 : 4000);
     const feeAmountPaise = feeAmountRupees * 100;
 
     // 2. Read server-side Razorpay environment credentials
@@ -51,7 +52,7 @@ export default async function handler(req, res) {
           application_ref: ref,
           student_name: studentName,
           student_phone: studentPhone,
-          program: isBsc ? 'B.Sc. (Bachelor of Science)' : 'B.A. (Bachelor of Arts)',
+          program: isTest ? 'Live Payment Gateway Test Order (₹1.00)' : (isBsc ? 'B.Sc. (Bachelor of Science)' : 'B.A. (Bachelor of Arts)'),
           portal: 'gurukripapeeth.in',
         },
       };
@@ -85,6 +86,7 @@ export default async function handler(req, res) {
         currency: 'INR',
         key_id: keyId,
         application_ref: ref,
+        program: isTest ? 'Live Payment Gateway Test Order (₹1.00)' : (isBsc ? 'B.Sc. (Bachelor of Science)' : 'B.A. (Bachelor of Arts)'),
         is_live: keyId.startsWith('rzp_live_'),
       });
     }
