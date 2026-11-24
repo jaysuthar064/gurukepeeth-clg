@@ -38,6 +38,9 @@ export default async function handler(req, res) {
       });
     }
 
+    // Generate institutional inquiry reference tracking number
+    const refNumber = 'GPC-INQ-' + new Date().getFullYear() + '-' + Math.floor(100000 + Math.random() * 900000);
+
     // 1. Dispatch Email via Resend Serverless Utility
     let emailResult = { success: false };
     try {
@@ -77,6 +80,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
+      reference_number: refNumber,
       email_delivered: emailResult.success,
       wp_synced: wpSaved,
       message: 'Your inquiry has been successfully transmitted to the college administration.',
