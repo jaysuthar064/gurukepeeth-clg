@@ -20,12 +20,10 @@ export default function IQACPage() {
 
     load();
     window.addEventListener('focus', load);
-    const interval = setInterval(load, 3000);
 
     return () => {
       isMounted = false;
       window.removeEventListener('focus', load);
-      clearInterval(interval);
     };
   }, []);
 
@@ -115,7 +113,7 @@ export default function IQACPage() {
                             <a 
                               href={r.pdf_url} 
                               target="_blank"
-                              rel="noreferrer"
+                              rel="noopener noreferrer"
                               className="pdf-download-link"
                             >
                               <Download size={14} /> Download AQAR PDF
@@ -175,7 +173,7 @@ export default function IQACPage() {
                             <a 
                               href={m.pdf_url} 
                               target="_blank"
-                              rel="noreferrer" 
+                              rel="noopener noreferrer" 
                               className="pdf-download-link"
                             >
                               <Download size={14} /> Download PDF

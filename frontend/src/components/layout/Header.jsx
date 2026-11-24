@@ -36,12 +36,10 @@ export default function Header() {
 
     loadHeader();
     window.addEventListener('focus', loadHeader);
-    const interval = setInterval(loadHeader, 3000);
 
     return () => {
       isMounted = false;
       window.removeEventListener('focus', loadHeader);
-      clearInterval(interval);
     };
   }, []);
 

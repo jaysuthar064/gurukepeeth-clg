@@ -25,12 +25,10 @@ export default function NAACPage() {
 
     load();
     window.addEventListener('focus', load);
-    const interval = setInterval(load, 3000);
 
     return () => {
       isMounted = false;
       window.removeEventListener('focus', load);
-      clearInterval(interval);
     };
   }, []);
 
@@ -168,7 +166,7 @@ export default function NAACPage() {
                 <a 
                   href="https://naac.gov.in" 
                   target="_blank" 
-                  rel="noreferrer" 
+                  rel="noopener noreferrer" 
                   className="btn btn-outline" 
                   style={{ fontSize: '12px', padding: '6px 14px' }}
                 >

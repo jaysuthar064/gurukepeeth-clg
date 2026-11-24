@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   ShieldCheck, Award, Target, Eye, Users, BookOpen, Quote, Library, 
   Monitor, FlaskConical, Trophy, Building, ShieldAlert, FileText, 
-  Building2, Download, ExternalLink, Search, CheckCircle2 
+  Building2, Download, ExternalLink, Search, CheckCircle2, ZoomIn 
 } from 'lucide-react';
 import { getSettings, getLeadership } from '../api/wordpress';
 
@@ -46,12 +46,10 @@ export default function AboutPage() {
 
     load();
     window.addEventListener('focus', load);
-    const interval = setInterval(load, 3000);
 
     return () => {
       isMounted = false;
       window.removeEventListener('focus', load);
-      clearInterval(interval);
     };
   }, []);
 
@@ -556,8 +554,8 @@ export default function AboutPage() {
                       alt="Society Registration Certificate" 
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                     />
-                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(15,23,42,0.85)', color: '#fff', fontSize: '10px', textAlign: 'center', padding: '4px 2px', fontWeight: 700 }}>
-                      🔍 Click to Zoom
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(15,23,42,0.85)', color: '#fff', fontSize: '10px', textAlign: 'center', padding: '4px 2px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <ZoomIn size={11} style={{ marginRight: '4px' }} /> Click to Zoom
                     </div>
                   </div>
                   <div>

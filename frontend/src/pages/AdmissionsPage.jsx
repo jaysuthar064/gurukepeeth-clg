@@ -39,12 +39,10 @@ export default function AdmissionsPage() {
 
     load();
     window.addEventListener('focus', load);
-    const interval = setInterval(load, 3000);
 
     return () => {
       isMounted = false;
       window.removeEventListener('focus', load);
-      clearInterval(interval);
     };
   }, []);
 
@@ -123,12 +121,12 @@ export default function AdmissionsPage() {
       </div>
 
       {/* Official Online Admission Portal Callout */}
-      <div style={{ background: 'linear-gradient(135deg, #0f2b48 0%, #1e3a8a 100%)', color: '#ffffff', padding: '24px 0', borderBottom: '3px solid #b45309' }}>
+      <div style={{ background: 'linear-gradient(135deg, var(--primary-950) 0%, var(--primary-900) 60%, var(--primary-800) 100%)', color: '#ffffff', padding: '24px 0', borderBottom: '3px solid #f59e0b' }}>
         <div className="container" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '20px' }}>
           <div>
             <span style={{ display: 'inline-block', background: '#b45309', color: '#fff', fontSize: '11px', fontWeight: 800, padding: '3px 10px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>Official Portal Active</span>
             <h3 style={{ margin: 0, fontSize: '22px', fontFamily: 'var(--font-display, Cinzel, serif)', color: '#fff' }}>Online Admission & Fee Payment Portal 2026-27</h3>
-            <p style={{ margin: '6px 0 0 0', fontSize: '14px', color: '#cbd5e1', maxWidth: '650px', lineHeight: '1.5' }}>
+            <p style={{ margin: '6px 0 0 0', fontSize: '14px', color: '#fed7aa', maxWidth: '650px', lineHeight: '1.5' }}>
               Direct online form submission & secure fee payment via Razorpay for B.A. (160 seats) and B.Sc. Biology (140 seats). Instant receipt & enrolment verification.
             </p>
           </div>

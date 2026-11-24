@@ -126,8 +126,6 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
   // Submission & Payment Result State
   const [applicationResult, setApplicationResult] = useState(null);
   const [paymentResult, setPaymentResult] = useState(null);
-  const [showSandboxModal, setShowSandboxModal] = useState(false);
-  const [pendingOrderData, setPendingOrderData] = useState(null);
 
   // Status Tracker State
   const [trackerRef, setTrackerRef] = useState('');
@@ -156,35 +154,26 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
     }
   }, []);
 
-  // Update 12th percentage automatically when marks change
-  useEffect(() => {
-    const obt = parseFloat(formData.prev_marks_obtained);
-    const tot = parseFloat(formData.prev_total_marks);
-    if (!isNaN(obt) && !isNaN(tot) && tot > 0) {
-      const pct = ((obt / tot) * 100).toFixed(2);
-      setFormData(prev => ({ ...prev, prev_percentage: pct }));
-      if (fieldErrors.prev_marks_obtained) {
-        setFieldErrors(prev => ({ ...prev, prev_marks_obtained: '' }));
-      }
-    }
-  }, [formData.prev_marks_obtained, formData.prev_total_marks]);
-
-  // Update 10th percentage automatically when marks change
-  useEffect(() => {
-    const obt = parseFloat(formData.sec_marks_obtained);
-    const tot = parseFloat(formData.sec_total_marks);
-    if (!isNaN(obt) && !isNaN(tot) && tot > 0) {
-      const pct = ((obt / tot) * 100).toFixed(2);
-      setFormData(prev => ({ ...prev, sec_percentage: pct }));
-      if (fieldErrors.sec_marks_obtained) {
-        setFieldErrors(prev => ({ ...prev, sec_marks_obtained: '' }));
-      }
-    }
-  }, [formData.sec_marks_obtained, formData.sec_total_marks]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => {
+      const next = { ...prev, [name]: value };
+      if (name === 'prev_marks_obtained' || name === 'prev_total_marks') {
+        const obt = parseFloat(name === 'prev_marks_obtained' ? value : next.prev_marks_obtained);
+        const tot = parseFloat(name === 'prev_total_marks' ? value : next.prev_total_marks);
+        if (!isNaN(obt) && !isNaN(tot) && tot > 0) {
+          next.prev_percentage = ((obt / tot) * 100).toFixed(2);
+        }
+      }
+      if (name === 'sec_marks_obtained' || name === 'sec_total_marks') {
+        const obt = parseFloat(name === 'sec_marks_obtained' ? value : next.sec_marks_obtained);
+        const tot = parseFloat(name === 'sec_total_marks' ? value : next.sec_total_marks);
+        if (!isNaN(obt) && !isNaN(tot) && tot > 0) {
+          next.sec_percentage = ((obt / tot) * 100).toFixed(2);
+        }
+      }
+      return next;
+    });
     // Clear field-level error as user types
     if (fieldErrors[name]) {
       setFieldErrors(prev => ({ ...prev, [name]: '' }));
@@ -480,15 +469,12 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
         throw new Error(orderRes?.message || 'Could not initialize payment order.');
       }
 
-      setPendingOrderData(orderRes);
-
       const keyId = (orderRes.key_id && !orderRes.key_id.includes('5173'))
         ? orderRes.key_id
         : (settings.razorpay_key_id && !settings.razorpay_key_id.includes('5173') ? settings.razorpay_key_id : 'rzp_live_U3wJfmji2tjUek');
 
       if (!window.Razorpay) {
-        // Open interactive Sandbox modal if Razorpay script could not be loaded
-        setShowSandboxModal(true);
+        showToast('Payment gateway failed to initialize. Please check your internet connection or disable ad-blockers and try again.', 'error');
         setLoading(false);
         return;
       }
@@ -536,7 +522,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
           contact: formData.phone,
         },
         theme: {
-          color: '#0f2b48',
+          color: '#c2410c',
         },
         modal: {
           ondismiss: function () {
@@ -554,35 +540,6 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
     } catch (err) {
       console.error(err);
       showToast(err.message || 'Error occurred while contacting admission portal.', 'error');
-      setLoading(false);
-    }
-  };
-
-  // Complete Sandbox / Test Mode Payment simulation
-  const handleCompleteSandboxPayment = async () => {
-    if (!pendingOrderData) return;
-    setLoading(true);
-    setShowSandboxModal(false);
-
-    try {
-      const mockPaymentId = 'pay_mock_' + Math.random().toString(36).substring(2, 12).toUpperCase();
-      const verifyRes = await verifyAdmissionPayment({
-        application_id: pendingOrderData.application_ref || pendingOrderData.application_id,
-        razorpay_payment_id: mockPaymentId,
-        razorpay_order_id: pendingOrderData.order_id,
-        razorpay_signature: 'mock_signature',
-      });
-
-      if (verifyRes && verifyRes.success) {
-        setPaymentResult(verifyRes);
-        setStep(5); // Confirmation screen
-        showToast('Test payment verified! Application confirmed.', 'success');
-      } else {
-        showToast('Could not verify simulated test payment.', 'error');
-      }
-    } catch (err) {
-      showToast('Error completing test payment verification.', 'error');
-    } finally {
       setLoading(false);
     }
   };
@@ -809,11 +766,11 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
       )}
 
       {/* 1. Official Institutional Hero Header */}
-      <div className="page-hero-banner" style={{ background: 'linear-gradient(135deg, #091a2c 0%, #0f2b48 60%, #1e3a8a 100%)', paddingBottom: '32px' }}>
+      <div className="page-hero-banner" style={{ background: 'linear-gradient(135deg, var(--primary-950) 0%, var(--primary-900) 60%, var(--primary-800) 100%)', paddingBottom: '32px' }}>
         <div className="container">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
             <span className="page-hero-tag" style={{ background: '#b45309', color: '#fff' }}>Official Enrolment 2026-27</span>
-            <span style={{ fontSize: '12px', color: '#93c5fd', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ fontSize: '12px', color: '#fed7aa', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <ShieldCheck size={14} /> GGTU Affiliated &amp; Rajasthan Govt Approved
             </span>
           </div>
@@ -821,7 +778,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
           <h1 className="page-hero-title" style={{ fontSize: '32px', marginBottom: '8px' }}>
             Online Admission &amp; Fee Payment Portal
           </h1>
-          <p className="page-hero-desc" style={{ maxWidth: '800px', fontSize: '15px', color: '#cbd5e1' }}>
+          <p className="page-hero-desc" style={{ maxWidth: '800px', fontSize: '15px', color: '#ffedd5' }}>
             Gurukripa Shikshan Sansthan College Peeth — Direct admission registration for Bachelor of Arts (B.A.) and Bachelor of Science (B.Sc. Bio). Complete your multi-step application, upload mandatory marksheets, and submit fees securely through Razorpay.
           </p>
 
@@ -832,7 +789,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
               onClick={() => { setActiveTab('apply'); setFieldErrors({}); }}
               style={{
                 background: activeTab === 'apply' ? '#ffffff' : 'transparent',
-                color: activeTab === 'apply' ? '#0f2b48' : '#ffffff',
+                color: activeTab === 'apply' ? 'var(--primary-900)' : '#ffffff',
                 border: 'none',
                 padding: '8px 20px',
                 borderRadius: '6px',
@@ -852,7 +809,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
               onClick={() => { setActiveTab('status'); setFieldErrors({}); }}
               style={{
                 background: activeTab === 'status' ? '#ffffff' : 'transparent',
-                color: activeTab === 'status' ? '#0f2b48' : '#ffffff',
+                color: activeTab === 'status' ? 'var(--primary-900)' : '#ffffff',
                 border: 'none',
                 padding: '8px 20px',
                 borderRadius: '6px',
@@ -906,15 +863,15 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                               justifyContent: 'center',
                               fontWeight: 700,
                               fontSize: '14px',
-                              background: isDone ? '#059669' : isCurrent ? '#0f2b48' : '#e2e8f0',
+                              background: isDone ? '#059669' : isCurrent ? 'var(--primary-800)' : '#e2e8f0',
                               color: isDone || isCurrent ? '#ffffff' : '#64748b',
-                              boxShadow: isCurrent ? '0 0 0 4px rgba(15, 43, 72, 0.15)' : 'none',
+                              boxShadow: isCurrent ? '0 0 0 4px rgba(194, 65, 12, 0.18)' : 'none',
                               transition: 'all 0.3s ease',
                             }}
                           >
                             {isDone ? <Check size={18} /> : st.num}
                           </div>
-                          <div style={{ fontSize: '12px', fontWeight: isCurrent ? 700 : 500, color: isCurrent ? '#0f2b48' : '#64748b' }}>
+                          <div style={{ fontSize: '12px', fontWeight: isCurrent ? 700 : 500, color: isCurrent ? 'var(--primary-800)' : '#64748b' }}>
                             {st.title}
                           </div>
                         </div>
@@ -2123,7 +2080,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                   <div
                     id="official-admission-receipt"
                     style={{
-                      border: '2px solid #0f2b48',
+                      border: '2px solid var(--primary-900)',
                       borderRadius: '12px',
                       padding: '28px',
                       background: '#ffffff',
@@ -2132,12 +2089,12 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     }}
                   >
                     {/* Header Seal & College Name */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #0f2b48', paddingBottom: '16px', marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid var(--primary-900)', paddingBottom: '16px', marginBottom: '20px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <img src="/images/college-logo.png" alt="Emblem" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
                         <div>
                           <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>{settings.college_hindi}</div>
-                          <h3 style={{ margin: 0, fontSize: '16px', color: '#0f2b48', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
+                          <h3 style={{ margin: 0, fontSize: '16px', color: 'var(--primary-900)', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
                             {settings.college_name}
                           </h3>
                           <div style={{ fontSize: '11px', color: '#475569' }}>
@@ -2180,7 +2137,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       <div><span style={{ color: '#64748b' }}>Father's Name:</span> <strong>{formData.father_name}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Mother's Name:</span> <strong>{formData.mother_name}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Date of Birth:</span> <strong>{formData.dob}</strong></div>
-                      <div><span style={{ color: '#64748b' }}>Program Admitted:</span> <strong style={{ color: '#1e40af' }}>{formData.program === 'B.A.' ? 'Bachelor of Arts (B.A.)' : 'B.Sc. Biology (CBZ)'}</strong></div>
+                      <div><span style={{ color: '#64748b' }}>Program Admitted:</span> <strong style={{ color: 'var(--primary-800)' }}>{formData.program === 'B.A.' ? 'Bachelor of Arts (B.A.)' : 'B.Sc. Biology (CBZ)'}</strong></div>
                       <div><span style={{ color: '#64748b' }}>Category / Caste:</span> <strong>{formData.category} {formData.caste ? `(${formData.caste})` : ''} / {formData.gender}</strong></div>
                       {formData.apaar_id && (
                         <div><span style={{ color: '#64748b' }}>APAAR / ABC ID:</span> <strong>{formData.apaar_id}</strong></div>
@@ -2376,71 +2333,6 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
         </div>
       </div>
-
-      {/* Simulated Sandbox / Test Mode Modal */}
-      {showSandboxModal && pendingOrderData && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.75)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-          <div style={{ background: '#ffffff', borderRadius: '16px', maxWidth: '440px', width: '100%', padding: '28px', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #f1f5f9', paddingBottom: '14px', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ background: '#fef3c7', color: '#b45309', padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 800 }}>SANDBOX / TEST MODE</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowSandboxModal(false)}
-                style={{ border: 'none', background: 'transparent', fontSize: '18px', cursor: 'pointer', color: '#64748b' }}
-              >
-                &times;
-              </button>
-            </div>
-
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#eff6ff', color: '#1e40af', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px auto' }}>
-                <CreditCard size={24} />
-              </div>
-              <h3 style={{ margin: '0 0 4px 0', fontSize: '17px', color: '#0f172a' }}>Razorpay Payment Gateway</h3>
-              <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>
-                Payable Amount: <strong style={{ color: '#0f172a', fontSize: '16px' }}>₹ {pendingOrderData.amount}.00</strong>
-              </p>
-            </div>
-
-            <div style={{ background: '#f8fafc', padding: '12px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '12px', color: '#475569', marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <span>Order ID:</span> <code>{pendingOrderData.order_id}</code>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <span>Application Ref:</span> <strong>{pendingOrderData.application_ref}</strong>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Program:</span> <strong>{pendingOrderData.program}</strong>
-              </div>
-            </div>
-
-            <div style={{ background: '#ecfdf5', padding: '12px', borderRadius: '8px', border: '1px solid #a7f3d0', fontSize: '12px', color: '#065f46', marginBottom: '20px' }}>
-              💡 <strong>Developer / Admin Notice:</strong> Real Razorpay API keys are configured in WordPress Settings. Click below to simulate a successful payment transaction.
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <button
-                type="button"
-                disabled={loading}
-                onClick={handleCompleteSandboxPayment}
-                className="btn btn-gold"
-                style={{ width: '100%', padding: '12px', fontSize: '14px', fontWeight: 700, justifyContent: 'center' }}
-              >
-                {loading ? 'Confirming...' : 'Simulate Successful Payment (Test Flow)'}
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowSandboxModal(false)}
-                style={{ width: '100%', padding: '10px', fontSize: '13px', background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer' }}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Print Styles & Animations */}
       <style>{`

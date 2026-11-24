@@ -1,12 +1,26 @@
 // Vercel Serverless Function: Contact Form & Inquiry Processing
-// Security: Sanitized input, rate limiting safe, dispatches verified email via Resend
+// Security: Origin validation, regex email/phone checks, bot honeypot trap, input sanitization
 
 import { sendContactInquiryEmail } from './_email.js';
 
+const ALLOWED_ORIGINS = [
+  'https://www.gurukripapeeth.in',
+  'https://gurukripapeeth.in',
+  'http://localhost:5173',
+  'http://localhost:3000',
+];
+
+function getSafeOrigin(req) {
+  const origin = req.headers.origin || '';
+  if (ALLOWED_ORIGINS.includes(origin) || origin.endsWith('.vercel.app')) {
+    return origin;
+  }
+  return 'https://www.gurukripapeeth.in';
+}
+
 export default async function handler(req, res) {
-  // Enable CORS
-  const origin = req.headers.origin || '*';
-  res.setHeader('Access-Control-Allow-Origin', origin);
+  const safeOrigin = getSafeOrigin(req);
+  res.setHeader('Access-Control-Allow-Origin', safeOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
@@ -17,31 +31,58 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({
       success: false,
-      error: 'Method Not Allowed',
+      error: 'MethodNotAllowed',
       message: 'Only POST requests are permitted on this endpoint.',
     });
   }
 
   try {
     const body = req.body || {};
+
+    // 1. Bot Honeypot Trap: If hidden bot fields are populated, silently drop the spam
+    if (body.website || body.honeypot || body.company || body.hp_check) {
+      return res.status(200).json({
+        success: true,
+        reference_number: 'GPC-INQ-' + new Date().getFullYear() + '-000000',
+        message: 'Your inquiry has been received.',
+      });
+    }
+
     const name = String(body.name || '').trim().slice(0, 100);
     const email = String(body.email || '').trim().slice(0, 120);
-    const phone = String(body.phone || '').trim().slice(0, 20);
+    const phone = String(body.phone || '').trim().replace(/[^0-9+\s-]/g, '').slice(0, 20);
     const subject = String(body.subject || 'General Inquiry').trim().slice(0, 200);
     const message = String(body.message || '').trim().slice(0, 3000);
 
-    if (!name || !message) {
+    if (!name || name.length < 2) {
       return res.status(400).json({
         success: false,
         error: 'ValidationError',
-        message: 'Name and message are required fields.',
+        message: 'A valid full name (minimum 2 characters) is required.',
+      });
+    }
+
+    if (!message || message.length < 5) {
+      return res.status(400).json({
+        success: false,
+        error: 'ValidationError',
+        message: 'Please provide inquiry message details (minimum 5 characters).',
+      });
+    }
+
+    // Validate email format if provided
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({
+        success: false,
+        error: 'ValidationError',
+        message: 'Please provide a valid email address.',
       });
     }
 
     // Generate institutional inquiry reference tracking number
     const refNumber = 'GPC-INQ-' + new Date().getFullYear() + '-' + Math.floor(100000 + Math.random() * 900000);
 
-    // 1. Dispatch Email via Resend Serverless Utility
+    // 2. Dispatch Email via Resend Serverless Utility
     let emailResult = { success: false };
     try {
       emailResult = await sendContactInquiryEmail({
@@ -55,7 +96,7 @@ export default async function handler(req, res) {
       console.warn('Resend contact dispatch warning:', eErr.message);
     }
 
-    // 2. Forward to WordPress backend (if accessible, non-blocking)
+    // 3. Forward to WordPress backend (if accessible, non-blocking)
     let wpSaved = false;
     try {
       const wpBase = process.env.VITE_WP_API_URL || 'https://backend.gurukripapeeth.in';

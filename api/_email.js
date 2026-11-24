@@ -1,5 +1,15 @@
 // Serverless Email Delivery Utility via Resend API
 // Domain: gurukripapeeth.in (Verified)
+// Security: Full HTML entity sanitization prevents HTML/script injection in email templates
+
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 export async function sendEmail({ to, subject, html, replyTo, text }) {
   const apiKey = (process.env.RESEND_API_KEY || '').trim();
@@ -59,9 +69,11 @@ export async function sendPaymentReceiptEmail({
   applicationRef,
 }) {
   const formattedAmount = Number(amount || 0).toLocaleString('en-IN');
-  const safeName = studentName || 'Applicant';
-  const safeRef = applicationRef || 'GSS-2026-ONLINE';
-  const safeProgram = program || 'Undergraduate Degree Program';
+  const safeName = escapeHtml(studentName || 'Applicant');
+  const safeRef = escapeHtml(applicationRef || 'GSS-2026-ONLINE');
+  const safeProgram = escapeHtml(program || 'Undergraduate Degree Program');
+  const safePaymentId = escapeHtml(paymentId || 'N/A');
+  const safeOrderId = escapeHtml(orderId || '');
   const dateStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' });
 
   const html = `
@@ -72,18 +84,18 @@ export async function sendPaymentReceiptEmail({
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Official Admission Fee Receipt</title>
 </head>
-<body style="margin:0;padding:24px 12px;background-color:#f1f5f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#0f172a;">
+<body style="margin:0;padding:24px 12px;background-color:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#0f172a;">
   <div style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,0.06);">
     
     <!-- Header -->
-    <div style="background:linear-gradient(135deg, #091a2c 0%, #0f2b48 60%, #1e3a8a 100%);padding:28px 24px;text-align:center;color:#ffffff;border-bottom:3px solid #b45309;">
-      <div style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#f59e0b;margin-bottom:6px;">
+    <div style="background:linear-gradient(135deg, #341106 0%, #7c2d12 60%, #c2410c 100%);padding:28px 24px;text-align:center;color:#ffffff;border-bottom:3px solid #f59e0b;">
+      <div style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fde68a;margin-bottom:6px;">
         Govind Guru Tribal University (GGTU) Affiliated • AISHE: C-48902
       </div>
       <h1 style="margin:0;font-size:20px;font-weight:800;letter-spacing:0.5px;color:#ffffff;line-height:1.3;">
         GURUKRIPA SHIKSHAN SANSTHAN COLLEGE PEETH
       </h1>
-      <p style="margin:6px 0 0 0;font-size:13px;color:#cbd5e1;">
+      <p style="margin:6px 0 0 0;font-size:13px;color:#fed7aa;">
         Peeth, Tehsil Simalwara, Dungarpur, Rajasthan - 314406
       </p>
     </div>
@@ -118,7 +130,7 @@ export async function sendPaymentReceiptEmail({
           </tr>
           <tr style="border-bottom:1px solid #f1f5f9;">
             <td style="padding:10px 0;color:#64748b;">Application Ref Number:</td>
-            <td style="padding:10px 0;text-align:right;font-weight:800;color:#b45309;font-family:monospace;font-size:14px;">${safeRef}</td>
+            <td style="padding:10px 0;text-align:right;font-weight:800;color:#c2410c;font-family:monospace;font-size:14px;">${safeRef}</td>
           </tr>
           <tr style="border-bottom:1px solid #f1f5f9;">
             <td style="padding:10px 0;color:#64748b;">Selected Program:</td>
@@ -126,27 +138,27 @@ export async function sendPaymentReceiptEmail({
           </tr>
           <tr style="border-bottom:1px solid #f1f5f9;">
             <td style="padding:10px 0;color:#64748b;">Razorpay Payment ID:</td>
-            <td style="padding:10px 0;text-align:right;font-family:monospace;color:#2563eb;">${paymentId || 'N/A'}</td>
+            <td style="padding:10px 0;text-align:right;font-family:monospace;color:#c2410c;font-weight:700;">${safePaymentId}</td>
           </tr>
-          ${orderId ? `
+          ${safeOrderId ? `
           <tr style="border-bottom:1px solid #f1f5f9;">
             <td style="padding:10px 0;color:#64748b;">Razorpay Order ID:</td>
-            <td style="padding:10px 0;text-align:right;font-family:monospace;color:#64748b;">${orderId}</td>
+            <td style="padding:10px 0;text-align:right;font-family:monospace;color:#64748b;">${safeOrderId}</td>
           </tr>` : ''}
           <tr style="border-bottom:1px solid #f1f5f9;">
             <td style="padding:10px 0;color:#64748b;">Transaction Date:</td>
             <td style="padding:10px 0;text-align:right;color:#334155;">${dateStr}</td>
           </tr>
-          <tr style="border-bottom:2px solid #0f2b48;background:#fffbeb;">
-            <td style="padding:12px 8px;font-weight:800;font-size:14px;color:#92400e;">Total Amount Paid:</td>
+          <tr style="border-bottom:2px solid #7c2d12;background:#fff7ed;">
+            <td style="padding:12px 8px;font-weight:800;font-size:14px;color:#9a3412;">Total Amount Paid:</td>
             <td style="padding:12px 8px;text-align:right;font-weight:800;font-size:17px;color:#059669;">₹ ${formattedAmount}.00</td>
           </tr>
         </tbody>
       </table>
 
       <!-- Next Steps Guidance -->
-      <div style="background:#f8fafc;border-left:4px solid #b45309;padding:16px 18px;border-radius:6px;margin-bottom:24px;">
-        <h4 style="margin:0 0 8px 0;font-size:14px;color:#0f172a;">Next Steps for Verification:</h4>
+      <div style="background:#fff7ed;border-left:4px solid #ea580c;padding:16px 18px;border-radius:6px;margin-bottom:24px;">
+        <h4 style="margin:0 0 8px 0;font-size:14px;color:#9a3412;">Next Steps for Verification:</h4>
         <ol style="margin:0;padding-left:18px;font-size:13px;color:#475569;line-height:1.6;">
           <li>Save this email and note your <strong>Application Reference Number (${safeRef})</strong>.</li>
           <li>Visit the college office in Peeth on any working day (10:00 AM – 03:00 PM) with original 10th &amp; 12th marksheets, Aadhaar card, and 4 passport photos.</li>
@@ -157,9 +169,9 @@ export async function sendPaymentReceiptEmail({
       <!-- Campus Helpline -->
       <div style="font-size:12px;color:#64748b;line-height:1.6;border-top:1px solid #e2e8f0;padding-top:16px;">
         <strong>Campus Administrative Helplines:</strong><br>
-        • IT &amp; Admission Desk: <a href="tel:+918209277580" style="color:#2563eb;text-decoration:none;">+91 82092 77580</a> (Mr. Ramesh Chandra Pargi)<br>
-        • Secretary: <a href="tel:+919587433001" style="color:#2563eb;text-decoration:none;">+91 95874 33001</a> (Mr. Vipin Kumar Labana)<br>
-        • Email: <a href="mailto:gurukripa.peeth@gmail.com" style="color:#2563eb;text-decoration:none;">gurukripa.peeth@gmail.com</a>
+        • IT &amp; Admission Desk: <a href="tel:+918209277580" style="color:#c2410c;text-decoration:none;font-weight:600;">+91 82092 77580</a> (Mr. Ramesh Chandra Pargi)<br>
+        • Secretary: <a href="tel:+919587433001" style="color:#c2410c;text-decoration:none;font-weight:600;">+91 95874 33001</a> (Mr. Vipin Kumar Labana)<br>
+        • Email: <a href="mailto:gurukripa.peeth@gmail.com" style="color:#c2410c;text-decoration:none;font-weight:600;">gurukripa.peeth@gmail.com</a>
       </div>
     </div>
 
@@ -190,81 +202,99 @@ export async function sendPaymentReceiptEmail({
 }
 
 export async function sendContactInquiryEmail({ name, email, phone, subject, message }) {
-  const safeName = name || 'Visitor';
-  const safePhone = phone || 'Not Provided';
-  const safeEmail = email || 'Not Provided';
-  const safeSubject = subject || 'General Institutional Query';
-  const safeMessage = message || '';
+  const safeName = escapeHtml(name || 'Visitor');
+  const safePhone = escapeHtml(phone || 'Not Provided');
+  const safeEmail = escapeHtml(email || 'Not Provided');
+  const safeSubject = escapeHtml(subject || 'General Institutional Query');
+  const safeMessage = escapeHtml(message || '').replace(/\n/g, '<br>');
   const dateStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' });
   const collegeAdminEmail = (process.env.COLLEGE_ADMIN_EMAIL || 'gurukripa.peeth@gmail.com').trim();
 
-  // 1. Notification to College Administrative Office
+  // 1. Email notification dispatched to College Administration
   const adminHtml = `
 <!DOCTYPE html>
 <html>
-<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#0f172a;background:#f8fafc;padding:20px;">
-  <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:10px;border:1px solid #e2e8f0;overflow:hidden;">
-    <div style="background:#0f2b48;color:#fff;padding:20px 24px;border-bottom:3px solid #b45309;">
-      <h2 style="margin:0;font-size:18px;">New Website Contact Inquiry</h2>
-      <p style="margin:4px 0 0 0;font-size:12px;color:#cbd5e1;">Gurukripa Shikshan Sansthan College Peeth</p>
+<head>
+  <meta charset="utf-8">
+  <title>New Website Inquiry</title>
+</head>
+<body style="margin:0;padding:24px 12px;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#0f172a;">
+  <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.05);">
+    <div style="background:#7c2d12;padding:20px;color:#fff;">
+      <h2 style="margin:0;font-size:18px;">New Portal Contact Inquiry</h2>
+      <p style="margin:4px 0 0 0;font-size:12px;color:#fde68a;">Received on: ${dateStr}</p>
     </div>
     <div style="padding:24px;">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px;">
-        <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0;color:#64748b;">Inquirer Name:</td><td style="padding:8px 0;font-weight:700;">${safeName}</td></tr>
-        <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0;color:#64748b;">Email Address:</td><td style="padding:8px 0;color:#2563eb;"><a href="mailto:${safeEmail}">${safeEmail}</a></td></tr>
-        <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0;color:#64748b;">Mobile Number:</td><td style="padding:8px 0;font-weight:700;">${safePhone}</td></tr>
-        <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0;color:#64748b;">Subject / Dept:</td><td style="padding:8px 0;font-weight:700;color:#b45309;">${safeSubject}</td></tr>
-        <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0;color:#64748b;">Date &amp; Time:</td><td style="padding:8px 0;">${dateStr}</td></tr>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:20px;">
+        <tbody>
+          <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0;color:#64748b;width:120px;">Sender Name:</td><td style="padding:8px 0;font-weight:700;">${safeName}</td></tr>
+          <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0;color:#64748b;">Email Address:</td><td style="padding:8px 0;font-weight:600;"><a href="mailto:${safeEmail}" style="color:#c2410c;">${safeEmail}</a></td></tr>
+          <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0;color:#64748b;">Contact Phone:</td><td style="padding:8px 0;font-weight:600;"><a href="tel:${safePhone}" style="color:#c2410c;">${safePhone}</a></td></tr>
+          <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0;color:#64748b;">Subject / Topic:</td><td style="padding:8px 0;font-weight:600;">${safeSubject}</td></tr>
+        </tbody>
       </table>
-      <div style="background:#f8fafc;padding:16px;border-radius:8px;border:1px solid #e2e8f0;">
-        <strong style="font-size:12px;color:#64748b;display:block;margin-bottom:6px;">Message:</strong>
-        <p style="margin:0;font-size:14px;color:#0f172a;line-height:1.6;white-space:pre-wrap;">${safeMessage}</p>
+      <div style="background:#f8fafc;border-left:4px solid #ea580c;padding:14px;border-radius:4px;">
+        <strong style="font-size:12px;color:#9a3412;display:block;margin-bottom:6px;">Message Content:</strong>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#334155;">${safeMessage}</p>
       </div>
+    </div>
+    <div style="background:#f8fafc;padding:12px 24px;font-size:11px;color:#94a3b8;border-top:1px solid #e2e8f0;text-align:center;">
+      Transmitted via Gurukripa Shikshan Sansthan College Peeth Portal
     </div>
   </div>
 </body>
 </html>
 `;
 
-  const adminResult = await sendEmail({
-    to: collegeAdminEmail,
+  await sendEmail({
+    to: [collegeAdminEmail],
     replyTo: email && email.includes('@') ? email : undefined,
     subject: `[Web Inquiry] ${safeSubject} — from ${safeName}`,
     html: adminHtml,
   });
 
-  // 2. Polite acknowledgment to inquirer
+  // 2. Automated acknowledgment dispatched to the inquirer
   if (email && email.includes('@') && !email.includes('example.com')) {
-    const userAckHtml = `
+    const studentAckHtml = `
 <!DOCTYPE html>
 <html>
-<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#0f172a;background:#f8fafc;padding:20px;">
-  <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:10px;border:1px solid #e2e8f0;overflow:hidden;">
-    <div style="background:#0f2b48;color:#fff;padding:20px 24px;border-bottom:3px solid #b45309;">
-      <h2 style="margin:0;font-size:18px;">Thank You for Contacting Gurukripa Peeth College</h2>
-      <p style="margin:4px 0 0 0;font-size:12px;color:#cbd5e1;">GSS College Peeth • Simalwara, Dungarpur</p>
+<head>
+  <meta charset="utf-8">
+  <title>Inquiry Received</title>
+</head>
+<body style="margin:0;padding:24px 12px;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#0f172a;">
+  <div style="max-width:580px;margin:0 auto;background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.05);">
+    <div style="background:#7c2d12;padding:20px;color:#fff;text-align:center;">
+      <h2 style="margin:0;font-size:18px;">Gurukripa Shikshan Sansthan College Peeth</h2>
+      <p style="margin:4px 0 0 0;font-size:12px;color:#fde68a;">Inquiry Acknowledgment • Academic Helpdesk</p>
     </div>
-    <div style="padding:24px;font-size:14px;line-height:1.6;color:#334155;">
-      <p>Dear <strong>${safeName}</strong>,</p>
-      <p>We have successfully received your inquiry regarding <strong>"${safeSubject}"</strong>.</p>
-      <p>Our administrative desk or admissions team will review your query and respond shortly. If your query is urgent, please feel free to call our administrative helplines directly:</p>
-      <div style="background:#f8fafc;padding:14px;border-radius:8px;border:1px solid #e2e8f0;margin:16px 0;font-size:13px;">
-        • <strong>IT &amp; Admission Helpline:</strong> +91 82092 77580 (Mr. Ramesh Chandra Pargi)<br>
-        • <strong>Secretary Office:</strong> +91 95874 33001 (Mr. Vipin Kumar Labana)<br>
-        • <strong>Email:</strong> gurukripa.peeth@gmail.com
+    <div style="padding:24px;">
+      <p style="margin:0 0 14px 0;font-size:14px;color:#334155;">Dear <strong>${safeName}</strong>,</p>
+      <p style="margin:0 0 16px 0;font-size:13px;line-height:1.6;color:#475569;">
+        Thank you for contacting Gurukripa Shikshan Sansthan College Peeth. We have received your inquiry regarding "<strong>${safeSubject}</strong>".
+      </p>
+      <p style="margin:0 0 16px 0;font-size:13px;line-height:1.6;color:#475569;">
+        Our academic administration desk will review your message and contact you within 1 working day. If your inquiry is urgent regarding admissions, please feel free to call our admissions desk directly:
+      </p>
+      <div style="background:#fff7ed;padding:12px 16px;border-radius:8px;border:1px solid #fed7aa;font-size:13px;color:#9a3412;">
+        <strong>Direct Admission Helplines:</strong><br>
+        • IT &amp; Admission Desk: +91 82092 77580 (Mr. Ramesh Chandra Pargi)<br>
+        • Secretary: +91 95874 33001 (Mr. Vipin Kumar Labana)
       </div>
-      <p style="font-size:12px;color:#64748b;margin-top:20px;">Warm regards,<br><strong>Administrative Office</strong><br>Gurukripa Shikshan Sansthan College Peeth</p>
+    </div>
+    <div style="background:#f8fafc;padding:14px;font-size:11px;color:#94a3b8;border-top:1px solid #e2e8f0;text-align:center;">
+      © 2026 Gurukripa Shikshan Sansthan College Peeth, Dungarpur (Rajasthan)
     </div>
   </div>
 </body>
 </html>
 `;
     await sendEmail({
-      to: email,
-      subject: `Inquiry Received — Gurukripa Shikshan Sansthan College Peeth`,
-      html: userAckHtml,
-    }).catch(e => console.warn('User acknowledgment email error:', e));
+      to: [email],
+      subject: `Inquiry Received: ${safeSubject} — Gurukripa Shikshan Sansthan College Peeth`,
+      html: studentAckHtml,
+    });
   }
 
-  return adminResult;
+  return { success: true };
 }

@@ -112,33 +112,33 @@ export default function Footer() {
             <h4>Official Portals</h4>
             <ul>
               <li>
-                <a href="https://erp.ggtuexam.com/" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#f59e0b', fontWeight: 600 }}>
+                <a href="https://erp.ggtuexam.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#f59e0b', fontWeight: 600 }}>
                   GGTU NEP ERP Portal <ExternalLink size={12} />
                 </a>
               </li>
               <li>
-                <a href="https://www.ggtu.ac.in/Syllabus.php" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <a href="https://www.ggtu.ac.in/Syllabus.php" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   GGTU Syllabus Portal <ExternalLink size={12} />
                 </a>
               </li>
               <li>
-                <a href="https://ggtu.ac.in" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <a href="https://ggtu.ac.in" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   GGTU University Official <ExternalLink size={12} />
                 </a>
               </li>
 
               <li>
-                <a href="https://sso.rajasthan.gov.in" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <a href="https://sso.rajasthan.gov.in" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   Rajasthan SSO Portal <ExternalLink size={12} />
                 </a>
               </li>
               <li>
-                <a href="https://hte.rajasthan.gov.in" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <a href="https://hte.rajasthan.gov.in" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   HTE Rajasthan <ExternalLink size={12} />
                 </a>
               </li>
               <li>
-                <a href="https://naac.gov.in" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <a href="https://naac.gov.in" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   NAAC Bengaluru <ExternalLink size={12} />
                 </a>
               </li>

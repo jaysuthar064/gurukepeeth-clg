@@ -79,12 +79,10 @@ export default function HomePage() {
 
     load();
     window.addEventListener('focus', load);
-    const interval = setInterval(load, 3000);
 
     return () => {
       isMounted = false;
       window.removeEventListener('focus', load);
-      clearInterval(interval);
     };
   }, []);
 
@@ -288,7 +286,7 @@ export default function HomePage() {
                         <span style={{ background: '#f4f3ef', padding: '1px 6px', borderRadius: '3px', fontSize: '10px' }}>{n.category || 'General'}</span>
                       </div>
                       {n.pdf_url && n.pdf_url !== '#' ? (
-                        <a href={n.pdf_url} target="_blank" rel="noreferrer" title="Click to View Document">
+                        <a href={n.pdf_url} target="_blank" rel="noopener noreferrer" title="Click to View Document">
                           <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
                             <span>{n.title}</span>
                             <span className="pdf-download-link" style={{ padding: '2px 6px', fontSize: '11px' }}>
@@ -366,7 +364,7 @@ export default function HomePage() {
               <div className="gateway-title">Student Corner &amp; Syllabi</div>
             </Link>
 
-            <a href="https://erp.ggtuexam.com/" target="_blank" rel="noreferrer" className="gateway-card">
+            <a href="https://erp.ggtuexam.com/" target="_blank" rel="noopener noreferrer" className="gateway-card">
               <div className="gateway-icon"><Award size={22} /></div>
               <div className="gateway-title">GGTU NEP ERP Portal ↗</div>
             </a>
