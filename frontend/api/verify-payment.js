@@ -2,6 +2,7 @@
 // Security: HMAC-SHA256 timing-safe comparison, prevents replay attacks & payment spoofing
 
 import crypto from 'crypto';
+import { sendPaymentReceiptEmail } from './_email.js';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -100,13 +101,33 @@ export default async function handler(req, res) {
       // Non-blocking: If WordPress is temporarily sleeping, payment verification is already complete
     }
 
-    // 3. Return verified response
+    // 3. Dispatch Official Fee Receipt Email via Resend Serverless Utility
+    let emailStatus = 'pending';
+    try {
+      const emailRes = await sendPaymentReceiptEmail({
+        studentEmail: body.student_email || body.email,
+        studentName: body.student_name || body.name,
+        studentPhone: body.student_phone || body.phone,
+        program: body.program,
+        amount: body.amount,
+        paymentId,
+        orderId,
+        applicationRef: ref,
+      });
+      emailStatus = emailRes.success ? 'sent' : 'failed';
+    } catch (eErr) {
+      console.warn('Receipt email dispatch error:', eErr.message);
+      emailStatus = 'error';
+    }
+
+    // 4. Return verified response
     return res.status(200).json({
       success: true,
       verified: true,
       payment_id: paymentId,
       order_id: orderId,
       application_ref: ref,
+      email_status: emailStatus,
       wp_sync: wpSyncStatus,
       verified_at: new Date().toISOString(),
     });

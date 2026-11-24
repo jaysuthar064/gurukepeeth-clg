@@ -672,8 +672,30 @@ export async function submitGrievance(payload) {
   }
 }
 
-// 15. Submit Student Admission / Contact Inquiry
+// 15. Submit Student Admission / Contact Inquiry (Vercel Serverless Resend + Backend Fallback)
 export async function submitInquiry(payload) {
+  // 1. Primary: Serverless Contact endpoint with Resend Email Delivery
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.success) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn('Serverless contact endpoint bypassed:', err.message);
+  }
+
+  // 2. Secondary: WordPress Backend fallback
   try {
     const res = await fetch(`${API_BASE}/wp-json/gurukapeeth/v1/inquiry`, {
       method: 'POST',

@@ -290,9 +290,6 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
   // Fee calculation helper
   const getFeeAmount = () => {
-    if (formData.program && (formData.program.includes('Test') || formData.program.includes('1'))) {
-      return 1;
-    }
     const isBsc = formData.program.includes('B.Sc');
     return isBsc ? parseFloat(settings.admission_fee_bsc || 6000) : parseFloat(settings.admission_fee_ba || 4000);
   };
@@ -338,9 +335,6 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
   // Step 2 Validation (Field-by-field, no alert)
   const validateStep2 = () => {
-    if (formData.program && (formData.program.includes('Test') || formData.program.includes('1'))) {
-      return {};
-    }
     const errors = {};
 
     // 10th Secondary validation
@@ -379,9 +373,6 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
   // Step 3 Validation (Document uploads checking)
   const validateStep3 = () => {
-    if (formData.program && (formData.program.includes('Test') || formData.program.includes('1'))) {
-      return {};
-    }
     const errors = {};
     if (!formData.documents.photo) {
       errors.photo = 'Candidate Passport Photograph is mandatory. Please upload.';
@@ -519,6 +510,11 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature,
+              student_email: formData.email,
+              student_name: formData.name,
+              student_phone: formData.phone,
+              program: formData.program === 'B.A.' ? 'Bachelor of Arts (B.A.)' : 'Bachelor of Science (B.Sc. Bio)',
+              amount: getFeeAmount(),
             });
 
             if (verifyRes && verifyRes.success) {
@@ -558,136 +554,6 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
     } catch (err) {
       console.error(err);
       showToast(err.message || 'Error occurred while contacting admission portal.', 'error');
-      setLoading(false);
-    }
-  };
-
-  // 1-Click Live Razorpay Gateway Verification Test (₹1.00)
-  const handleQuickLiveTest = async () => {
-    try {
-      setLoading(true);
-      const testRef = 'TEST-RZP-' + Math.floor(100000 + Math.random() * 900000);
-      const testName = formData.name.trim() || 'Live Gateway Tester';
-      const testPhone = formData.phone.trim() || '9587433001';
-      const testEmail = formData.email.trim() || 'admin@gurukripapeeth.in';
-
-      const orderRes = await createAdmissionOrder({
-        is_test: true,
-        ref: testRef,
-        program: 'Live Gateway Verification (₹1.00)',
-        name: testName,
-        phone: testPhone,
-        email: testEmail,
-      });
-
-      if (!orderRes || !orderRes.success) {
-        throw new Error(orderRes?.message || 'Could not initialize ₹1 live test order.');
-      }
-
-      const keyId = (orderRes.key_id && !orderRes.key_id.includes('5173'))
-        ? orderRes.key_id
-        : (settings.razorpay_key_id && !settings.razorpay_key_id.includes('5173') ? settings.razorpay_key_id : 'rzp_live_U3wJfmji2tjUek');
-
-      if (!window.Razorpay) {
-        showToast('Razorpay checkout script is initializing. Please retry in a few seconds.', 'warning');
-        setLoading(false);
-        return;
-      }
-
-      const options = {
-        key: keyId,
-        amount: 100, // 100 paise = ₹1.00
-        currency: 'INR',
-        name: settings.college_name,
-        description: 'Live Razorpay Test Order (₹1.00)',
-        image: '/images/college-logo.png',
-        order_id: (orderRes.order_id && !orderRes.order_id.startsWith('order_mock_')) ? orderRes.order_id : undefined,
-        handler: async function (response) {
-          try {
-            setLoading(true);
-            const verifyRes = await verifyAdmissionPayment({
-              application_id: testRef,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
-            });
-
-            if (verifyRes && verifyRes.success) {
-              setApplicationResult({
-                ref: testRef,
-                name: testName,
-                father_name: 'Verification Officer',
-                mother_name: 'System Admin',
-                program: 'Live Payment Gateway Verification (₹1.00)',
-                phone: testPhone,
-                email: testEmail,
-                submitted_at: new Date().toISOString(),
-                dob: '2000-01-01',
-                category: 'General',
-                caste: 'General',
-                gender: 'Candidate',
-                aadhar: '999988887777',
-                address: 'Peeth, Tehsil Simalwara, Dungarpur',
-                district: 'Dungarpur',
-                pincode: '314406',
-                sec_percentage: '100',
-                sec_roll_no: 'TEST-10TH',
-                prev_percentage: '100',
-                prev_roll_no: 'TEST-12TH',
-                aecc_subject: 'General Hindi',
-                subjects: ['Live Gateway Test'],
-              });
-              setPaymentResult({
-                ...verifyRes,
-                amount: 1,
-                payment_id: response.razorpay_payment_id,
-                order_id: response.razorpay_order_id,
-                reference_number: testRef,
-                verified_at: new Date().toISOString(),
-                currency: 'INR',
-                status: 'captured',
-              });
-              setFormData(prev => ({
-                ...prev,
-                name: testName,
-                phone: testPhone,
-                email: testEmail,
-                program: 'Live Gateway Verification (₹1.00)',
-              }));
-              setStep(5); // Show verified receipt screen!
-              showToast('₹1.00 Live Payment verified! Official receipt generated.', 'success');
-            } else {
-              showToast('Payment verification response: ' + (verifyRes?.message || 'Verification failed.'), 'error');
-            }
-          } catch (vErr) {
-            showToast('Verification error: ' + vErr.message, 'error');
-          } finally {
-            setLoading(false);
-          }
-        },
-        prefill: {
-          name: testName,
-          email: testEmail,
-          contact: testPhone,
-        },
-        theme: {
-          color: '#b45309',
-        },
-        modal: {
-          ondismiss: function () {
-            setLoading(false);
-          },
-        },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.on('payment.failed', function (resp) {
-        showToast(`Payment failed: ${resp.error?.description || 'Declined by bank/user.'}`, 'error');
-        setLoading(false);
-      });
-      rzp.open();
-    } catch (err) {
-      showToast(err.message, 'error');
       setLoading(false);
     }
   };
@@ -1055,60 +921,6 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       );
                     })}
                   </div>
-                </div>
-              )}
-
-              {/* Quick 1-Click Live Razorpay Gateway Verification Test (₹1.00) */}
-              {step <= 4 && (
-                <div
-                  style={{
-                    background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
-                    border: '1.5px dashed #d97706',
-                    borderRadius: '12px',
-                    padding: '16px 20px',
-                    marginBottom: '24px',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: '16px',
-                  }}
-                >
-                  <div style={{ flex: '1 1 360px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                      <span style={{ background: '#d97706', color: '#ffffff', fontSize: '11px', fontWeight: 800, padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                        Live Gateway Test
-                      </span>
-                      <strong style={{ fontSize: '15px', color: '#78350f' }}>
-                        Test Live Razorpay Gateway with ₹1.00
-                      </strong>
-                    </div>
-                    <p style={{ margin: 0, fontSize: '13px', color: '#92400e', lineHeight: '1.4' }}>
-                      Verify live UPI (Google Pay, PhonePe, Paytm), RuPay card, or NetBanking checkout with real money. Instant cryptographic HMAC verification and fee receipt generation.
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    disabled={loading}
-                    onClick={handleQuickLiveTest}
-                    className="btn"
-                    style={{
-                      background: '#b45309',
-                      color: '#ffffff',
-                      border: 'none',
-                      padding: '11px 22px',
-                      borderRadius: '8px',
-                      fontWeight: 700,
-                      fontSize: '13px',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      boxShadow: '0 2px 6px rgba(180, 83, 9, 0.25)',
-                    }}
-                  >
-                    <CreditCard size={16} /> Pay ₹1.00 Live Test Now
-                  </button>
                 </div>
               )}
 
@@ -1572,56 +1384,10 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                         <span style={{ color: '#b45309', fontWeight: 700 }}>Fee: ₹{settings.admission_fee_bsc}</span>
                       </div>
                     </div>
-
-                    {/* Live Razorpay Test Order Card (₹1.00) */}
-                    <div
-                      onClick={() => setFormData(prev => ({ ...prev, program: 'Test Verification (₹1)', subjects: ['Payment Gateway Verification'], aecc_subject: prev.aecc_subject || 'General Hindi' }))}
-                      style={{
-                        border: (formData.program && formData.program.includes('Test')) ? '2px solid #059669' : '1.5px dashed #cbd5e1',
-                        background: (formData.program && formData.program.includes('Test')) ? '#ecfdf5' : '#ffffff',
-                        borderRadius: '12px',
-                        padding: '20px',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        gridColumn: '1 / -1',
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                        <div>
-                          <span style={{ fontSize: '11px', fontWeight: 800, background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '4px' }}>
-                            🧪 Live Gateway Verification Test
-                          </span>
-                          <h3 style={{ margin: '8px 0 2px 0', fontSize: '18px', color: '#0f172a' }}>
-                            Live Payment Gateway Test Order (₹1.00)
-                          </h3>
-                        </div>
-                        <input
-                          type="radio"
-                          name="program_radio"
-                          checked={Boolean(formData.program && formData.program.includes('Test'))}
-                          onChange={() => {}}
-                          style={{ accentColor: '#059669', transform: 'scale(1.2)' }}
-                        />
-                      </div>
-                      <p style={{ fontSize: '13px', color: '#64748b', margin: '0 0 12px 0' }}>
-                        Test live UPI checkout (PhonePe, Google Pay, Paytm, BHIM) or Cards with a real ₹1.00 charge to verify live Razorpay processing &amp; official receipt generation.
-                      </p>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '10px' }}>
-                        <span style={{ color: '#475569' }}>Transaction Type: <strong>Production Live Test</strong></span>
-                        <span style={{ color: '#059669', fontWeight: 800, fontSize: '14px' }}>Fee: ₹1.00</span>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Subject Combination Selection */}
-                  {formData.program && formData.program.includes('Test') ? (
-                    <div style={{ background: '#ecfdf5', padding: '16px', borderRadius: '10px', border: '1px solid #a7f3d0', marginBottom: '24px' }}>
-                      <strong style={{ fontSize: '13px', color: '#065f46' }}>✓ Live Gateway Test Mode Active:</strong>
-                      <p style={{ margin: '4px 0 0 0', fontSize: '13px', color: '#047857' }}>
-                        Academic mark validation and subject requirements are automatically bypassed. Your card/UPI will be billed exactly ₹1.00.
-                      </p>
-                    </div>
-                  ) : formData.program === 'B.A.' ? (
+                  {formData.program === 'B.A.' ? (
                     <div id="field-subjects" style={{ background: '#f8fafc', padding: '18px', borderRadius: '10px', border: fieldErrors.subjects ? '1.5px solid #ef4444' : '1px solid #e2e8f0', marginBottom: '24px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                         <strong style={{ fontSize: '13px', color: '#0f172a' }}>Select 3 Elective Subjects (ऐच्छिक विषय): *</strong>
@@ -2277,23 +2043,14 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       <span>Fee Component Description</span>
                       <span>Amount (INR)</span>
                     </div>
-                    {currentFee <= 10 ? (
-                      <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', fontSize: '14px' }}>
-                        <span>Live Gateway Verification &amp; Test Fee</span>
-                        <strong>₹ 1.00</strong>
-                      </div>
-                    ) : (
-                      <>
-                        <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', fontSize: '14px' }}>
-                          <span>Tuition &amp; College Admission Fee (2026-27)</span>
-                          <strong>₹ {(currentFee - 500).toLocaleString('en-IN')}.00</strong>
-                        </div>
-                        <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', fontSize: '14px' }}>
-                          <span>GGTU University Enrolment &amp; Library Development Fee</span>
-                          <strong>₹ 500.00</strong>
-                        </div>
-                      </>
-                    )}
+                    <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', fontSize: '14px' }}>
+                      <span>Tuition &amp; College Admission Fee (2026-27)</span>
+                      <strong>₹ {(currentFee - 500).toLocaleString('en-IN')}.00</strong>
+                    </div>
+                    <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', fontSize: '14px' }}>
+                      <span>GGTU University Enrolment &amp; Library Development Fee</span>
+                      <strong>₹ 500.00</strong>
+                    </div>
                     <div style={{ padding: '18px 20px', background: '#fffbeb', display: 'flex', justifyContent: 'space-between', fontSize: '18px', fontWeight: 800, color: '#b45309' }}>
                       <span>Total Admission Fee Payable Now:</span>
                       <span>₹ {currentFee.toLocaleString('en-IN')}.00</span>
