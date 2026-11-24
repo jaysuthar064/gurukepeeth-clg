@@ -40,7 +40,7 @@ function ThemeHandler() {
     const themeParam = params.get('theme');
     if (themeParam && ['purple', 'orange', 'crimson', 'navy'].includes(themeParam.toLowerCase())) {
       const t = themeParam.toLowerCase();
-      if (t === 'navy') {
+      if (t === 'orange') {
         document.documentElement.removeAttribute('data-theme');
         localStorage.removeItem('gurukapeeth_theme');
       } else {
@@ -49,8 +49,10 @@ function ThemeHandler() {
       }
     } else {
       const saved = localStorage.getItem('gurukapeeth_theme');
-      if (saved) {
+      if (saved && saved !== 'orange') {
         document.documentElement.setAttribute('data-theme', saved);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
       }
     }
   }, [search]);

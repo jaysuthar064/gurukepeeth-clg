@@ -155,41 +155,6 @@ export default function Footer() {
             <span>AISHE: {settings.aishe_code}</span>
             <span>Accreditation: {settings.naac_grade ? settings.naac_grade.split('/')[0].trim() : 'NAAC B+'}</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', width: '100%', paddingTop: '10px', marginTop: '10px', borderTop: '1px solid rgba(255,255,255,0.08)', fontSize: '12px', color: '#94a3b8' }}>
-            <span style={{ fontWeight: 600, color: '#cbd5e1' }}>Color Palette:</span>
-            <button
-              type="button"
-              onClick={() => { document.documentElement.removeAttribute('data-theme'); localStorage.removeItem('gurukapeeth_theme'); }}
-              style={{ background: 'rgba(15, 39, 71, 0.8)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', borderRadius: '4px', padding: '3px 10px', cursor: 'pointer', fontSize: '11px', fontWeight: 600 }}
-              title="Classic Academic Oxford Navy"
-            >
-              🔵 Classic Navy &amp; Gold
-            </button>
-            <button
-              type="button"
-              onClick={() => { document.documentElement.setAttribute('data-theme', 'purple'); localStorage.setItem('gurukapeeth_theme', 'purple'); }}
-              style={{ background: '#581c87', border: '1px solid #c084fc', color: '#fff', borderRadius: '4px', padding: '3px 10px', cursor: 'pointer', fontSize: '11px', fontWeight: 600 }}
-              title="Royal Chancellor Purple & Crisp White"
-            >
-              🟣 Royal Purple &amp; White
-            </button>
-            <button
-              type="button"
-              onClick={() => { document.documentElement.setAttribute('data-theme', 'orange'); localStorage.setItem('gurukapeeth_theme', 'orange'); }}
-              style={{ background: '#c2410c', border: '1px solid #fb923c', color: '#fff', borderRadius: '4px', padding: '3px 10px', cursor: 'pointer', fontSize: '11px', fontWeight: 600 }}
-              title="Mewar Saffron / Burnt Orange & Pure White"
-            >
-              🟠 Saffron Orange &amp; White
-            </button>
-            <button
-              type="button"
-              onClick={() => { document.documentElement.setAttribute('data-theme', 'crimson'); localStorage.setItem('gurukapeeth_theme', 'crimson'); }}
-              style={{ background: '#b91c1c', border: '1px solid #f87171', color: '#fff', borderRadius: '4px', padding: '3px 10px', cursor: 'pointer', fontSize: '11px', fontWeight: 600 }}
-              title="JECRC University Benchmark Crimson Red & White"
-            >
-              🔴 Crimson Red (JECRC)
-            </button>
-          </div>
         </div>
       </div>
     </footer>
