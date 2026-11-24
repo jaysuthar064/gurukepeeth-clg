@@ -143,7 +143,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
           ...s,
           admission_fee_ba: s.admission_fee_ba || '4000',
           admission_fee_bsc: s.admission_fee_bsc || '6000',
-          razorpay_key_id: s.razorpay_key_id && !s.razorpay_key_id.includes('5173') ? s.razorpay_key_id : 'rzp_test_U20wtdVhNmd2T2',
+          razorpay_key_id: s.razorpay_key_id && !s.razorpay_key_id.includes('5173') && !s.razorpay_key_id.includes('test') ? s.razorpay_key_id : 'rzp_live_U3wJfmji2tjUek',
         }));
       }
     });
@@ -484,7 +484,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
       const keyId = (orderRes.key_id && !orderRes.key_id.includes('5173'))
         ? orderRes.key_id
-        : (settings.razorpay_key_id && !settings.razorpay_key_id.includes('5173') ? settings.razorpay_key_id : 'rzp_test_U20wtdVhNmd2T2');
+        : (settings.razorpay_key_id && !settings.razorpay_key_id.includes('5173') ? settings.razorpay_key_id : 'rzp_live_U3wJfmji2tjUek');
 
       if (!window.Razorpay) {
         // Open interactive Sandbox modal if Razorpay script could not be loaded

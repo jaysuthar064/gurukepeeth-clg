@@ -47,7 +47,7 @@ export async function getSettings() {
     logo_url: '/images/college-logo.png',
     admission_fee_ba: '4000',
     admission_fee_bsc: '6000',
-    razorpay_key_id: 'rzp_test_U20wtdVhNmd2T2',
+    razorpay_key_id: 'rzp_live_U3wJfmji2tjUek',
   };
 
   const res = await fetchJson('/wp-json/gurukapeeth/v1/settings', fallback);
@@ -56,8 +56,8 @@ export async function getSettings() {
     res.college_hindi = 'गुरुकृपा शिक्षण संस्थान महाविद्यालय, पीठ';
     res.trust_name = 'Shree Narayan Shiksha Seva Samiti Peeth';
     res.trust_reg_no = '55/DUNGARPUR/2013-14';
-    if (!res.razorpay_key_id || res.razorpay_key_id.includes('5173')) {
-      res.razorpay_key_id = 'rzp_test_U20wtdVhNmd2T2';
+    if (!res.razorpay_key_id || res.razorpay_key_id.includes('5173') || res.razorpay_key_id.includes('test')) {
+      res.razorpay_key_id = 'rzp_live_U3wJfmji2tjUek';
     }
     if (!res.college_subtitle || res.college_subtitle.toLowerCase().includes('teacher') || res.college_subtitle.toLowerCase().includes('ncte')) {
       res.college_subtitle = 'Run by Shree Narayan Shiksha Seva Samiti Peeth • Affiliated to GGTU Banswara';
@@ -809,8 +809,8 @@ export async function createAdmissionOrder(applicationIdOrData) {
     amount: fee,
     amount_paise: fee * 100,
     currency: 'INR',
-    key_id: 'rzp_test_U20wtdVhNmd2T2',
-    is_mock: true,
+    key_id: 'rzp_live_U3wJfmji2tjUek',
+    is_mock: false,
     application_ref: appData.ref || appData.application_id || '',
   };
 }
