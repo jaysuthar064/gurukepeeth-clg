@@ -121,7 +121,7 @@ export default function AdmissionsPage() {
       </div>
 
       {/* Official Online Admission Portal Callout */}
-      <div style={{ background: 'linear-gradient(135deg, var(--primary-950) 0%, var(--primary-900) 60%, var(--primary-800) 100%)', color: '#ffffff', padding: '24px 0', borderBottom: '3px solid #f59e0b' }}>
+      <div style={{ background: 'var(--primary-900)', color: '#ffffff', padding: '24px 0', borderBottom: '3px solid #f59e0b' }}>
         <div className="container" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '20px' }}>
           <div>
             <span style={{ display: 'inline-block', background: '#b45309', color: '#fff', fontSize: '11px', fontWeight: 800, padding: '3px 10px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>Official Portal Active</span>

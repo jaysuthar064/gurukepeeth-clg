@@ -363,7 +363,7 @@ function DisclosuresPage() {
       {/* 5. Anti-Ragging Statutory Declaration */}
       <div
         style={{
-          background: 'linear-gradient(135deg, var(--crimson-800) 0%, var(--crimson-700) 100%)',
+          background: 'var(--crimson-800)',
           color: '#ffffff',
           padding: '52px 0',
         }}

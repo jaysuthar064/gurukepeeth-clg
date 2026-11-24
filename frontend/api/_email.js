@@ -88,7 +88,7 @@ export async function sendPaymentReceiptEmail({
   <div style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,0.06);">
     
     <!-- Header -->
-    <div style="background:linear-gradient(135deg, #341106 0%, #7c2d12 60%, #c2410c 100%);padding:28px 24px;text-align:center;color:#ffffff;border-bottom:3px solid #f59e0b;">
+    <div style="background:#7c2d12;padding:28px 24px;text-align:center;color:#ffffff;border-bottom:3px solid #f59e0b;">
       <div style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fde68a;margin-bottom:6px;">
         Govind Guru Tribal University (GGTU) Affiliated • AISHE: C-48902
       </div>

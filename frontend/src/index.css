@@ -319,13 +319,13 @@ img {
    LIVE NOTICES MARQUEE STRIP
    ============================================================ */
 .marquee-bar {
-  background: linear-gradient(90deg, #7f1d1d 0%, #991b1b 25%, #b45309 60%, #7f1d1d 100%);
+  background: var(--primary-900);
   color: #ffffff;
   padding: 6px 0;
   overflow: hidden;
   font-size: 12.5px;
   font-weight: 600;
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .marquee-inner {
@@ -606,6 +606,22 @@ img {
   z-index: 200;
 }
 
+/* Hover bridge preventing accidental close between nav item and dropdown */
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
+/* Align rightmost dropdowns to right edge to avoid viewport overflow */
+.nav-item:nth-last-child(-n+3) .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
 .nav-item:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
@@ -801,7 +817,6 @@ img {
 .mobile-nav-menu-link.active {
   background: var(--gold-50);
   color: var(--gold-700);
-  padding-left: 24px;
 }
 
 .mobile-accordion-toggle {
@@ -872,7 +887,6 @@ img {
 .mobile-sub-menu li a:hover {
   color: var(--gold-700);
   background: #ffffff;
-  padding-left: 36px;
 }
 
 .mobile-drawer-footer {
@@ -938,16 +952,16 @@ img {
 }
 
 .btn-gold {
-  background: linear-gradient(135deg, var(--gold-500) 0%, var(--gold-600) 100%);
+  background: var(--gold-500);
   color: #ffffff;
   border-color: var(--gold-600);
-  box-shadow: 0 2px 6px rgba(180, 83, 9, 0.25);
+  box-shadow: 0 1px 3px rgba(180, 83, 9, 0.25);
 }
 
 .btn-gold:hover {
-  background: linear-gradient(135deg, var(--gold-400) 0%, var(--gold-500) 100%);
+  background: var(--gold-600);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.35);
+  box-shadow: 0 3px 8px rgba(180, 83, 9, 0.35);
   transform: translateY(-1px);
 }
 
@@ -1162,8 +1176,7 @@ a.btn:focus-visible {
    ============================================================ */
 .hero-section {
   position: relative;
-  background: linear-gradient(135deg, rgba(6, 18, 32, 0.94) 0%, rgba(10, 29, 54, 0.88) 55%, rgba(15, 39, 71, 0.82) 100%),
-              url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=85') center/cover no-repeat;
+  background: var(--primary-950) url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=85') center/cover no-repeat;
   color: #ffffff;
   padding: 64px 0 72px 0;
   border-bottom: 4px solid var(--gold-500);
@@ -1173,8 +1186,7 @@ a.btn:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle at 10% 20%, rgba(217, 119, 6, 0.12) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(21, 52, 93, 0.6) 0%, transparent 50%);
+  background: rgba(30, 10, 5, 0.88);
   pointer-events: none;
 }
 
@@ -1182,11 +1194,11 @@ a.btn:focus-visible {
    ADMISSIONS PROMOTIONAL BANNER
    ============================================================ */
 .admissions-promo-banner {
-  background: linear-gradient(90deg, #78350f 0%, #92400e 25%, #b45309 60%, #78350f 100%);
+  background: var(--gold-600);
   border-bottom: 3px solid var(--gold-400);
   color: #ffffff;
   padding: 14px 0;
-  box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .admissions-promo-grid {
@@ -1910,8 +1922,8 @@ a.btn:focus-visible {
 .faculty-photo-fallback {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-800) 100%);
-  color: var(--gold-300);
+  background: var(--primary-900);
+  color: var(--gold-200);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2075,8 +2087,8 @@ a.btn:focus-visible {
 .faculty-table-thumb-fallback {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-800) 100%);
-  color: var(--gold-300);
+  background: var(--primary-900);
+  color: var(--gold-200);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2132,13 +2144,14 @@ a.btn:focus-visible {
 }
 
 .footer-col ul a {
+  display: inline-block;
   color: #94a3b8;
-  transition: all var(--transition-fast);
+  transition: transform var(--transition-fast), color var(--transition-fast);
 }
 
 .footer-col ul a:hover {
   color: var(--gold-300);
-  padding-left: 4px;
+  transform: translateX(3px);
 }
 
 .footer-bottom {
@@ -2157,19 +2170,11 @@ a.btn:focus-visible {
    INNER PAGE HERO BANNER
    ============================================================ */
 .page-hero-banner {
-  background: linear-gradient(135deg, var(--primary-950) 0%, var(--primary-900) 60%, #102d57 100%);
+  background: var(--primary-900);
   color: #ffffff;
   padding: 48px 0;
   border-bottom: 3px solid var(--gold-500);
   position: relative;
-}
-
-.page-hero-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle at 90% 20%, rgba(217, 119, 6, 0.1) 0%, transparent 40%);
-  pointer-events: none;
 }
 
 .page-hero-tag {

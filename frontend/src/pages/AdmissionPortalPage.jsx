@@ -766,7 +766,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
       )}
 
       {/* 1. Official Institutional Hero Header */}
-      <div className="page-hero-banner" style={{ background: 'linear-gradient(135deg, var(--primary-950) 0%, var(--primary-900) 60%, var(--primary-800) 100%)', paddingBottom: '32px' }}>
+      <div className="page-hero-banner" style={{ background: 'var(--primary-900)', paddingBottom: '32px' }}>
         <div className="container">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
             <span className="page-hero-tag" style={{ background: '#b45309', color: '#fff' }}>Official Enrolment 2026-27</span>

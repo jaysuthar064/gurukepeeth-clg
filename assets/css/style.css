@@ -348,7 +348,7 @@ button, input, select, textarea {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, #ffb606 0%, #e09f00 100%);
+  background: #e09f00;
   color: #00152e;
   padding: 3px 10px;
   font-weight: 700;
@@ -628,7 +628,7 @@ button, input, select, textarea {
 
 .nav-apply-btn {
   padding: 10px 20px;
-  background: linear-gradient(135deg, #9b0c23 0%, #7a091b 100%);
+  background: #7a091b;
   color: #ffffff !important;
   font-weight: 700;
   border-radius: var(--radius-sm);
@@ -780,7 +780,7 @@ button, input, select, textarea {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(0,21,46,0.92) 0%, rgba(0,21,46,0.3) 60%, rgba(0,21,46,0.1) 100%);
+  background: rgba(0, 21, 46, 0.75);
 }
 
 .hero-slide-content {
@@ -853,7 +853,7 @@ button, input, select, textarea {
 }
 
 .quick-box-header {
-  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+  background: var(--color-secondary-dark);
   color: #ffffff;
   padding: 20px 24px;
 }
@@ -1273,7 +1273,7 @@ button, input, select, textarea {
 
 /* --- 12. NAAC & IQAC QUALITY CORNER WIDGET --- */
 .quality-corner {
-  background: linear-gradient(135deg, var(--color-secondary) 0%, #00152e 100%);
+  background: var(--color-secondary-dark);
   color: #ffffff;
   border-radius: var(--radius-lg);
   padding: 45px;
@@ -1491,7 +1491,7 @@ button, input, select, textarea {
 
 /* --- 14. INSTITUTIONAL STAT COUNTERS --- */
 .stat-counter-section {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background: var(--color-primary-dark);
   color: #ffffff;
   padding: 60px 0;
 }
@@ -1592,7 +1592,7 @@ button, input, select, textarea {
 
 /* --- 16. INNER PAGE 2-COLUMN ACADEMIC LAYOUT --- */
 .page-banner {
-  background: linear-gradient(135deg, var(--color-secondary-dark) 0%, var(--color-secondary) 100%);
+  background: var(--color-secondary-dark);
   color: #ffffff;
   padding: 45px 0;
   position: relative;

@@ -511,7 +511,7 @@ function ExamHubPage() {
                       marginBottom: 32,
                       padding: '28px 32px',
                       borderRadius: 'var(--radius-sm)',
-                      background: 'linear-gradient(135deg, var(--primary-950) 0%, var(--primary-900) 60%, var(--primary-800) 100%)',
+                      background: 'var(--primary-900)',
                       color: '#ffffff',
                       border: '1px solid rgba(255, 255, 255, 0.1)',
                       boxShadow: 'var(--shadow-md)',
