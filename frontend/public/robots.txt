@@ -1,0 +1,9 @@
+# robots.txt for Gurukripa Shikshan Sansthan College Peeth
+# https://www.gurukripapeeth.in
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://www.gurukripapeeth.in/sitemap.xml
