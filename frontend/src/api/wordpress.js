@@ -740,8 +740,48 @@ export async function submitAdmissionApplication(payload) {
   }
 }
 
-// 17. Create Razorpay Payment Order
-export async function createAdmissionOrder(applicationIdOrRef) {
+// 17. Create Razorpay Payment Order (Vercel Serverless + Backend Fallback)
+export async function createAdmissionOrder(applicationIdOrData) {
+  let appData = {};
+  if (typeof applicationIdOrData === 'object' && applicationIdOrData !== null) {
+    appData = { ...applicationIdOrData };
+  } else {
+    appData = { application_id: applicationIdOrData, ref: applicationIdOrData };
+    try {
+      const stored = JSON.parse(localStorage.getItem('gkss_applications') || '[]');
+      const found = stored.find(a => (a.ref && a.ref === applicationIdOrData) || a.id == applicationIdOrData);
+      if (found) {
+        appData.ref = found.ref || applicationIdOrData;
+        appData.name = found.name;
+        appData.phone = found.phone;
+        appData.email = found.email;
+        appData.program = found.program;
+      }
+    } catch (_e) {}
+  }
+
+  // 1. Primary: Secure Vercel Serverless Function (/api/create-order)
+  try {
+    const res = await fetch('/api/create-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(appData),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.success) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn('Vercel serverless order endpoint bypassed:', err.message);
+  }
+
+  // 2. Secondary: WordPress Backend fallback
   try {
     const res = await fetch(`${API_BASE}/wp-json/gurukapeeth/v1/admission/create-order`, {
       method: 'POST',
@@ -749,37 +789,68 @@ export async function createAdmissionOrder(applicationIdOrRef) {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify({ application_id: applicationIdOrRef }),
+      body: JSON.stringify({ application_id: appData.ref || appData.application_id }),
     });
 
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.message || `Server error: ${res.status}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.success) return data;
     }
-    return data;
   } catch (err) {
-    console.warn('Backend order creation offline, using client-side Razorpay test mode:', err.message);
-    let fee = 4000;
-    try {
-      const stored = JSON.parse(localStorage.getItem('gkss_applications') || '[]');
-      const found = stored.find(a => (a.ref && a.ref === applicationIdOrRef) || a.id == applicationIdOrRef);
-      if (found && found.fee_amount) fee = found.fee_amount;
-    } catch (_e) {}
-    return {
-      success: true,
-      order_id: '',
-      amount: fee,
-      amount_paise: fee * 100,
-      currency: 'INR',
-      key_id: 'rzp_test_U20wtdVhNmd2T2',
-      is_mock: false,
-      application_ref: typeof applicationIdOrRef === 'string' ? applicationIdOrRef : '',
-    };
+    console.warn('Backend order creation offline, using client-side fallback:', err.message);
   }
+
+  // 3. Resilient fallback structure
+  const isBsc = (appData.program || '').toUpperCase().includes('B.SC') || (appData.program || '').toUpperCase().includes('BSC');
+  const fee = isBsc ? 6000 : 4000;
+  return {
+    success: true,
+    order_id: '',
+    amount: fee,
+    amount_paise: fee * 100,
+    currency: 'INR',
+    key_id: 'rzp_test_U20wtdVhNmd2T2',
+    is_mock: true,
+    application_ref: appData.ref || appData.application_id || '',
+  };
 }
 
-// 18. Verify Razorpay Payment Signature
+// 18. Verify Razorpay Payment Signature (Vercel Serverless HMAC + Backend Fallback)
 export async function verifyAdmissionPayment(payload) {
+  // 1. Primary: Cryptographic verification on Vercel Serverless (/api/verify-payment)
+  try {
+    const res = await fetch('/api/verify-payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.success) {
+        // Sync local storage for offline resilience
+        try {
+          const stored = JSON.parse(localStorage.getItem('gkss_applications') || '[]');
+          const idx = stored.findIndex(a => a.ref === payload.application_id || a.id == payload.application_id);
+          if (idx >= 0) {
+            stored[idx].payment_status = 'Paid';
+            stored[idx].razorpay_payment_id = payload.razorpay_payment_id;
+            stored[idx].razorpay_order_id = payload.razorpay_order_id;
+            stored[idx].payment_date = new Date().toISOString();
+            localStorage.setItem('gkss_applications', JSON.stringify(stored));
+          }
+        } catch (_e) {}
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn('Vercel serverless verify endpoint bypassed:', err.message);
+  }
+
+  // 2. Secondary: WordPress Backend fallback
   try {
     const res = await fetch(`${API_BASE}/wp-json/gurukapeeth/v1/admission/verify-payment`, {
       method: 'POST',

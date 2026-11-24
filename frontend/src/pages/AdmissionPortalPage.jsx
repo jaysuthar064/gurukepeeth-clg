@@ -467,8 +467,15 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
       setApplicationResult(appRes.application);
       const appId = appRes.application.ref || appRes.application_id;
 
-      // 2. Create Razorpay Payment Order on Backend
-      const orderRes = await createAdmissionOrder(appId);
+      // 2. Create Razorpay Payment Order via Secure Serverless Gateway
+      const orderRes = await createAdmissionOrder({
+        ref: appId,
+        program: formData.program,
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        application_id: appId,
+      });
       if (!orderRes || !orderRes.success) {
         throw new Error(orderRes?.message || 'Could not initialize payment order.');
       }
