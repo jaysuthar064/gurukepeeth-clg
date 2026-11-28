@@ -143,7 +143,7 @@ export default function AdmissionsPage() {
 
       <div className="section section-white">
         <div className="container">
-          <div className="grid-2" style={{ gap: '48px', alignItems: 'flex-start' }}>
+          <div className="grid-2 grid-2-lg-gap" style={{ alignItems: 'flex-start' }}>
             {/* Left: Merit Lists Table */}
             <div>
               <span className="section-tag">Official Publications</span>
@@ -152,35 +152,38 @@ export default function AdmissionsPage() {
                 Download official PDF lists published by the admission committee for the academic session 2026-27.
               </p>
 
-              <table className="statutory-table">
-                <thead>
-                  <tr>
-                    <th>Stream</th>
-                    <th>List Type</th>
-                    <th>Cutoff</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {displayLists.map((item, idx) => (
-                    <tr key={item.id || idx}>
-                      <td><strong>{item.stream}</strong><br/><span style={{ fontSize: '12px', color: '#64748b' }}>Session {item.session}</span></td>
-                      <td>{item.list_type || item.list || 'Merit List'}<br/><span style={{ fontSize: '12px', color: '#64748b' }}>Date: {item.date}</span></td>
-                      <td><span style={{ background: '#fef3c7', color: '#92400e', padding: '3px 8px', borderRadius: '4px', fontWeight: 700, fontSize: '12px' }}>{item.cutoff}</span></td>
-                      <td>
-                        <a 
-                          href={item.pdf_url || '#'} 
-                          target={item.pdf_url && item.pdf_url !== '#' ? '_blank' : '_self'}
-                          rel="noreferrer"
-                          className="pdf-download-link"
-                        >
-                          <Download size={14} /> PDF
-                        </a>
-                      </td>
+              <div className="table-scroll-hint">Swipe table horizontally →</div>
+              <div className="table-responsive-wrapper">
+                <table className="statutory-table">
+                  <thead>
+                    <tr>
+                      <th>Stream</th>
+                      <th>List Type</th>
+                      <th>Cutoff</th>
+                      <th>Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {displayLists.map((item, idx) => (
+                      <tr key={item.id || idx}>
+                        <td><strong>{item.stream}</strong><br/><span style={{ fontSize: '12px', color: '#64748b' }}>Session {item.session}</span></td>
+                        <td>{item.list_type || item.list || 'Merit List'}<br/><span style={{ fontSize: '12px', color: '#64748b' }}>Date: {item.date}</span></td>
+                        <td><span style={{ background: '#fef3c7', color: '#92400e', padding: '3px 8px', borderRadius: '4px', fontWeight: 700, fontSize: '12px' }}>{item.cutoff}</span></td>
+                        <td>
+                          <a 
+                            href={item.pdf_url || '#'} 
+                            target={item.pdf_url && item.pdf_url !== '#' ? '_blank' : '_self'}
+                            rel="noreferrer"
+                            className="pdf-download-link"
+                          >
+                            <Download size={14} /> PDF
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
               <div style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-muted)' }}>
                 * Merit lists are updated in accordance with Rajasthan State Higher Education Directorate & GGTU admission calendar.
@@ -197,7 +200,7 @@ export default function AdmissionsPage() {
             </div>
 
             {/* Right: Admission Inquiry Form */}
-            <div style={{ background: '#f8fafc', padding: '32px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(15, 23, 42, 0.04)' }}>
+            <div className="responsive-card-box">
               <span className="section-tag">Direct Application</span>
               <h3 style={{ fontSize: '22px', color: '#0f172a', marginBottom: '8px' }}>Online Admission Inquiry 2026-27</h3>
               <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '24px' }}>
@@ -258,7 +261,7 @@ export default function AdmissionsPage() {
                     />
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '16px' }}>
+                  <div className="responsive-form-grid-2" style={{ gap: '14px', marginBottom: '16px' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>Mobile Number *</label>
                       <input 

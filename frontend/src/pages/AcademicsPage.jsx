@@ -140,7 +140,7 @@ export default function AcademicsPage() {
 
               return (
                 <div key={prog.id} className="program-card" style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: 8 }}>
                     <span className="program-badge">{stream}</span>
                     {title.toLowerCase().includes('b.a.') && (
                       <a
@@ -193,7 +193,7 @@ export default function AcademicsPage() {
           </div>
 
           {/* Official Course & Subject Distribution from University Framework */}
-          <div style={{ marginTop: '48px', background: '#ffffff', borderRadius: '16px', padding: '36px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(15, 23, 42, 0.04)' }}>
+          <div className="responsive-card-box" style={{ marginTop: '48px', background: '#ffffff' }}>
             <div style={{ marginBottom: '24px' }}>
               <span className="section-tag">Approved Course Matrix</span>
               <h2 className="section-title">Official Subjects &amp; Degree Specializations</h2>
@@ -202,10 +202,10 @@ export default function AcademicsPage() {
               </p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: '24px', marginBottom: '24px' }}>
               {/* B.A. Subjects */}
-              <div style={{ background: '#f8fafc', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+              <div style={{ background: '#f8fafc', padding: '22px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
                   <h3 style={{ fontSize: '18px', color: '#0f172a', fontWeight: 700, margin: 0 }}>Bachelor of Arts (B.A.)</h3>
                   <span style={{ fontSize: '12px', fontWeight: 700, background: '#e0f2fe', color: '#0369a1', padding: '3px 10px', borderRadius: '12px' }}>3 Years</span>
                 </div>
@@ -223,8 +223,8 @@ export default function AcademicsPage() {
               </div>
 
               {/* B.Sc. Subjects */}
-              <div style={{ background: '#f8fafc', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+              <div style={{ background: '#f8fafc', padding: '22px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
                   <h3 style={{ fontSize: '18px', color: '#0f172a', fontWeight: 700, margin: 0 }}>Bachelor of Science (B.Sc.)</h3>
                   <span style={{ fontSize: '12px', fontWeight: 700, background: '#dcfce7', color: '#15803d', padding: '3px 10px', borderRadius: '12px' }}>3 Years</span>
                 </div>
@@ -243,11 +243,11 @@ export default function AcademicsPage() {
             </div>
 
             {/* Compulsory Subjects for UG Part-I */}
-            <div style={{ background: '#f1f5f9', padding: '20px 24px', borderRadius: '12px', border: '1px solid #cbd5e1' }}>
+            <div style={{ background: '#f1f5f9', padding: '20px 16px', borderRadius: '12px', border: '1px solid #cbd5e1' }}>
               <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '10px' }}>
                 Compulsory Foundation Subjects (For All UG Part-I Students)
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 190px), 1fr))', gap: '12px' }}>
                 <div style={{ background: '#fff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
                   1. General Hindi (सामान्य हिन्दी)
                 </div>
@@ -265,9 +265,9 @@ export default function AcademicsPage() {
           </div>
 
           {/* Statutory University Affiliation & Govt NOC Download Strip */}
-          <div style={{ marginTop: '48px', background: '#f8fafc', borderRadius: '16px', padding: '32px', border: '1px solid #cbd5e1' }}>
+          <div className="responsive-card-box" style={{ marginTop: '48px', borderColor: '#cbd5e1' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
-              <div>
+              <div style={{ minWidth: 0, flex: '1 1 240px' }}>
                 <span className="section-tag">Statutory Approvals</span>
                 <h3 style={{ fontSize: '20px', color: '#0f172a', fontWeight: 700, margin: '4px 0 6px' }}>
                   University Affiliations &amp; Rajasthan Govt. Permanent NOCs
@@ -281,7 +281,7 @@ export default function AcademicsPage() {
               </Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: '14px' }}>
               <div style={{ background: '#fff', borderRadius: '8px', padding: '16px', border: '1px solid #e2e8f0' }}>
                 <div style={{ fontSize: '12px', fontWeight: 700, color: '#047857', textTransform: 'uppercase' }}>State Government NOC</div>
                 <div style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a', margin: '4px 0' }}>B.A. (Arts) Permanent NOC</div>
@@ -334,7 +334,7 @@ export default function AcademicsPage() {
           </div>
 
           {/* NEP 2020 Pedagogical Framework */}
-          <div style={{ marginTop: '64px', background: '#ffffff', borderRadius: '16px', padding: '36px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(15, 23, 42, 0.03)' }}>
+          <div className="responsive-card-box" style={{ marginTop: '48px', background: '#ffffff' }}>
             <div style={{ textAlign: 'left', marginBottom: '28px' }}>
               <span className="section-tag">National Education Policy</span>
               <h2 className="section-title">NEP 2020 Academic Architecture</h2>
@@ -357,7 +357,7 @@ export default function AcademicsPage() {
           </div>
 
           {/* Academic Counseling CTA */}
-          <div style={{ marginTop: '48px', textAlign: 'center', padding: '32px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+          <div className="responsive-card-box" style={{ marginTop: '48px', textAlign: 'center', borderRadius: '12px' }}>
             <h3 style={{ fontSize: '20px', color: '#0f172a', fontWeight: 700, marginBottom: '8px' }}>
               Academic Counseling & Program Inquiries
             </h3>

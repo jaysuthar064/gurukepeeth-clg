@@ -109,7 +109,7 @@ export default function ContactPage() {
 
       <div className="section section-white">
         <div className="container">
-          <div className="grid-2" style={{ gap: '48px', alignItems: 'flex-start' }}>
+          <div className="grid-2 grid-2-lg-gap" style={{ alignItems: 'flex-start' }}>
             {/* Contact Details */}
             <div>
               <span className="section-tag">Campus Address</span>

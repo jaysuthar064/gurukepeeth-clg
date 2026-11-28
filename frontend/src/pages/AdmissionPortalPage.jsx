@@ -678,21 +678,21 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
             )}
           </div>
         ) : (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#ffffff', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '12px 16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', background: '#ffffff', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '12px 14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: '1 1 180px', minWidth: 0 }}>
               {doc.previewUrl ? (
                 <img
                   src={doc.previewUrl}
                   alt={doc.name}
-                  style={{ width: '48px', height: '48px', borderRadius: '6px', objectFit: 'cover', border: '1px solid #cbd5e1' }}
+                  style={{ width: '48px', height: '48px', flexShrink: 0, borderRadius: '6px', objectFit: 'cover', border: '1px solid #cbd5e1' }}
                 />
               ) : (
-                <div style={{ width: '44px', height: '44px', borderRadius: '6px', background: '#eff6ff', color: '#1e40af', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: '44px', height: '44px', flexShrink: 0, borderRadius: '6px', background: '#eff6ff', color: '#1e40af', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <FileText size={24} />
                 </div>
               )}
-              <div>
-                <strong style={{ display: 'block', fontSize: '13px', color: '#0f172a', maxWidth: '320px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <strong style={{ display: 'block', fontSize: '13px', color: '#0f172a', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {doc.name}
                 </strong>
                 <span style={{ fontSize: '11px', color: '#64748b' }}>
@@ -768,14 +768,14 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
       {/* 1. Official Institutional Hero Header */}
       <div className="page-hero-banner" style={{ background: 'var(--primary-900)', paddingBottom: '32px' }}>
         <div className="container">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '12px' }}>
             <span className="page-hero-tag" style={{ background: '#b45309', color: '#fff' }}>Official Enrolment 2026-27</span>
             <span style={{ fontSize: '12px', color: '#fed7aa', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <ShieldCheck size={14} /> GGTU Affiliated &amp; Rajasthan Govt Approved
+              <ShieldCheck size={14} style={{ flexShrink: 0 }} /> GGTU Affiliated &amp; Rajasthan Govt Approved
             </span>
           </div>
 
-          <h1 className="page-hero-title" style={{ fontSize: '32px', marginBottom: '8px' }}>
+          <h1 className="page-hero-title" style={{ marginBottom: '8px' }}>
             Online Admission &amp; Fee Payment Portal
           </h1>
           <p className="page-hero-desc" style={{ maxWidth: '800px', fontSize: '15px', color: '#ffedd5' }}>
@@ -783,23 +783,14 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
           </p>
 
           {/* Portal Sub-tabs: Apply vs Status */}
-          <div style={{ display: 'inline-flex', flexWrap: 'wrap', maxWidth: '100%', background: 'rgba(255, 255, 255, 0.1)', padding: '4px', borderRadius: '8px', marginTop: '20px', gap: '4px' }}>
+          <div className="portal-tabs-bar">
             <button
               type="button"
               onClick={() => { setActiveTab('apply'); setFieldErrors({}); }}
+              className="portal-tab-btn"
               style={{
                 background: activeTab === 'apply' ? '#ffffff' : 'transparent',
                 color: activeTab === 'apply' ? 'var(--primary-900)' : '#ffffff',
-                border: 'none',
-                padding: '8px 20px',
-                borderRadius: '6px',
-                fontSize: '13px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                transition: 'all 0.2s ease',
               }}
             >
               <FileText size={15} /> New Admission Application
@@ -807,19 +798,10 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
             <button
               type="button"
               onClick={() => { setActiveTab('status'); setFieldErrors({}); }}
+              className="portal-tab-btn"
               style={{
                 background: activeTab === 'status' ? '#ffffff' : 'transparent',
                 color: activeTab === 'status' ? 'var(--primary-900)' : '#ffffff',
-                border: 'none',
-                padding: '8px 20px',
-                borderRadius: '6px',
-                fontSize: '13px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                transition: 'all 0.2s ease',
               }}
             >
               <Search size={15} /> Track Application &amp; Receipt
@@ -847,12 +829,12 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       { num: 3, title: 'Document Uploads', icon: UploadCloud },
                       { num: 4, title: 'Fee & Payment', icon: CreditCard },
                     ].map(st => {
-                      const Icon = st.icon;
                       const isDone = step > st.num;
                       const isCurrent = step === st.num;
                       return (
-                        <div key={st.num} style={{ textAlign: 'center' }}>
+                        <div key={st.num} className="admission-step-item">
                           <div
+                            className="admission-step-badge"
                             style={{
                               width: '38px',
                               height: '38px',
@@ -869,9 +851,9 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                               transition: 'all 0.3s ease',
                             }}
                           >
-                            {isDone ? <Check size={18} /> : st.num}
+                            {isDone ? <Check size={16} /> : st.num}
                           </div>
-                          <div style={{ fontSize: '12px', fontWeight: isCurrent ? 700 : 500, color: isCurrent ? 'var(--primary-800)' : '#64748b' }}>
+                          <div style={{ fontSize: '12px', fontWeight: isCurrent ? 700 : 500, color: isCurrent ? 'var(--primary-800)' : '#64748b', lineHeight: 1.25 }}>
                             {st.title}
                           </div>
                         </div>
@@ -1346,13 +1328,13 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                   {/* Subject Combination Selection */}
                   {formData.program === 'B.A.' ? (
                     <div id="field-subjects" style={{ background: '#f8fafc', padding: '18px', borderRadius: '10px', border: fieldErrors.subjects ? '1.5px solid #ef4444' : '1px solid #e2e8f0', marginBottom: '24px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '10px' }}>
                         <strong style={{ fontSize: '13px', color: '#0f172a' }}>Select 3 Elective Subjects (ऐच्छिक विषय): *</strong>
                         <span style={{ fontSize: '12px', color: formData.subjects.length === 3 ? '#059669' : '#b45309', fontWeight: 600 }}>
                           Selected: {formData.subjects.length} / 3
                         </span>
                       </div>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: '10px' }}>
                         {[
                           'Hindi Literature',
                           'English Literature',
@@ -1406,7 +1388,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
                   {/* General / Compulsory (AECC) Subject */}
                   <div id="field-aecc_subject" style={{ background: '#f8fafc', padding: '18px', borderRadius: '10px', border: fieldErrors.aecc_subject ? '1.5px solid #ef4444' : '1px solid #e2e8f0', marginBottom: '28px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                       <strong style={{ fontSize: '13px', color: '#0f172a' }}>
                         General / Compulsory (AECC) Subject (अनिवार्य विषय): *
                       </strong>
@@ -1417,7 +1399,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#64748b' }}>
                       As per university guidelines, all undergraduate students (B.A. &amp; B.Sc.) must choose any ONE compulsory subject:
                     </p>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 190px), 1fr))', gap: '10px' }}>
                       {[
                         { key: 'General Hindi', label: 'A. General Hindi (सामान्य हिन्दी)' },
                         { key: 'General English', label: 'B. General English (सामान्य अंग्रेजी)' },
@@ -1558,7 +1540,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       )}
                     </div>
 
-                    <div id="field-sec_marks_obtained" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '10px' }}>
+                    <div id="field-sec_marks_obtained" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 100px), 1fr))', gap: '10px' }}>
                       <div>
                         <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: fieldErrors.sec_marks_obtained ? '#dc2626' : '#334155', marginBottom: '6px' }}>
                           Marks Obtained *
@@ -1701,7 +1683,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       )}
                     </div>
 
-                    <div id="field-prev_marks_obtained" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '10px' }}>
+                    <div id="field-prev_marks_obtained" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 100px), 1fr))', gap: '10px' }}>
                       <div>
                         <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: fieldErrors.prev_marks_obtained ? '#dc2626' : '#334155', marginBottom: '6px' }}>
                           Marks Obtained *
@@ -1753,7 +1735,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     </div>
                   </div>
 
-                  <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
                     <button
                       type="button"
                       onClick={handlePrevStep}
@@ -1883,7 +1865,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     )}
                   </div>
 
-                  <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
                     <button
                       type="button"
                       onClick={handlePrevStep}
@@ -1917,23 +1899,23 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                   </div>
 
                   {/* Summary Overview with Candidate Photo */}
-                  <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '24px', marginBottom: '24px' }}>
-                    <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '16px' }}>
+                  <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px 16px', marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flexWrap: 'wrap', marginBottom: '16px' }}>
                       {formData.documents.photo?.previewUrl ? (
                         <img
                           src={formData.documents.photo.previewUrl}
                           alt="Candidate"
-                          style={{ width: '80px', height: '96px', objectFit: 'cover', borderRadius: '8px', border: '2px solid #cbd5e1' }}
+                          style={{ width: '80px', height: '96px', flexShrink: 0, objectFit: 'cover', borderRadius: '8px', border: '2px solid #cbd5e1' }}
                         />
                       ) : (
-                        <div style={{ width: '80px', height: '96px', borderRadius: '8px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+                        <div style={{ width: '80px', height: '96px', flexShrink: 0, borderRadius: '8px', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
                           <User size={32} />
                         </div>
                       )}
 
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                          <div>
+                      <div style={{ flex: '1 1 200px', minWidth: 0 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
+                          <div style={{ minWidth: 0 }}>
                             <h3 style={{ margin: '0 0 4px 0', fontSize: '18px', color: '#0f172a' }}>{formData.name}</h3>
                             <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>
                               S/D of {formData.father_name} &amp; {formData.mother_name}
@@ -1965,9 +1947,9 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                   </div>
 
                   {/* Uploaded Documents List */}
-                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
+                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '18px 16px', marginBottom: '24px' }}>
                     <h3 style={{ fontSize: '14px', color: '#0f172a', margin: '0 0 12px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FileCheck size={18} style={{ color: '#059669' }} /> Attached Verification Documents:
+                      <FileCheck size={18} style={{ color: '#059669', flexShrink: 0 }} /> Attached Verification Documents:
                     </h3>
                     <div className="responsive-form-grid-2" style={{ gap: '10px' }}>
                       {[
@@ -1982,10 +1964,10 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                         const fileObj = formData.documents[d.key];
                         if (!fileObj) return null;
                         return (
-                          <div key={d.key} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
-                            <Check size={14} style={{ color: '#059669' }} />
-                            <span style={{ fontWeight: 600, color: '#0f172a' }}>{d.label}:</span>
-                            <span style={{ color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '140px' }}>
+                          <div key={d.key} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0', minWidth: 0 }}>
+                            <Check size={14} style={{ color: '#059669', flexShrink: 0 }} />
+                            <span style={{ fontWeight: 600, color: '#0f172a', flexShrink: 0 }}>{d.label}:</span>
+                            <span style={{ color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0, flex: 1 }}>
                               {fileObj.name}
                             </span>
                           </div>
@@ -1996,36 +1978,36 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
                   {/* Fee Breakdown Table */}
                   <div style={{ border: '1px solid #cbd5e1', borderRadius: '12px', overflow: 'hidden', marginBottom: '24px' }}>
-                    <div style={{ background: '#0f2b48', color: '#ffffff', padding: '12px 20px', fontWeight: 700, fontSize: '14px', display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ background: '#0f2b48', color: '#ffffff', padding: '12px 16px', fontWeight: 700, fontSize: '13.5px', display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
                       <span>Fee Component Description</span>
-                      <span>Amount (INR)</span>
+                      <span style={{ flexShrink: 0 }}>Amount (INR)</span>
                     </div>
-                    <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', fontSize: '14px' }}>
+                    <div style={{ padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', borderBottom: '1px solid #e2e8f0', fontSize: '13.5px' }}>
                       <span>Tuition &amp; College Admission Fee (2026-27)</span>
-                      <strong>₹ {(currentFee - 500).toLocaleString('en-IN')}.00</strong>
+                      <strong style={{ flexShrink: 0 }}>₹ {(currentFee - 500).toLocaleString('en-IN')}.00</strong>
                     </div>
-                    <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', fontSize: '14px' }}>
+                    <div style={{ padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', borderBottom: '1px solid #e2e8f0', fontSize: '13.5px' }}>
                       <span>GGTU University Enrolment &amp; Library Development Fee</span>
-                      <strong>₹ 500.00</strong>
+                      <strong style={{ flexShrink: 0 }}>₹ 500.00</strong>
                     </div>
-                    <div style={{ padding: '18px 20px', background: '#fffbeb', display: 'flex', justifyContent: 'space-between', fontSize: '18px', fontWeight: 800, color: '#b45309' }}>
+                    <div style={{ padding: '16px', background: '#fffbeb', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px 12px', fontSize: '16px', fontWeight: 800, color: '#b45309' }}>
                       <span>Total Admission Fee Payable Now:</span>
                       <span>₹ {currentFee.toLocaleString('en-IN')}.00</span>
                     </div>
                   </div>
 
                   {/* Trust & Gateway Assurance */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', background: '#f8fafc', padding: '14px 20px', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '28px' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: '#0f2b48', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', background: '#f8fafc', padding: '14px 16px', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '28px' }}>
+                    <div style={{ width: '40px', height: '40px', flexShrink: 0, borderRadius: '8px', background: '#0f2b48', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <Lock size={20} />
                     </div>
-                    <div style={{ fontSize: '13px', color: '#475569', lineHeight: '1.5' }}>
+                    <div style={{ fontSize: '13px', color: '#475569', lineHeight: '1.5', minWidth: 0 }}>
                       <strong style={{ color: '#0f172a' }}>256-Bit Encrypted Razorpay Gateway:</strong> Supports all Indian UPI apps (Google Pay, PhonePe, Paytm, BHIM), RuPay/Visa/MasterCard Debit &amp; Credit Cards, and Net Banking across 50+ banks.
                     </div>
                   </div>
 
                   {/* Action Buttons */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap-reverse', gap: '12px' }}>
                     <button
                       type="button"
                       disabled={loading}
@@ -2040,7 +2022,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       disabled={loading}
                       onClick={handleInitiatePayment}
                       className="btn btn-gold"
-                      style={{ padding: '14px 34px', fontSize: '15px', fontWeight: 800, display: 'inline-flex', alignItems: 'center', gap: '10px' }}
+                      style={{ padding: '14px 24px', fontSize: '14.5px', fontWeight: 800, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '10px', flex: '1 1 240px', maxWidth: '100%' }}
                     >
                       {loading ? (
                         <>
@@ -2058,17 +2040,17 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
 
               {/* Step 5: Official Confirmation & Printable Receipt */}
               {step === 5 && (paymentResult || applicationResult) && (
-                <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1', padding: '40px', boxShadow: '0 8px 30px rgba(15, 23, 42, 0.08)' }}>
+                <div className="admission-card-container">
                   
                   {/* Success Top Icon */}
                   <div style={{ textAlign: 'center', marginBottom: '24px' }}>
                     <div style={{ width: '68px', height: '68px', borderRadius: '50%', background: '#dcfce7', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto', boxShadow: '0 0 0 8px #f0fdf4' }}>
                       <CheckCircle2 size={40} />
                     </div>
-                    <span style={{ background: '#dcfce7', color: '#15803d', fontSize: '12px', fontWeight: 800, padding: '4px 14px', borderRadius: '20px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <span style={{ background: '#dcfce7', color: '#15803d', fontSize: '12px', fontWeight: 800, padding: '4px 14px', borderRadius: '20px', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'inline-block' }}>
                       Payment Confirmed • Admission Registered
                     </span>
-                    <h2 style={{ fontSize: '24px', color: '#0f172a', margin: '12px 0 6px 0', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
+                    <h2 style={{ fontSize: 'clamp(20px, 4.5vw, 24px)', color: '#0f172a', margin: '12px 0 6px 0', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
                       Application Submitted Successfully!
                     </h2>
                     <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
@@ -2077,24 +2059,14 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                   </div>
 
                   {/* Official Printable Receipt Card */}
-                  <div
-                    id="official-admission-receipt"
-                    style={{
-                      border: '2px solid var(--primary-900)',
-                      borderRadius: '12px',
-                      padding: '28px',
-                      background: '#ffffff',
-                      marginBottom: '28px',
-                      position: 'relative',
-                    }}
-                  >
+                  <div id="official-admission-receipt">
                     {/* Header Seal & College Name */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid var(--primary-900)', paddingBottom: '16px', marginBottom: '20px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <img src="/images/college-logo.png" alt="Emblem" style={{ width: '64px', height: '64px', objectFit: 'contain' }} />
-                        <div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', borderBottom: '2px solid var(--primary-900)', paddingBottom: '16px', marginBottom: '20px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: '1 1 220px', minWidth: 0 }}>
+                        <img src="/images/college-logo.png" alt="Emblem" style={{ width: '56px', height: '56px', flexShrink: 0, objectFit: 'contain' }} />
+                        <div style={{ minWidth: 0 }}>
                           <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>{settings.college_hindi}</div>
-                          <h3 style={{ margin: 0, fontSize: '16px', color: 'var(--primary-900)', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
+                          <h3 style={{ margin: 0, fontSize: '15px', color: 'var(--primary-900)', fontFamily: 'var(--font-display, Cinzel, serif)' }}>
                             {settings.college_name}
                           </h3>
                           <div style={{ fontSize: '11px', color: '#475569' }}>
@@ -2102,30 +2074,30 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                           </div>
                         </div>
                       </div>
-                      <div style={{ textAlign: 'right' }}>
+                      <div style={{ textAlign: 'left' }}>
                         <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>OFFICIAL RECEIPT</div>
-                        <div style={{ fontSize: '16px', fontWeight: 800, color: '#b45309' }}>SESSION 2026-27</div>
+                        <div style={{ fontSize: '15px', fontWeight: 800, color: '#b45309' }}>SESSION 2026-27</div>
                       </div>
                     </div>
 
                     {/* Candidate Photo & Reference Banner */}
-                    <div style={{ display: 'flex', gap: '20px', alignItems: 'center', background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: '8px', padding: '16px 20px', marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap', background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: '8px', padding: '14px 16px', marginBottom: '20px' }}>
                       {formData.documents.photo?.previewUrl && (
                         <img
                           src={formData.documents.photo.previewUrl}
                           alt="Candidate Photo"
-                          style={{ width: '64px', height: '76px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #94a3b8' }}
+                          style={{ width: '64px', height: '76px', flexShrink: 0, objectFit: 'cover', borderRadius: '6px', border: '1px solid #94a3b8' }}
                         />
                       )}
-                      <div style={{ flex: 1 }}>
+                      <div style={{ flex: '1 1 180px', minWidth: 0 }}>
                         <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#64748b', fontWeight: 700 }}>Application Reference Number</div>
-                        <div style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', letterSpacing: '0.05em' }}>
+                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', letterSpacing: '0.04em', wordBreak: 'break-word' }}>
                           {paymentResult?.reference_number || applicationResult?.ref || 'GPC-ADM-2026-REG'}
                         </div>
                       </div>
-                      <div style={{ textAlign: 'right' }}>
+                      <div style={{ minWidth: 0 }}>
                         <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#64748b', fontWeight: 700 }}>Transaction ID</div>
-                        <code style={{ fontSize: '13px', fontWeight: 700, color: '#059669', background: '#ecfdf5', padding: '3px 8px', borderRadius: '4px' }}>
+                        <code style={{ fontSize: '12.5px', fontWeight: 700, color: '#059669', background: '#ecfdf5', padding: '3px 8px', borderRadius: '4px', display: 'inline-block', wordBreak: 'break-all' }}>
                           {paymentResult?.payment_id || 'PAY-VERIFIED-OK'}
                         </code>
                       </div>
@@ -2158,12 +2130,12 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     </div>
 
                     {/* Amount & Status Bar */}
-                    <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
                       <div>
                         <span style={{ fontSize: '12px', color: '#64748b' }}>Amount Paid (In Figures): </span>
                         <strong style={{ fontSize: '18px', color: '#059669' }}>₹ {currentFee.toLocaleString('en-IN')}.00</strong>
                       </div>
-                      <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                      <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
                         {formData.documents.signature?.previewUrl && (
                           <div style={{ textAlign: 'center' }}>
                             <img src={formData.documents.signature.previewUrl} alt="Signature" style={{ height: '32px', objectFit: 'contain' }} />
@@ -2245,7 +2217,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                     value={trackerRef}
                     onChange={(e) => setTrackerRef(e.target.value)}
                     placeholder="Enter Reference Number (e.g. GPC-ADM-2026-9E4B1)"
-                    style={{ flex: 1, padding: '12px 16px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px', fontWeight: 600 }}
+                    style={{ flex: '1 1 200px', minWidth: 0, padding: '12px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px', fontWeight: 600 }}
                   />
                   <button
                     type="submit"
@@ -2264,8 +2236,8 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                 )}
 
                 {trackedApp && (
-                  <div style={{ marginTop: '24px', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '24px', background: '#f8fafc' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e2e8f0', paddingBottom: '14px', marginBottom: '16px' }}>
+                  <div style={{ marginTop: '24px', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px 16px', background: '#f8fafc' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px', borderBottom: '1px solid #e2e8f0', paddingBottom: '14px', marginBottom: '16px' }}>
                       <div>
                         <span style={{ fontSize: '11px', textTransform: 'uppercase', color: '#64748b', fontWeight: 700 }}>Application Reference</span>
                         <div style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a' }}>{trackedApp.ref}</div>
@@ -2300,7 +2272,7 @@ export default function AdmissionPortalPage({ defaultTab = 'apply' }) {
                       <strong style={{ fontSize: '12px', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '12px' }}>
                         Admission Progress Stages
                       </strong>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px', textAlign: 'center' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 130px), 1fr))', gap: '8px', textAlign: 'center' }}>
                         <div style={{ padding: '8px', background: '#ecfdf5', borderRadius: '6px', border: '1px solid #a7f3d0' }}>
                           <div style={{ fontSize: '16px', color: '#059669' }}>✓</div>
                           <div style={{ fontSize: '11px', fontWeight: 600, color: '#065f46' }}>Form Submitted</div>

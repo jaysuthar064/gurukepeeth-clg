@@ -466,7 +466,7 @@ export default function FacultyPage() {
           </div>
 
           {/* Results Count Banner */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingBottom: '12px', borderBottom: '1px solid #e2e8f0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '20px', paddingBottom: '12px', borderBottom: '1px solid #e2e8f0' }}>
             <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>
               Showing {filteredFaculty.length} of {rawList.length} faculty members sorted strictly by approved seniority rank.
             </span>
@@ -663,12 +663,12 @@ export default function FacultyPage() {
           )}
 
           {/* Institutional Statutory Certification Box */}
-          <div style={{ marginTop: '56px', background: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '32px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <div className="responsive-card-box" style={{ marginTop: '48px', background: '#ffffff', borderRadius: '12px' }}>
             <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-              <div style={{ background: '#f0fdf4', color: '#166534', padding: '14px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ background: '#f0fdf4', color: '#166534', padding: '14px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <CheckCircle2 size={32} />
               </div>
-              <div style={{ flex: 1, minWidth: '280px' }}>
+              <div style={{ flex: '1 1 240px', minWidth: 0 }}>
                 <h3 style={{ fontSize: '18px', color: '#0f172a', fontWeight: 700, margin: '0 0 6px 0' }}>
                   Statutory Compliance & Seniority Approval
                 </h3>

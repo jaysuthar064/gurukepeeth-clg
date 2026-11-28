@@ -439,10 +439,10 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="home-programs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '28px' }}>
+          <div className="home-programs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '28px' }}>
             {programs.map((prog) => (
               <div key={prog.id} className="program-card" style={{ display: 'flex', flexDirection: 'column', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '28px', boxShadow: '0 4px 16px rgba(15, 23, 42, 0.04)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '12px' }}>
                   <span className="program-badge" style={{ background: '#fef3c7', color: '#92400e', fontWeight: 700, fontSize: '11.5px', padding: '4px 10px', borderRadius: '6px' }}>
                     {prog.stream || 'Affiliated GGTU'}
                   </span>
@@ -474,21 +474,21 @@ export default function HomePage() {
                 )}
 
                 <div className="program-meta-list" style={{ marginTop: 'auto', marginBottom: '20px', background: '#f8fafc', padding: '14px 16px', borderRadius: '8px', border: '1px solid #edf2f7', fontSize: '13px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px 10px', marginBottom: '6px' }}>
                     <span style={{ color: '#64748b' }}>Duration:</span>
                     <strong style={{ color: '#0f172a' }}>{prog.duration || '3 Years (6 Semesters)'}</strong>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px 10px', marginBottom: '6px' }}>
                     <span style={{ color: '#64748b' }}>Intake:</span>
                     <strong style={{ color: '#0f172a' }}>{prog.intake || '80 Seats'}</strong>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px 10px' }}>
                     <span style={{ color: '#64748b' }}>Eligibility:</span>
                     <strong style={{ color: '#0f172a' }}>{prog.eligibility}</strong>
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div className="program-actions-grid">
                   <Link to="/academics" className="btn btn-outline" style={{ textAlign: 'center', fontSize: '13px', padding: '9px 12px' }}>
                     View Syllabus →
                   </Link>
@@ -531,7 +531,7 @@ export default function HomePage() {
                   <p className="leader-quote-text" style={{ flex: 1, fontStyle: 'italic', color: '#475569', lineHeight: 1.7, fontSize: '14px' }}>
                     "{lead.message}"
                   </p>
-                  <div style={{ marginTop: 'auto', paddingTop: '14px', borderTop: '1px solid #f4f3ef', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ marginTop: 'auto', paddingTop: '14px', borderTop: '1px solid #f4f3ef', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                     <span style={{ fontSize: '12px', color: '#64748b' }}>Gurukripa Shikshan Sansthan College</span>
                     <Link to="/about" style={{ fontSize: '13px', color: '#b45309', fontWeight: 700 }}>
                       Read Profile →

@@ -211,7 +211,7 @@ export default function AboutPage() {
               </p>
             </div>
             
-            <div style={{ background: '#f8fafc', padding: '32px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(15, 23, 42, 0.04)' }}>
+            <div className="responsive-card-box">
               <h3 style={{ fontSize: '18px', color: '#0f172a', marginBottom: '16px', fontWeight: 700 }}>Statutory Institutional Registry</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '13px' }}>
                 <div style={{ borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
@@ -245,11 +245,11 @@ export default function AboutPage() {
                 <div style={{ borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
                   <div style={{ color: '#64748b', fontSize: '11px', textTransform: 'uppercase', fontWeight: 600 }}>Affiliating University &amp; Orders</div>
                   <strong style={{ color: '#0f172a' }}>{settings.affiliating_univ}</strong>
-                  <div style={{ fontSize: '11px', color: '#1e40af', marginTop: '3px' }}>
-                    <a href="/documents/affiliation/ggtu-affiliation-2025-26.pdf" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', marginRight: 8 }}>Order 2025-26</a>
-                    <a href="/documents/affiliation/ggtu-affiliation-2024-25.pdf" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', marginRight: 8 }}>Order 2024-25</a>
-                    <a href="/documents/affiliation/ggtu-affiliation-2023-24.pdf" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', marginRight: 8 }}>Order 2023-24</a>
-                    <a href="/documents/affiliation/ggtu-affiliation-2022-23.pdf" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', marginRight: 8 }}>Order 2022-23</a>
+                  <div style={{ fontSize: '11px', color: '#1e40af', marginTop: '3px', display: 'flex', flexWrap: 'wrap', gap: '4px 10px' }}>
+                    <a href="/documents/affiliation/ggtu-affiliation-2025-26.pdf" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>Order 2025-26</a>
+                    <a href="/documents/affiliation/ggtu-affiliation-2024-25.pdf" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>Order 2024-25</a>
+                    <a href="/documents/affiliation/ggtu-affiliation-2023-24.pdf" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>Order 2023-24</a>
+                    <a href="/documents/affiliation/ggtu-affiliation-2022-23.pdf" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>Order 2022-23</a>
                     <a href="/documents/affiliation/ggtu-affiliation-2021-22.pdf" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>Order 2021-22</a>
                   </div>
                 </div>
@@ -258,7 +258,7 @@ export default function AboutPage() {
                   <div style={{ fontSize: '12px', fontWeight: 600, color: '#047857' }}>
                     Rajasthan Govt. Permanent NOC (B.A. Arts &amp; B.Sc. Biology)
                   </div>
-                  <div style={{ fontSize: '11px', marginTop: '4px', display: 'flex', gap: 12 }}>
+                  <div style={{ fontSize: '11px', marginTop: '4px', display: 'flex', flexWrap: 'wrap', gap: '8px 12px' }}>
                     <a href="/documents/noc/rajasthan-govt-permanent-noc-ba-arts.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#047857', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                       <FileText size={12} /> B.A. NOC (Order 1128)
                     </a>
@@ -287,9 +287,9 @@ export default function AboutPage() {
 
           {/* Vision & Mission Cards */}
           <div className="grid-2" style={{ marginBottom: '56px', gap: '28px' }}>
-            <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '16px', padding: '32px' }}>
+            <div className="responsive-card-box" style={{ background: '#fffbeb', border: '1px solid #fde68a' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-                <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: '#fef3c7', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: '#fef3c7', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <Eye size={22} />
                 </div>
                 <h3 style={{ fontSize: '20px', color: '#92400e', fontWeight: 700, margin: 0 }}>Institutional Vision</h3>
@@ -299,9 +299,9 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '16px', padding: '32px' }}>
+            <div className="responsive-card-box" style={{ background: '#ecfdf5', border: '1px solid #a7f3d0' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-                <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: '#d1fae5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: '#d1fae5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <Target size={22} />
                 </div>
                 <h3 style={{ fontSize: '20px', color: '#065f46', fontWeight: 700, margin: 0 }}>Institutional Mission</h3>
@@ -396,15 +396,15 @@ export default function AboutPage() {
               MANAGING SOCIETY & GOVERNING BODY (TRUST)
               ============================================================ */}
           <section id="society" style={{ scrollMarginTop: '100px', marginBottom: '56px' }}>
-            <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '20px', padding: '36px', boxShadow: '0 4px 20px rgba(15, 23, 42, 0.05)' }}>
+            <div className="responsive-card-box" style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '20px', boxShadow: '0 4px 20px rgba(15, 23, 42, 0.05)' }}>
               
               {/* Header & Quick Action Buttons */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px', marginBottom: '32px', borderBottom: '1px solid #e2e8f0', paddingBottom: '24px' }}>
-                <div>
+                <div style={{ minWidth: 0, flex: '1 1 260px' }}>
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#fef3c7', color: '#92400e', padding: '4px 12px', borderRadius: '100px', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', marginBottom: '10px' }}>
                     <Building2 size={14} /> Sponsoring Trust &amp; Society
                   </div>
-                  <h2 style={{ fontSize: '28px', color: '#0f172a', fontWeight: 800, margin: '0 0 6px 0', fontFamily: 'var(--font-heading)' }}>
+                  <h2 style={{ fontSize: 'clamp(20px, 4.5vw, 28px)', color: '#0f172a', fontWeight: 800, margin: '0 0 6px 0', fontFamily: 'var(--font-heading)' }}>
                     Shree Narayan Shiksha Seva Samiti Peeth
                   </h2>
                   <div style={{ fontSize: '18px', color: '#b45309', fontWeight: 700, marginBottom: '8px' }}>
@@ -415,7 +415,7 @@ export default function AboutPage() {
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', maxWidth: '100%' }}>
                   <a 
                     href="/documents/society-executive-committee-2023-24.pdf" 
                     target="_blank" 
@@ -439,9 +439,9 @@ export default function AboutPage() {
               {/* Society Office Bearers Feature Cards */}
               <div style={{ marginBottom: '32px' }}>
                 <h3 style={{ fontSize: '16px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569', fontWeight: 700, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Award size={18} style={{ color: '#b45309' }} /> Key Society Office Bearers (मुख्य पदाधिकारी)
+                  <Award size={18} style={{ color: '#b45309', flexShrink: 0 }} /> Key Society Office Bearers (मुख्य पदाधिकारी)
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '18px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: '18px' }}>
                   
                   {/* President */}
                   <div style={{ background: '#ffffff', border: '2px solid #fde68a', borderRadius: '14px', padding: '22px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
@@ -542,8 +542,8 @@ export default function AboutPage() {
               </div>
 
               {/* Certificate Verification Banner */}
-              <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '24px', marginBottom: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', alignItems: 'center' }}>
-                <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+              <div className="cert-banner-grid">
+                <div className="cert-preview-row">
                   <div 
                     onClick={() => setShowCertModal(true)} 
                     style={{ position: 'relative', width: '130px', height: '170px', borderRadius: '8px', overflow: 'hidden', border: '2px solid #b45309', cursor: 'pointer', flexShrink: 0, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
@@ -558,8 +558,8 @@ export default function AboutPage() {
                       <ZoomIn size={11} style={{ marginRight: '4px' }} /> Click to Zoom
                     </div>
                   </div>
-                  <div>
-                    <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#047857', background: '#ecfdf5', padding: '2px 8px', borderRadius: '4px' }}>
+                  <div className="cert-preview-text">
+                    <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#047857', background: '#ecfdf5', padding: '2px 8px', borderRadius: '4px', display: 'inline-block' }}>
                       Verified State Certificate
                     </span>
                     <h4 style={{ fontSize: '17px', color: '#0f172a', fontWeight: 700, margin: '6px 0 6px 0' }}>
@@ -568,12 +568,12 @@ export default function AboutPage() {
                     <p style={{ fontSize: '13px', color: '#64748b', lineHeight: '1.6', margin: '0 0 10px 0' }}>
                       Statutory registration certificate under Rajasthan Societies Registration Act, 1958 with serial seal of Registrar, Dungarpur.
                     </p>
-                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    <div className="cert-actions" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                       <button 
                         type="button" 
                         onClick={() => setShowCertModal(true)} 
                         className="btn btn-outline" 
-                        style={{ fontSize: '12px', padding: '6px 12px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                        style={{ fontSize: '12px', padding: '8px 14px', minHeight: '38px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                       >
                         <Eye size={13} /> View High-Res
                       </button>
@@ -581,7 +581,7 @@ export default function AboutPage() {
                         href="/documents/society-registration-certificate.jpeg" 
                         download="society-registration-certificate.jpeg" 
                         className="btn btn-gold" 
-                        style={{ fontSize: '12px', padding: '6px 12px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                        style={{ fontSize: '12px', padding: '8px 14px', minHeight: '38px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                       >
                         <Download size={13} /> Download JPEG
                       </a>
@@ -589,20 +589,20 @@ export default function AboutPage() {
                   </div>
                 </div>
 
-                <div style={{ background: '#f8fafc', padding: '18px', borderRadius: '10px', border: '1px solid #edf2f7', fontSize: '12.5px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '6px', borderBottom: '1px solid #e2e8f0' }}>
+                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '10px', border: '1px solid #edf2f7', fontSize: '12.5px' }}>
+                  <div className="cert-kv-row" style={{ paddingBottom: '6px', borderBottom: '1px solid #e2e8f0' }}>
                     <span style={{ color: '#64748b' }}>Institution / Society:</span>
                     <strong style={{ color: '#0f172a' }}>Shree Narayan Shiksha Seva Samiti Peeth</strong>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #e2e8f0' }}>
+                  <div className="cert-kv-row" style={{ padding: '6px 0', borderBottom: '1px solid #e2e8f0' }}>
                     <span style={{ color: '#64748b' }}>Registration Number:</span>
                     <strong style={{ color: '#b45309' }}>55/DUNGARPUR/2013-14</strong>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #e2e8f0' }}>
+                  <div className="cert-kv-row" style={{ padding: '6px 0', borderBottom: '1px solid #e2e8f0' }}>
                     <span style={{ color: '#64748b' }}>Statutory Authority:</span>
                     <span style={{ color: '#0f172a', fontWeight: 600 }}>Registrar of Societies, Dungarpur</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '6px' }}>
+                  <div className="cert-kv-row" style={{ paddingTop: '6px' }}>
                     <span style={{ color: '#64748b' }}>Governing Act:</span>
                     <span style={{ color: '#047857', fontWeight: 700 }}>Rajasthan Societies Act, 1958</span>
                   </div>
@@ -612,7 +612,7 @@ export default function AboutPage() {
               {/* 16-Member Executive Committee (नवीन कार्यकारिणी 2023-24) */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '16px' }}>
-                  <div>
+                  <div style={{ minWidth: 0, flex: '1 1 220px' }}>
                     <h3 style={{ fontSize: '18px', color: '#0f172a', fontWeight: 800, margin: '0 0 2px 0' }}>
                       Executive Committee (नवीन कार्यकारिणी 2023-24)
                     </h3>
@@ -621,8 +621,8 @@ export default function AboutPage() {
                     </p>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '6px 12px', minWidth: '240px' }}>
-                    <Search size={14} style={{ color: '#64748b' }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '8px 12px', minHeight: '42px', flex: '1 1 220px', maxWidth: '100%' }}>
+                    <Search size={14} style={{ color: '#64748b', flexShrink: 0 }} />
                     <input 
                       type="text" 
                       placeholder="Filter members by name, role..." 
@@ -633,8 +633,9 @@ export default function AboutPage() {
                   </div>
                 </div>
 
-                <div style={{ overflowX: 'auto', background: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
+                <div className="table-scroll-hint">Swipe table horizontally to view all columns →</div>
+                <div className="table-responsive-wrapper" style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+                  <table style={{ width: '100%', minWidth: '620px', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
                     <thead>
                       <tr style={{ background: '#0f172a', color: '#ffffff', borderBottom: '2px solid #b45309' }}>
                         <th style={{ padding: '12px 14px', fontWeight: 700, width: '40px' }}>#</th>
@@ -767,7 +768,7 @@ export default function AboutPage() {
                     style={{ maxWidth: '100%', maxHeight: '70vh', objectFit: 'contain', borderRadius: '8px', border: '1px solid #cbd5e1' }}
                   />
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 20px', borderTop: '1px solid #e2e8f0', background: '#ffffff' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px', padding: '12px 20px', borderTop: '1px solid #e2e8f0', background: '#ffffff' }}>
                   <span style={{ fontSize: '12px', color: '#64748b' }}>
                     Rajasthan Societies Registration Act, 1958
                   </span>

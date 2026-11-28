@@ -5,10 +5,13 @@
 const API_BASE = import.meta.env.VITE_WP_API_URL || '';
 
 export async function fetchJson(endpoint, fallback = null) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3500);
   try {
     const separator = endpoint.includes('?') ? '&' : '?';
     const res = await fetch(`${API_BASE}${endpoint}${separator}_t=${Date.now()}`, {
       cache: 'no-store',
+      signal: controller.signal,
       headers: {
         'Accept': 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -22,6 +25,8 @@ export async function fetchJson(endpoint, fallback = null) {
     return await res.json();
   } catch (_err) {
     return fallback;
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 

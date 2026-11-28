@@ -28,12 +28,10 @@ export default function Footer() {
 
     loadFooter();
     window.addEventListener('focus', loadFooter);
-    const interval = setInterval(loadFooter, 3000);
 
     return () => {
       isMounted = false;
       window.removeEventListener('focus', loadFooter);
-      clearInterval(interval);
     };
   }, []);
 

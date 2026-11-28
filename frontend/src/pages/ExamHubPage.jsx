@@ -203,7 +203,8 @@ function ExamHubPage() {
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: 8,
-                          padding: '9px 18px',
+                          padding: '11px 18px',
+                          minHeight: 44,
                           borderRadius: 'var(--radius-sm)',
                           fontSize: 13,
                           fontWeight: 700,
@@ -215,6 +216,7 @@ function ExamHubPage() {
                       </button>
 
                       <div
+                        className="faculty-search-box"
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
@@ -225,19 +227,20 @@ function ExamHubPage() {
                           padding: '0 12px',
                         }}
                       >
-                        <Search size={15} color="var(--text-muted)" />
+                        <Search size={15} color="var(--text-muted)" style={{ flexShrink: 0 }} />
                         <input
                           type="text"
                           placeholder="Search subject / program…"
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
                           style={{
-                            padding: '9px 0',
+                            padding: '10px 0',
                             border: 'none',
                             fontSize: 13.5,
                             fontFamily: 'var(--font-body)',
                             outline: 'none',
-                            minWidth: 200,
+                            width: '100%',
+                            minWidth: 0,
                             background: 'transparent',
                           }}
                         />
@@ -350,17 +353,18 @@ function ExamHubPage() {
                       </p>
                     </div>
                   ) : (
-                    <div
-                      style={{
-                        background: 'var(--surface-0)',
-                        border: '1px solid var(--surface-200)',
-                        borderRadius: 'var(--radius-sm)',
-                        overflow: 'hidden',
-                        boxShadow: 'var(--shadow-sm)',
-                      }}
-                    >
-                      <div style={{ overflowX: 'auto' }}>
-                        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                    <>
+                      <div className="table-scroll-hint">Swipe table horizontally →</div>
+                      <div
+                        className="table-responsive-wrapper"
+                        style={{
+                          background: 'var(--surface-0)',
+                          border: '1px solid var(--surface-200)',
+                          borderRadius: 'var(--radius-sm)',
+                          boxShadow: 'var(--shadow-sm)',
+                        }}
+                      >
+                        <table style={{ width: '100%', minWidth: '580px', borderCollapse: 'collapse', textAlign: 'left' }}>
                           <thead>
                             <tr style={{ background: 'var(--primary-900)', color: '#ffffff' }}>
                               <th style={thStyle}>Program</th>
@@ -437,7 +441,7 @@ function ExamHubPage() {
                           </tbody>
                         </table>
                       </div>
-                    </div>
+                    </>
                   )}
 
                   {/* Browse by Program Quick Cards */}
@@ -507,9 +511,9 @@ function ExamHubPage() {
 
                   {/* Featured GGTU Student ERP Banner */}
                   <div
+                    className="responsive-banner-pad"
                     style={{
                       marginBottom: 32,
-                      padding: '28px 32px',
                       borderRadius: 'var(--radius-sm)',
                       background: 'var(--primary-900)',
                       color: '#ffffff',
@@ -526,7 +530,7 @@ function ExamHubPage() {
                         gap: 24,
                       }}
                     >
-                      <div style={{ maxWidth: 660 }}>
+                      <div style={{ maxWidth: 660, flex: '1 1 280px', minWidth: 0 }}>
                         <span
                           style={{
                             display: 'inline-block',
@@ -605,9 +609,11 @@ function ExamHubPage() {
                         style={{
                           background: 'rgba(255, 255, 255, 0.06)',
                           borderRadius: 'var(--radius-sm)',
-                          padding: '20px 24px',
+                          padding: '20px 20px',
                           border: '1px solid rgba(255, 255, 255, 0.12)',
-                          minWidth: 240,
+                          flex: '1 1 220px',
+                          minWidth: 0,
+                          maxWidth: '100%',
                         }}
                       >
                         <div
@@ -703,6 +709,8 @@ function ExamHubPage() {
                               display: 'flex',
                               justifyContent: 'space-between',
                               alignItems: 'center',
+                              flexWrap: 'wrap',
+                              gap: '8px',
                               marginBottom: 10,
                             }}
                           >
@@ -936,9 +944,8 @@ function ExamHubPage() {
                           </p>
 
                           <div
+                            className="responsive-form-grid-2"
                             style={{
-                              display: 'grid',
-                              gridTemplateColumns: '1fr 1fr',
                               gap: 12,
                               padding: '12px 14px',
                               background: 'var(--surface-50)',

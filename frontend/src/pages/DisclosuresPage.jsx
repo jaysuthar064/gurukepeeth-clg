@@ -334,6 +334,8 @@ function DisclosuresPage() {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: '10px',
                         borderTop: '1px solid var(--surface-100)',
                         paddingTop: 14,
                         marginTop: 'auto',
@@ -491,10 +493,10 @@ function DisclosuresPage() {
             ) : (
               <form
                 onSubmit={handleGrievanceSubmit}
+                className="responsive-card-box"
                 style={{
                   background: '#ffffff',
                   borderRadius: 'var(--radius-sm)',
-                  padding: 32,
                   boxShadow: 'var(--shadow-md)',
                   border: '1px solid var(--surface-200)',
                 }}

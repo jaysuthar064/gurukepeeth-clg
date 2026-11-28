@@ -103,17 +103,18 @@ export default function NAACPage() {
                     cursor: 'pointer',
                     textAlign: 'left',
                     fontSize: '13px',
-                    transition: 'all 0.15s ease',
+                    minHeight: '44px',
+                    transition: 'background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease',
                   }}
                 >
                   <span><strong>Criterion {c.num}:</strong> {c.title}</span>
-                  <ChevronRight size={14} />
+                  <ChevronRight size={14} style={{ flexShrink: 0 }} />
                 </button>
               ))}
             </div>
 
             {/* Content for Selected Criterion */}
-            <div style={{ background: '#f8fafc', borderRadius: '16px', padding: '32px', border: '1px solid #e2e8f0' }}>
+            <div className="responsive-card-box">
               <span className="section-tag">NAAC Criterion {current.num}</span>
               <h3 style={{ fontSize: '22px', color: '#0f172a', marginBottom: '8px' }}>{current.title}</h3>
               <p style={{ color: '#64748b', marginBottom: '24px' }}>{current.desc}</p>
@@ -125,10 +126,10 @@ export default function NAACPage() {
                 {naacDocs
                   .filter(doc => String(doc.criterion || '').includes(String(current.num)))
                   .map((doc) => (
-                    <div key={doc.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#ecfdf5', padding: '14px 18px', borderRadius: '8px', border: '1px solid #a7f3d0' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <CheckCircle2 size={16} style={{ color: '#059669' }} />
-                        <div>
+                    <div key={doc.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', background: '#ecfdf5', padding: '14px 16px', borderRadius: '8px', border: '1px solid #a7f3d0' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: '1 1 200px' }}>
+                        <CheckCircle2 size={16} style={{ color: '#059669', flexShrink: 0 }} />
+                        <div style={{ minWidth: 0 }}>
                           <div style={{ fontSize: '14px', fontWeight: 700, color: '#065f46' }}>{doc.title}</div>
                           <div style={{ fontSize: '12px', color: '#047857' }}>Metric: {doc.metric || doc.metric_no} • Session: {doc.session || doc.academic_year}</div>
                         </div>
@@ -136,7 +137,7 @@ export default function NAACPage() {
                       <a 
                         href={doc.pdf_url || '#'} 
                         target={doc.pdf_url && doc.pdf_url !== '#' ? '_blank' : '_self'}
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="pdf-download-link"
                         style={{ background: '#059669', color: '#fff' }}
                       >
@@ -147,19 +148,19 @@ export default function NAACPage() {
 
                 {/* Standard criterion metrics */}
                 {current.metrics.map((m, idx) => (
-                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff', padding: '14px 18px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <CheckCircle2 size={16} style={{ color: '#059669' }} />
+                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px 12px', background: '#fff', padding: '14px 16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: '1 1 200px' }}>
+                      <CheckCircle2 size={16} style={{ color: '#059669', flexShrink: 0 }} />
                       <span style={{ fontSize: '14px', fontWeight: 600, color: '#1e293b' }}>{m}</span>
                     </div>
-                    <span style={{ fontSize: '12px', color: '#475569', background: '#f1f5f9', padding: '4px 12px', borderRadius: '4px', fontWeight: 600 }}>
+                    <span style={{ fontSize: '12px', color: '#475569', background: '#f1f5f9', padding: '4px 12px', borderRadius: '4px', fontWeight: 600, flexShrink: 0 }}>
                       Evaluated Criterion
                     </span>
                   </div>
                 ))}
               </div>
 
-              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--surface-200)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--surface-200)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
                 <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
                   Institutional documentation is maintained in compliance with the National Assessment and Accreditation Council (NAAC) guidelines.
                 </span>
